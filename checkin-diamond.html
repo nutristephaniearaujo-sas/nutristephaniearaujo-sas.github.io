@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0508">
+<title>Check-in Diamond | Dra. Stephanie Araújo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --v:#7B1535;--ve:#2a0f1a;--d:#B8965A;--dl:#d4af7a;--c:#EDE4D8;--e:#0d0508;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+html,body{height:100%;font-family:'Raleway',sans-serif;background:var(--e);color:var(--c);overflow:hidden;}
+
+/* TELA */
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.5s var(--ease),transform 0.5s var(--ease);transform:translateX(30px);}
+.screen.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.screen.exit{opacity:0;transform:translateX(-30px);}
+
+/* HEADER */
+.header{padding:24px 28px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.header-brand{display:flex;align-items:center;gap:10px;}
+.header-diamond{width:28px;height:28px;background:linear-gradient(135deg,var(--d),var(--dl));clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);flex-shrink:0;}
+.header-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--c);font-weight:400;}
+.header-title span{display:block;font-family:'Raleway',sans-serif;font-size:9px;font-weight:200;letter-spacing:2px;text-transform:uppercase;color:var(--d);margin-top:1px;}
+.progress-wrap{padding:0 28px 20px;flex-shrink:0;}
+.progress-bar{height:1px;background:rgba(184,150,90,0.15);border-radius:1px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--d),var(--dl));border-radius:1px;transition:width 0.6s var(--ease);}
+.progress-txt{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;letter-spacing:2px;color:rgba(237,228,216,0.4);text-transform:uppercase;margin-top:8px;}
+
+/* CONTEÚDO */
+.content{flex:1;overflow-y:auto;padding:8px 28px 100px;-webkit-overflow-scrolling:touch;}
+.content::-webkit-scrollbar{display:none;}
+
+/* PERGUNTA */
+.question-label{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-bottom:12px;}
+.question-title{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,30px);font-weight:400;line-height:1.3;color:var(--c);margin-bottom:8px;}
+.question-sub{font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.5);margin-bottom:32px;line-height:1.6;}
+
+/* ESCALA */
+.scale-wrap{margin-bottom:16px;}
+.scale-nums{display:flex;gap:6px;margin-bottom:12px;}
+.scale-btn{flex:1;aspect-ratio:1;border:1px solid rgba(184,150,90,0.2);background:transparent;color:rgba(237,228,216,0.6);font-family:'Playfair Display',serif;font-size:15px;cursor:pointer;border-radius:4px;transition:all 0.3s var(--ease);display:flex;align-items:center;justify-content:center;}
+.scale-btn:hover,.scale-btn.selected{background:linear-gradient(135deg,var(--v),var(--ve));border-color:var(--d);color:var(--dl);transform:scale(1.05);}
+.scale-labels{display:flex;justify-content:space-between;}
+.scale-label{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:1px;color:rgba(237,228,216,0.3);text-transform:uppercase;}
+
+/* OPÇÕES */
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
+.option-btn{width:100%;padding:16px 20px;border:1px solid rgba(184,150,90,0.2);background:transparent;color:rgba(237,228,216,0.7);font-family:'Raleway',sans-serif;font-weight:300;font-size:14px;text-align:left;cursor:pointer;border-radius:4px;transition:all 0.3s var(--ease);display:flex;align-items:center;gap:14px;}
+.option-btn:hover{border-color:rgba(184,150,90,0.4);background:rgba(184,150,90,0.04);}
+.option-btn.selected{border-color:var(--d);background:rgba(123,21,53,0.2);color:var(--c);}
+.option-check{width:18px;height:18px;border:1px solid rgba(184,150,90,0.4);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+.option-btn.selected .option-check{background:var(--d);border-color:var(--d);}
+.option-btn.selected .option-check::after{content:'';display:block;width:8px;height:5px;border-left:1.5px solid var(--e);border-bottom:1.5px solid var(--e);transform:rotate(-45deg) translateY(-1px);}
+
+/* TEXTAREA */
+.textarea-field{width:100%;background:rgba(184,150,90,0.04);border:1px solid rgba(184,150,90,0.2);color:var(--c);font-family:'Raleway',sans-serif;font-weight:300;font-size:14px;padding:16px 18px;border-radius:4px;resize:none;min-height:120px;line-height:1.7;transition:border-color 0.3s;outline:none;}
+.textarea-field:focus{border-color:rgba(184,150,90,0.5);}
+.textarea-field::placeholder{color:rgba(237,228,216,0.3);}
+
+/* INPUT */
+.input-field{width:100%;background:rgba(184,150,90,0.04);border:1px solid rgba(184,150,90,0.2);color:var(--c);font-family:'Raleway',sans-serif;font-weight:300;font-size:15px;padding:16px 18px;border-radius:4px;transition:border-color 0.3s;outline:none;}
+.input-field:focus{border-color:rgba(184,150,90,0.5);}
+.input-field::placeholder{color:rgba(237,228,216,0.3);}
+
+/* UPLOAD */
+.upload-area{border:1px dashed rgba(184,150,90,0.3);border-radius:4px;padding:32px 20px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.upload-area:hover{border-color:rgba(184,150,90,0.6);background:rgba(184,150,90,0.03);}
+.upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.upload-ico{font-size:32px;margin-bottom:10px;opacity:0.5;}
+.upload-txt{font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.5);}
+.upload-txt strong{display:block;color:var(--d);font-weight:400;margin-bottom:4px;}
+.upload-preview{max-width:100%;border-radius:4px;margin-top:16px;display:none;}
+
+/* ESTRELAS */
+.stars{display:flex;gap:12px;justify-content:center;margin:16px 0;}
+.star{font-size:36px;cursor:pointer;opacity:0.3;transition:all 0.2s;color:var(--d);}
+.star.active{opacity:1;transform:scale(1.1);}
+
+/* FOOTER */
+.footer{position:fixed;bottom:0;left:0;right:0;padding:16px 28px 32px;background:linear-gradient(0deg,var(--e) 60%,transparent);display:flex;gap:12px;align-items:center;}
+.btn-next{flex:1;background:linear-gradient(135deg,var(--d),var(--dl));color:var(--e);border:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:18px 24px;cursor:pointer;border-radius:3px;transition:all 0.3s var(--ease);}
+.btn-next:hover{box-shadow:0 12px 40px rgba(184,150,90,0.3);transform:translateY(-2px);}
+.btn-next:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-back{width:52px;height:52px;border:1px solid rgba(184,150,90,0.2);background:transparent;color:rgba(184,150,90,0.6);cursor:pointer;border-radius:3px;font-size:18px;transition:all 0.3s;flex-shrink:0;}
+.btn-back:hover{border-color:rgba(184,150,90,0.5);color:var(--d);}
+
+/* TELA INTRO */
+.intro-content{flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 28px 100px;}
+.intro-diamond{width:60px;height:60px;background:linear-gradient(135deg,var(--d),var(--dl));clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);margin-bottom:32px;animation:pulse 3s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.intro-eyebrow{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--d);margin-bottom:16px;}
+.intro-title{font-family:'Playfair Display',serif;font-size:clamp(28px,7vw,42px);font-weight:400;line-height:1.2;color:var(--c);margin-bottom:20px;}
+.intro-title em{font-style:italic;color:var(--d);}
+.intro-desc{font-family:'Raleway',sans-serif;font-weight:300;font-size:14px;line-height:1.8;color:rgba(237,228,216,0.6);margin-bottom:12px;}
+.intro-nome{font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.4);margin-bottom:32px;}
+.intro-nome strong{color:var(--d);font-weight:400;}
+.input-nome{width:100%;background:rgba(184,150,90,0.04);border:1px solid rgba(184,150,90,0.2);color:var(--c);font-family:'Playfair Display',serif;font-size:18px;padding:16px 18px;border-radius:4px;outline:none;transition:border-color 0.3s;margin-bottom:8px;}
+.input-nome:focus{border-color:rgba(184,150,90,0.5);}
+.input-nome::placeholder{color:rgba(237,228,216,0.2);font-style:italic;}
+
+/* TELA FINAL */
+.final-content{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 28px;text-align:center;}
+.final-check{width:72px;height:72px;border:1px solid var(--d);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:32px;animation:checkIn 0.6s var(--ease) forwards;}
+@keyframes checkIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+.final-check::after{content:'';width:24px;height:16px;border-left:2px solid var(--d);border-bottom:2px solid var(--d);transform:rotate(-45deg) translateY(-4px);}
+.final-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:var(--c);margin-bottom:16px;}
+.final-title em{font-style:italic;color:var(--d);}
+.final-desc{font-family:'Raleway',sans-serif;font-weight:300;font-size:14px;line-height:1.8;color:rgba(237,228,216,0.6);max-width:300px;}
+.final-assin{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:rgba(184,150,90,0.5);margin-top:32px;}
+
+/* SEÇÃO TAG */
+.section-tag{display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;padding:8px 0;}
+.section-tag-line{width:20px;height:1px;background:var(--d);}
+.section-tag-txt{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--d);}
+
+/* EMOJI HUMOR */
+.emoji-scale{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;}
+.emoji-btn{flex:1;padding:14px 8px;border:1px solid rgba(184,150,90,0.15);background:transparent;border-radius:6px;cursor:pointer;transition:all 0.3s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.emoji-btn:hover,.emoji-btn.selected{border-color:var(--d);background:rgba(123,21,53,0.15);}
+.emoji-btn span:first-child{font-size:24px;}
+.emoji-btn span:last-child{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:1px;color:rgba(237,228,216,0.5);text-transform:uppercase;}
+.emoji-btn.selected span:last-child{color:var(--d);}
+</style>
+</head>
+<body>
+
+<!-- TELA 0: INTRO -->
+<div class="screen active" id="s0">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="intro-content">
+    <div class="intro-diamond"></div>
+    <p class="intro-eyebrow">Dra. Stephanie Araújo de Souza</p>
+    <h1 class="intro-title">Seu check-in<br><em>desta semana</em></h1>
+    <p class="intro-desc">Responda com honestidade. Suas respostas me ajudam a ajustar seu protocolo e garantir que você está no caminho certo.</p>
+    <p class="intro-nome">Leva menos de <strong>3 minutos</strong>.</p>
+    <input class="input-nome" id="nomeInput" type="text" placeholder="Seu nome completo..." autocomplete="name">
+  </div>
+  <div class="footer">
+    <button class="btn-next" id="btnStart" onclick="startCheckin()">Começar check-in</button>
+  </div>
+</div>
+
+<!-- TELA 1: SENTIMENTO GERAL -->
+<div class="screen" id="s1">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:12%"></div></div>
+    <p class="progress-txt">1 de 8</p>
+  </div>
+  <div class="content">
+    <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-txt">Bem-estar geral</span></div>
+    <p class="question-title">Como você se sentiu esta semana?</p>
+    <p class="question-sub">Considere seu bem-estar físico e emocional de forma geral.</p>
+    <div class="emoji-scale">
+      <button class="emoji-btn" onclick="selectEmoji(this,1)"><span>😔</span><span>Difícil</span></button>
+      <button class="emoji-btn" onclick="selectEmoji(this,2)"><span>😕</span><span>Regular</span></button>
+      <button class="emoji-btn" onclick="selectEmoji(this,3)"><span>😊</span><span>Bem</span></button>
+      <button class="emoji-btn" onclick="selectEmoji(this,4)"><span>😄</span><span>Ótimo</span></button>
+      <button class="emoji-btn" onclick="selectEmoji(this,5)"><span>🌟</span><span>Incrível</span></button>
+    </div>
+  </div>
+  <div class="footer">
+    <button class="btn-back" onclick="goTo(0)">←</button>
+    <button class="btn-next" id="btnS1" disabled onclick="goTo(2)">Continuar</button>
+  </div>
+</div>
+
+<!-- TELA 2: PLANO ALIMENTAR -->
+<div class="screen" id="s2">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+    <p class="progress-txt">2 de 8</p>
+  </div>
+  <div class="content">
+    <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-txt">Alimentação</span></div>
+    <p class="question-title">Como foi sua adesão ao plano alimentar?</p>
+    <p class="question-sub">Seja honesta, sem julgamentos. Isso me ajuda a ajustar seu protocolo.</p>
+    <div class="options">
+      <button class="option-btn" onclick="selectOption(this,'plano')"><div class="option-check"></div>Segui à risca, sem dificuldades</button>
+      <button class="option-btn" onclick="selectOption(this,'plano')"><div class="option-check"></div>Segui na maior parte da semana</button>
+      <button class="option-btn" onclick="selectOption(this,'plano')"><div class="option-check"></div>Tive algumas fugas pontuais</button>
+      <button class="option-btn" onclick="selectOption(this,'plano')"><div class="option-check"></div>Foi uma semana mais difícil</button>
+      <button class="option-btn" onclick="selectOption(this,'plano')"><div class="option-check"></div>Não consegui seguir o plano</button>
+    </div>
+  </div>
+  <div class="footer">
+    <button class="btn-back" onclick="goTo(1)">←</button>
+    <button class="btn-next" id="btnS2" disabled onclick="goTo(3)">Continuar</button>
+  </div>
+</div>
+
+<!-- TELA 3: ENERGIA E SONO -->
+<div class="screen" id="s3">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:37%"></div></div>
+    <p class="progress-txt">3 de 8</p>
+  </div>
+  <div class="content">
+    <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-txt">Energia e sono</span></div>
+    <p class="question-title">Como esteve seu nível de energia?</p>
+    <p class="question-sub">De 1 (muito baixo) a 10 (excelente).</p>
+    <div class="scale-wrap">
+      <div class="scale-nums" id="scaleEnergia">
+        <button class="scale-btn" onclick="selectScale(this,'energia',1)">1</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',2)">2</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',3)">3</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',4)">4</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',5)">5</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',6)">6</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',7)">7</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',8)">8</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',9)">9</button>
+        <button class="scale-btn" onclick="selectScale(this,'energia',10)">10</button>
+      </div>
+      <div class="scale-labels"><span class="scale-label">Muito baixa</span><span class="scale-label">Excelente</span></div>
+    </div>
+    <br>
+    <p class="question-title" style="font-size:20px;margin-top:16px;">E a qualidade do sono?</p>
+    <p class="question-sub">De 1 (muito ruim) a 10 (ótimo).</p>
+    <div class="scale-wrap">
+      <div class="scale-nums" id="scaleSono">
+        <button class="scale-btn" onclick="selectScale(this,'sono',1)">1</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',2)">2</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',3)">3</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',4)">4</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',5)">5</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',6)">6</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',7)">7</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',8)">8</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',9)">9</button>
+        <button class="scale-btn" onclick="selectScale(this,'sono',10)">10</button>
+      </div>
+      <div class="scale-labels"><span class="scale-label">Muito ruim</span><span class="scale-label">Ótimo</span></div>
+    </div>
+  </div>
+  <div class="footer">
+    <button class="btn-back" onclick="goTo(2)">←</button>
+    <button class="btn-next" id="btnS3" disabled onclick="goTo(4)">Continuar</button>
+  </div>
+</div>
+
+<!-- TELA 4: SINTOMAS -->
+<div class="screen" id="s4">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+    <p class="progress-txt">4 de 8</p>
+  </div>
+  <div class="content">
+    <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-txt">Sintomas e queixas</span></div>
+    <p class="question-title">Algum sintoma ou queixa esta semana?</p>
+    <p class="question-sub">Desconforto, dor, sintoma físico ou qualquer coisa que queira que eu saiba.</p>
+    <textarea class="textarea-field" id="sintomas" placeholder="Ex: senti muito cansaço nas tardes, tive dor de cabeça na quarta..." rows="4"></textarea>
+    <br><br>
+    <p class="question-title" style="font-size:20px;">Atividade física realizada</p>
+    <p class="question-sub">Quantas vezes se exercitou e o que fez?</p>
+    <textarea class="textarea-field" id="atividade" placeholder="Ex: caminhei 3x, fiz pilates na quinta..." rows="3"></textarea>
+  </div>
+  <div class="footer">
+    <button class="btn-back" onclick="goTo(3)">←</button>
+    <button class="btn-next" onclick="goTo(5)">Continuar</button>
+  </div>
+</div>
+
+<!-- TELA 5: FOTO -->
+<div class="screen" id="s5">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:62%"></div></div>
+    <p class="progress-txt">5 de 8</p>
+  </div>
+  <div class="content">
+    <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-txt">Diário alimentar</span></div>
+    <p class="question-title">Foto do diário alimentar</p>
+    <p class="question-sub">Opcional. Envie uma foto do seu registro alimentar da semana se quiser compartilhar.</p>
+    <div class="upload-area" id="uploadArea">
+      <input type="file" accept="image/*" onchange="previewPhoto(this)" id="fotoInput">
+      <div class="upload-ico">📷</div>
+      <div class="upload-txt"><strong>Toque para adicionar foto</strong>Diário alimentar, refeição ou anotações</div>
+      <img class="upload-preview" id="fotoPreview">
+    </div>
+  </div>
+  <div class="footer">
+    <button class="btn-back" onclick="goTo(4)">←</button>
+    <button class="btn-next" onclick="goTo(6)">Continuar</button>
+  </div>
+</div>
+
+<!-- TELA 6: DÚVIDAS -->
+<div class="screen" id="s6">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+    <p class="progress-txt">6 de 8</p>
+  </div>
+  <div class="content">
+    <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-txt">Para a Dra. Stephanie</span></div>
+    <p class="question-title">Dúvidas ou recados para mim?</p>
+    <p class="question-sub">Tudo que quiser me contar sobre a semana, perguntas sobre o protocolo, ajustes que sentiu necessidade.</p>
+    <textarea class="textarea-field" id="duvidas" placeholder="Escreva à vontade..." rows="6"></textarea>
+  </div>
+  <div class="footer">
+    <button class="btn-back" onclick="goTo(5)">←</button>
+    <button class="btn-next" onclick="goTo(7)">Continuar</button>
+  </div>
+</div>
+
+<!-- TELA 7: FEEDBACK -->
+<div class="screen" id="s7">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:87%"></div></div>
+    <p class="progress-txt">7 de 8</p>
+  </div>
+  <div class="content">
+    <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-txt">Avaliação do acompanhamento</span></div>
+    <p class="question-title">Como avalia o acompanhamento esta semana?</p>
+    <p class="question-sub">Sua opinião me ajuda a melhorar continuamente o cuidado que ofereço.</p>
+    <div class="stars" id="starsWrap">
+      <span class="star" onclick="selectStar(1)">★</span>
+      <span class="star" onclick="selectStar(2)">★</span>
+      <span class="star" onclick="selectStar(3)">★</span>
+      <span class="star" onclick="selectStar(4)">★</span>
+      <span class="star" onclick="selectStar(5)">★</span>
+    </div>
+    <br>
+    <p class="question-sub" style="margin-bottom:12px;">Gostaria de compartilhar sua experiência com o programa? Seu relato, com sua autorização, pode inspirar outras pessoas.</p>
+    <textarea class="textarea-field" id="depoimento" placeholder="Conte o que mudou para você, o que mais tem gostado, o que sentiu de diferente..." rows="5"></textarea>
+    <p style="font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;color:rgba(237,228,216,0.3);margin-top:10px;line-height:1.6;">Ao preencher este campo, você autoriza o compartilhamento do relato com identidade preservada, conforme acordado com a Dra. Stephanie.</p>
+  </div>
+  <div class="footer">
+    <button class="btn-back" onclick="goTo(6)">←</button>
+    <button class="btn-next" id="btnS7" disabled onclick="enviar()">Enviar check-in</button>
+  </div>
+</div>
+
+<!-- TELA 8: FINAL -->
+<div class="screen" id="s8">
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-diamond"></div>
+      <div class="header-title">Programa Diamond<span>Check-in Semanal</span></div>
+    </div>
+  </div>
+  <div class="final-content">
+    <div class="final-check"></div>
+    <h2 class="final-title">Check-in<br><em>enviado</em></h2>
+    <p class="final-desc">Recebido com cuidado. Vou analisar suas respostas até segunda-feira e entro em contato com os ajustes do seu protocolo.</p>
+    <p class="final-assin">Dra. Stephanie Araújo de Souza</p>
+  </div>
+</div>
+
+<script>
+const data = {
+  nome:'', sentimento:'', sentimentoVal:0,
+  plano:'', energia:0, sono:0,
+  sintomas:'', atividade:'', duvidas:'',
+  estrelas:0, depoimento:'', foto:null,
+  semana: new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})
+};
+
+let current = 0;
+
+function goTo(n){
+  const cur = document.getElementById('s'+current);
+  cur.classList.add('exit');
+  setTimeout(()=>{cur.classList.remove('active','exit');},400);
+  setTimeout(()=>{
+    current = n;
+    const next = document.getElementById('s'+n);
+    next.style.transform = n > (current-1) ? 'translateX(30px)' : 'translateX(-30px)';
+    next.classList.add('active');
+    next.scrollTop = 0;
+  },200);
+}
+
+function startCheckin(){
+  const nome = document.getElementById('nomeInput').value.trim();
+  if(!nome){document.getElementById('nomeInput').focus();return;}
+  data.nome = nome;
+  goTo(1);
+}
+
+function selectEmoji(btn, val){
+  document.querySelectorAll('#s1 .emoji-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  data.sentimentoVal = val;
+  data.sentimento = btn.querySelector('span:last-child').textContent;
+  document.getElementById('btnS1').disabled = false;
+}
+
+function selectOption(btn, key){
+  const group = btn.closest('.options');
+  group.querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  data[key] = btn.textContent.trim();
+  const screen = btn.closest('.screen');
+  const btnNext = screen.querySelector('.btn-next');
+  if(btnNext) btnNext.disabled = false;
+}
+
+function selectScale(btn, key, val){
+  const wrap = document.getElementById('scale'+key.charAt(0).toUpperCase()+key.slice(1));
+  wrap.querySelectorAll('.scale-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  data[key] = val;
+  // Verificar se ambas as escalas foram preenchidas
+  if(data.energia > 0 && data.sono > 0){
+    document.getElementById('btnS3').disabled = false;
+  }
+}
+
+function selectStar(n){
+  data.estrelas = n;
+  document.querySelectorAll('.star').forEach((s,i)=>{
+    s.classList.toggle('active', i < n);
+  });
+  document.getElementById('btnS7').disabled = false;
+}
+
+function previewPhoto(input){
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const prev = document.getElementById('fotoPreview');
+      prev.src = e.target.result;
+      prev.style.display = 'block';
+      data.foto = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function enviar(){
+  data.sintomas = document.getElementById('sintomas').value;
+  data.atividade = document.getElementById('atividade').value;
+  data.duvidas = document.getElementById('duvidas').value;
+  data.depoimento = document.getElementById('depoimento').value;
+
+  // Montar corpo do e-mail via mailto
+  const assunto = encodeURIComponent(`Check-in Diamond — ${data.nome} — ${data.semana}`);
+  const corpo = encodeURIComponent(
+`CHECK-IN SEMANAL PROGRAMA DIAMOND
+Data: ${data.semana}
+Paciente: ${data.nome}
+
+━━━━━━━━━━━━━━━━━━━━━
+BEM-ESTAR GERAL
+Como se sentiu: ${data.sentimento} (${data.sentimentoVal}/5)
+
+━━━━━━━━━━━━━━━━━━━━━
+ALIMENTAÇÃO
+Adesão ao plano: ${data.plano}
+
+━━━━━━━━━━━━━━━━━━━━━
+ENERGIA E SONO
+Nível de energia: ${data.energia}/10
+Qualidade do sono: ${data.sono}/10
+
+━━━━━━━━━━━━━━━━━━━━━
+SINTOMAS E QUEIXAS
+${data.sintomas || 'Nenhum relato'}
+
+ATIVIDADE FÍSICA
+${data.atividade || 'Não informado'}
+
+━━━━━━━━━━━━━━━━━━━━━
+DÚVIDAS E RECADOS
+${data.duvidas || 'Nenhuma dúvida'}
+
+━━━━━━━━━━━━━━━━━━━━━
+AVALIAÇÃO DO ACOMPANHAMENTO
+Estrelas: ${'★'.repeat(data.estrelas)}${'☆'.repeat(5-data.estrelas)} (${data.estrelas}/5)
+
+DEPOIMENTO / EXPERIÊNCIA
+${data.depoimento || 'Não preenchido'}
+`);
+
+  // Abrir cliente de e-mail
+  window.location.href = `mailto:nutri.stephaniearaujo@gmail.com?subject=${assunto}&body=${corpo}`;
+
+  // Ir para tela final
+  setTimeout(()=>goTo(8), 800);
+}
+
+// Enter no campo nome
+document.getElementById('nomeInput').addEventListener('keypress', e=>{
+  if(e.key === 'Enter') startCheckin();
+});
+</script>
+</body>
+</html>
