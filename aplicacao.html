@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplicação Programa Diamond | Dra. Stephanie Araújo</title>
+<meta name="description" content="Solicite sua avaliação inicial no Programa Diamond Cardiometabólico da Dra. Stephanie Araújo de Souza.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --v:#7B1535;--ve:#2a0f1a;--d:#B8965A;--dl:#d4af7a;
+  --c:#EDE4D8;--cl:#F8F3EE;--e:#0d0508;--txt:#3d2535;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Raleway',sans-serif;background:var(--e);color:var(--c);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:24px 60px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(13,5,8,0.95) 0%,transparent 100%);backdrop-filter:blur(4px);}
+.nav-brand{display:flex;align-items:center;gap:14px;text-decoration:none;}
+.nav-dico{width:22px;height:22px;background:linear-gradient(135deg,var(--d),var(--dl));clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);}
+.nav-name{font-family:'Playfair Display',serif;font-size:14px;color:var(--c);font-weight:400;white-space:nowrap;}
+.nav-name span{display:block;font-family:'Raleway',sans-serif;font-size:8px;font-weight:200;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-top:1px;}
+.nav-back{font-family:'Raleway',sans-serif;font-weight:300;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.5);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.3s;}
+.nav-back:hover{color:var(--d);}
+
+/* HERO DA APLICAÇÃO */
+.aplic-hero{min-height:50vh;background:var(--ve);display:flex;align-items:flex-end;padding:140px 80px 80px;position:relative;overflow:hidden;}
+.aplic-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(184,150,90,0.08) 0%,transparent 60%);}
+.aplic-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(184,150,90,0.2),transparent);}
+.hero-content{position:relative;z-index:1;max-width:700px;}
+.hero-eyebrow{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--d);margin-bottom:20px;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,64px);font-weight:400;line-height:1.1;color:var(--c);margin-bottom:20px;}
+.hero-title em{font-style:italic;color:var(--d);}
+.hero-desc{font-family:'Raleway',sans-serif;font-weight:300;font-size:15px;line-height:1.9;color:rgba(237,228,216,0.65);max-width:520px;}
+
+/* CORPO */
+.aplic-body{background:var(--cl);padding:80px;}
+.aplic-layout{display:grid;grid-template-columns:340px 1fr;gap:80px;max-width:1100px;margin:0 auto;}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:120px;height:fit-content;}
+.sidebar-aviso{background:var(--ve);padding:36px 32px;position:relative;overflow:hidden;margin-bottom:24px;}
+.sidebar-aviso::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border:1px solid rgba(184,150,90,0.1);border-radius:50%;}
+.sidebar-aviso-label{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-bottom:14px;}
+.sidebar-aviso-text{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;line-height:1.7;color:var(--c);}
+.sidebar-items{display:flex;flex-direction:column;gap:0;}
+.sidebar-item{display:flex;align-items:flex-start;gap:14px;padding:18px 0;border-bottom:1px solid rgba(123,21,53,0.1);}
+.sidebar-item:first-child{border-top:1px solid rgba(123,21,53,0.1);}
+.sidebar-dot{width:5px;height:5px;border-radius:50%;background:var(--d);flex-shrink:0;margin-top:6px;}
+.sidebar-txt{font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:#7a5060;line-height:1.6;}
+
+/* FORM */
+.form-card{background:white;padding:52px 48px;}
+
+/* SEÇÃO DO FORM */
+.form-section{margin-bottom:44px;}
+.form-section:last-of-type{margin-bottom:0;}
+.fsec-tag{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(123,21,53,0.08);}
+.fsec-line{width:20px;height:1px;background:var(--v);}
+.fsec-label{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--v);}
+
+/* CAMPO */
+.field{margin-bottom:20px;}
+.field label{display:block;font-family:'Raleway',sans-serif;font-weight:400;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--txt);margin-bottom:8px;}
+.field label span{color:var(--v);margin-left:2px;}
+.field input,.field select,.field textarea{
+  width:100%;background:var(--cl);
+  border:1px solid rgba(123,21,53,0.15);
+  color:var(--txt);
+  font-family:'Raleway',sans-serif;font-weight:300;font-size:14px;
+  padding:14px 16px;border-radius:2px;
+  transition:border-color 0.3s;outline:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--v);}
+.field input::placeholder,.field textarea::placeholder{color:rgba(61,37,53,0.3);}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237B1535' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;cursor:pointer;}
+.field select option{color:var(--txt);}
+.field textarea{resize:vertical;min-height:100px;line-height:1.7;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+/* RADIO/CHECK */
+.radio-group,.check-group{display:flex;flex-direction:column;gap:10px;}
+.radio-item,.check-item{display:flex;align-items:center;gap:12px;cursor:pointer;}
+.radio-item input,.check-item input{display:none;}
+.radio-box,.check-box{width:18px;height:18px;border:1px solid rgba(123,21,53,0.25);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.check-box{border-radius:2px;}
+.radio-item input:checked + .radio-box{border-color:var(--v);background:var(--v);}
+.radio-item input:checked + .radio-box::after{content:'';width:7px;height:7px;border-radius:50%;background:white;}
+.check-item input:checked + .check-box{border-color:var(--v);background:var(--v);}
+.check-item input:checked + .check-box::after{content:'';width:9px;height:6px;border-left:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(-45deg) translateY(-1px);}
+.radio-txt,.check-txt{font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:var(--txt);line-height:1.5;}
+
+/* ESCALA */
+.scale-field{display:flex;gap:6px;}
+.sc-opt{flex:1;aspect-ratio:1;border:1px solid rgba(123,21,53,0.15);background:transparent;color:rgba(61,37,53,0.5);font-family:'Playfair Display',serif;font-size:14px;cursor:pointer;border-radius:2px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.sc-opt:hover{border-color:var(--v);color:var(--v);}
+.sc-opt.on{background:var(--v);border-color:var(--v);color:white;}
+.scale-labels{display:flex;justify-content:space-between;margin-top:6px;}
+.sc-lbl{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:1px;color:rgba(61,37,53,0.4);text-transform:uppercase;}
+
+/* AVISO FINAL */
+.form-aviso{background:rgba(123,21,53,0.04);border-left:2px solid var(--v);padding:16px 20px;margin:32px 0;font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;color:#7a5060;line-height:1.7;}
+
+/* BOTÃO */
+.btn-submit{width:100%;background:linear-gradient(135deg,var(--v),#9b1a40);color:white;border:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:20px 32px;cursor:pointer;border-radius:2px;transition:all 0.4s var(--ease);margin-top:8px;}
+.btn-submit:hover{background:linear-gradient(135deg,#9b1a40,var(--v));box-shadow:0 16px 48px rgba(123,21,53,0.25);transform:translateY(-2px);}
+.btn-submit:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* SUCESSO */
+.sucesso{display:none;text-align:center;padding:60px 40px;}
+.sucesso-dico{width:60px;height:60px;background:linear-gradient(135deg,var(--d),var(--dl));clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);margin:0 auto 28px;}
+.sucesso h2{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:var(--txt);margin-bottom:12px;}
+.sucesso h2 em{font-style:italic;color:var(--v);}
+.sucesso p{font-family:'Raleway',sans-serif;font-weight:300;font-size:14px;line-height:1.8;color:#7a5060;max-width:360px;margin:0 auto 8px;}
+.sucesso-assin{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--v);margin-top:24px;}
+
+/* FOOTER */
+footer{background:var(--e);padding:48px 80px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(184,150,90,0.08);}
+.foot-brand{font-family:'Playfair Display',serif;font-size:18px;color:var(--c);}
+.foot-brand span{display:block;font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-top:4px;}
+.foot-info{text-align:right;font-family:'Raleway',sans-serif;font-weight:200;font-size:11px;color:rgba(237,228,216,0.4);line-height:2;}
+.foot-info a{color:var(--d);text-decoration:none;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s var(--ease),transform 0.8s var(--ease);}
+.reveal.visible{opacity:1;transform:none;}
+
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:20px 24px;}
+  .aplic-hero{padding:120px 32px 60px;}
+  .aplic-body{padding:48px 24px;}
+  .aplic-layout{grid-template-columns:1fr;gap:40px;}
+  .sidebar{position:static;}
+  .form-card{padding:32px 24px;}
+  .field-row{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:20px;text-align:center;padding:40px 24px;}
+  .foot-info{text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-dico"></div>
+    <div class="nav-name">Stephanie Araújo de Souza<span>Nutricionista Cardiovascular</span></div>
+  </a>
+  <a href="index.html" class="nav-back">← Voltar ao site</a>
+</nav>
+
+<section class="aplic-hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Processo seletivo</p>
+    <h1 class="hero-title">Aplicação<br><em>Programa Diamond</em></h1>
+    <p class="hero-desc">Preencha o formulário com atenção. Analiso cada aplicação pessoalmente e entro em contato com quem estiver alinhado ao programa.</p>
+  </div>
+</section>
+
+<div class="aplic-body">
+  <div class="aplic-layout">
+
+    <div class="sidebar reveal">
+      <div class="sidebar-aviso">
+        <p class="sidebar-aviso-label">Importante</p>
+        <p class="sidebar-aviso-text">"Nem todas as aplicações são aprovadas. Meu compromisso é com quem está pronto para um cuidado de verdade."</p>
+      </div>
+      <div class="sidebar-items">
+        <div class="sidebar-item"><div class="sidebar-dot"></div><p class="sidebar-txt">Processo seletivo individualizado</p></div>
+        <div class="sidebar-item"><div class="sidebar-dot"></div><p class="sidebar-txt">Análise clínica antes do início</p></div>
+        <div class="sidebar-item"><div class="sidebar-dot"></div><p class="sidebar-txt">Protocolo construído para o seu caso</p></div>
+        <div class="sidebar-item"><div class="sidebar-dot"></div><p class="sidebar-txt">Vagas limitadas por período</p></div>
+        <div class="sidebar-item"><div class="sidebar-dot"></div><p class="sidebar-txt">Retorno em até 48 horas úteis</p></div>
+      </div>
+    </div>
+
+    <div class="form-card reveal" style="transition-delay:0.1s">
+      <form id="aplicacaoForm">
+
+        <!-- SOBRE VOCÊ -->
+        <div class="form-section">
+          <div class="fsec-tag"><div class="fsec-line"></div><span class="fsec-label">Sobre você</span></div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Nome completo<span>*</span></label>
+              <input type="text" name="nome" required placeholder="Seu nome completo">
+            </div>
+            <div class="field">
+              <label>Idade<span>*</span></label>
+              <input type="number" name="idade" required placeholder="Sua idade" min="18" max="99">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>WhatsApp<span>*</span></label>
+              <input type="tel" name="whatsapp" required placeholder="(41) 99999-9999">
+            </div>
+            <div class="field">
+              <label>E-mail<span>*</span></label>
+              <input type="email" name="email" required placeholder="seu@email.com">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Cidade e estado<span>*</span></label>
+              <input type="text" name="cidade" required placeholder="Ex: Curitiba, PR">
+            </div>
+            <div class="field">
+              <label>Profissão</label>
+              <input type="text" name="profissao" placeholder="Sua profissão">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Modalidade preferida<span>*</span></label>
+            <select name="modalidade" required>
+              <option value="">Selecione</option>
+              <option>Presencial em Curitiba</option>
+              <option>Online (Google Meet)</option>
+              <option>Indiferente</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SAÚDE -->
+        <div class="form-section">
+          <div class="fsec-tag"><div class="fsec-line"></div><span class="fsec-label">Sua saúde</span></div>
+
+          <div class="field">
+            <label>Qual o seu principal objetivo com o acompanhamento?<span>*</span></label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox" name="objetivo" value="Controle de colesterol e triglicerídeos"><div class="check-box"></div><span class="check-txt">Controle de colesterol e triglicerídeos</span></label>
+              <label class="check-item"><input type="checkbox" name="objetivo" value="Síndrome metabólica ou resistência à insulina"><div class="check-box"></div><span class="check-txt">Síndrome metabólica ou resistência à insulina</span></label>
+              <label class="check-item"><input type="checkbox" name="objetivo" value="Saúde cardiovascular e prevenção"><div class="check-box"></div><span class="check-txt">Saúde cardiovascular e prevenção</span></label>
+              <label class="check-item"><input type="checkbox" name="objetivo" value="Emagrecimento metabólico"><div class="check-box"></div><span class="check-txt">Emagrecimento metabólico</span></label>
+              <label class="check-item"><input type="checkbox" name="objetivo" value="Menopausa e saúde hormonal"><div class="check-box"></div><span class="check-txt">Menopausa e saúde hormonal</span></label>
+              <label class="check-item"><input type="checkbox" name="objetivo" value="Lipedema"><div class="check-box"></div><span class="check-txt">Lipedema</span></label>
+              <label class="check-item"><input type="checkbox" name="objetivo" value="Outro"><div class="check-box"></div><span class="check-txt">Outro</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Você possui diagnóstico médico relacionado ao seu objetivo?</label>
+            <textarea name="diagnostico" placeholder="Ex: hipotireoidismo, hipertensão, diabetes tipo 2. Se não houver, deixe em branco."></textarea>
+          </div>
+
+          <div class="field">
+            <label>Usa algum medicamento de uso contínuo?</label>
+            <textarea name="medicamentos" placeholder="Se sim, liste quais. Se não, deixe em branco."></textarea>
+          </div>
+
+          <div class="field">
+            <label>Já fez acompanhamento nutricional antes?<span>*</span></label>
+            <div class="radio-group">
+              <label class="radio-item"><input type="radio" name="nutri_antes" value="Sim" required><div class="radio-box"></div><span class="radio-txt">Sim</span></label>
+              <label class="radio-item"><input type="radio" name="nutri_antes" value="Não"><div class="radio-box"></div><span class="radio-txt">Não</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPROMETIMENTO -->
+        <div class="form-section">
+          <div class="fsec-tag"><div class="fsec-line"></div><span class="fsec-label">Comprometimento</span></div>
+
+          <div class="field">
+            <label>Por que você quer iniciar agora?<span>*</span></label>
+            <textarea name="motivacao" required placeholder="O que te trouxe até aqui e por que este é o momento certo para você..." style="min-height:120px;"></textarea>
+          </div>
+
+          <div class="field">
+            <label>O que você já tentou e não funcionou?</label>
+            <textarea name="tentativas" placeholder="Dietas, outros acompanhamentos, mudanças de hábito..."></textarea>
+          </div>
+
+          <div class="field">
+            <label>Como descreveria sua disponibilidade para o acompanhamento?<span>*</span></label>
+            <div class="radio-group">
+              <label class="radio-item"><input type="radio" name="disponibilidade" value="Alta — estou totalmente comprometida" required><div class="radio-box"></div><span class="radio-txt">Alta — estou totalmente comprometida</span></label>
+              <label class="radio-item"><input type="radio" name="disponibilidade" value="Moderada — tenho rotina intensa mas consigo me organizar"><div class="radio-box"></div><span class="radio-txt">Moderada — tenho rotina intensa mas consigo me organizar</span></label>
+              <label class="radio-item"><input type="radio" name="disponibilidade" value="Incerta — ainda estou avaliando"><div class="radio-box"></div><span class="radio-txt">Incerta — ainda estou avaliando</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Nível de investimento mensal que considera compatível com sua saúde<span>*</span></label>
+            <select name="investimento" required>
+              <option value="">Selecione</option>
+              <option>Até R$ 500/mês</option>
+              <option>Entre R$ 500 e R$ 1.000/mês</option>
+              <option>Entre R$ 1.000 e R$ 2.000/mês</option>
+              <option>Acima de R$ 2.000/mês</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Você compreende que este é um acompanhamento seletivo e que nem todas as aplicações são aprovadas?<span>*</span></label>
+            <div class="radio-group">
+              <label class="radio-item"><input type="radio" name="seletivo" value="Sim, compreendo" required><div class="radio-box"></div><span class="radio-txt">Sim, compreendo</span></label>
+              <label class="radio-item"><input type="radio" name="seletivo" value="Não, tenho dúvidas"><div class="radio-box"></div><span class="radio-txt">Não, tenho dúvidas</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Como nos encontrou?</label>
+            <select name="origem">
+              <option value="">Selecione</option>
+              <option>Instagram @nutricionista.stephaniearaujo</option>
+              <option>Google</option>
+              <option>Indicação de amigo ou familiar</option>
+              <option>Indicação de profissional de saúde</option>
+              <option>Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-aviso">
+          Ao enviar esta aplicação, você concorda que a Dra. Stephanie Araújo de Souza entrará em contato pelo WhatsApp informado. Suas informações são confidenciais e utilizadas exclusivamente para avaliação do programa.
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit">Enviar minha aplicação</button>
+
+        <!-- SUCESSO -->
+        <div class="sucesso" id="sucesso">
+          <div class="sucesso-dico"></div>
+          <h2>Aplicação <em>recebida</em></h2>
+          <p>Analisei pessoalmente cada aplicação. Entrarei em contato pelo seu WhatsApp em até 48 horas úteis.</p>
+          <p class="sucesso-assin">Dra. Stephanie Araújo de Souza</p>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">Stephanie Araújo de Souza<span>Nutricionista Cardiovascular · CRN8 13998</span></div>
+  <div class="foot-info">
+    <a href="https://instagram.com/nutricionista.stephaniearaujo" target="_blank">@nutricionista.stephaniearaujo</a><br>
+    Rua Bernardo Jacintho da Veiga, 30 — Novo Mundo, Curitiba-PR<br>
+    <a href="tel:41997366799">(41) 99736-6799</a>
+  </div>
+</footer>
+
+<script>
+// REVEAL
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ESCALA
+document.querySelectorAll('.scale-field').forEach(wrap=>{
+  wrap.querySelectorAll('.sc-opt').forEach((btn,i)=>{
+    btn.addEventListener('click',()=>{
+      wrap.querySelectorAll('.sc-opt').forEach(b=>b.classList.remove('on'));
+      for(let j=0;j<=i;j++) wrap.querySelectorAll('.sc-opt')[j].classList.add('on');
+    });
+  });
+});
+
+// SUBMIT
+document.getElementById('aplicacaoForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  const fd = new FormData(this);
+  const campos = {};
+  for(let [k,v] of fd.entries()){
+    if(campos[k]){
+      campos[k] = Array.isArray(campos[k]) ? [...campos[k],v] : [campos[k],v];
+    } else {
+      campos[k] = v;
+    }
+  }
+
+  // Montar corpo do e-mail
+  const obj = Array.isArray(campos.objetivo) ? campos.objetivo.join(', ') : (campos.objetivo || 'Não informado');
+  const data = new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  const assunto = encodeURIComponent(`Nova Aplicação Diamond — ${campos.nome} — ${data}`);
+  const corpo = encodeURIComponent(
+`NOVA APLICAÇÃO PROGRAMA DIAMOND
+Data: ${data}
+
+━━━━━━━━━━━━━━━━━━━
+SOBRE A PACIENTE
+Nome: ${campos.nome || ''}
+Idade: ${campos.idade || ''}
+WhatsApp: ${campos.whatsapp || ''}
+E-mail: ${campos.email || ''}
+Cidade: ${campos.cidade || ''}
+Profissão: ${campos.profissao || ''}
+Modalidade: ${campos.modalidade || ''}
+
+━━━━━━━━━━━━━━━━━━━
+SAÚDE
+Objetivos: ${obj}
+Diagnósticos: ${campos.diagnostico || 'Nenhum informado'}
+Medicamentos: ${campos.medicamentos || 'Nenhum informado'}
+Acompanhamento nutricional anterior: ${campos.nutri_antes || ''}
+
+━━━━━━━━━━━━━━━━━━━
+COMPROMETIMENTO
+Motivação: ${campos.motivacao || ''}
+O que já tentou: ${campos.tentativas || 'Não informado'}
+Disponibilidade: ${campos.disponibilidade || ''}
+Investimento mensal: ${campos.investimento || ''}
+Compreende processo seletivo: ${campos.seletivo || ''}
+Como nos encontrou: ${campos.origem || 'Não informado'}
+`);
+
+  window.location.href = `mailto:nutri.stephaniearaujo@gmail.com?subject=${assunto}&body=${corpo}`;
+
+  setTimeout(()=>{
+    document.getElementById('aplicacaoForm').querySelector('.btn-submit').style.display = 'none';
+    document.getElementById('sucesso').style.display = 'block';
+    document.getElementById('sucesso').scrollIntoView({behavior:'smooth'});
+  }, 1000);
+});
+</script>
+</body>
+</html>
