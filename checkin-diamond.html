@@ -241,21 +241,8 @@ html,body{height:100%;width:100%;overflow:hidden;font-family:'Raleway',sans-seri
   <div class="body">
     <div class="tag"><div class="tline"></div><span class="ttxt">Água</span></div>
     <p class="qt">Quantos copos de água<br><em>por dia, em média?</em></p>
-    <p class="qs">Considere copos de 200ml.</p>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px;">
-      <button class="ebtn" id="h1" onclick="hidSel(this,'Menos de 4 copos')" style="flex-direction:column;padding:16px 8px;">
-        <span class="em" style="font-size:22px;">😰</span><span class="el" style="font-size:11px;margin-top:4px;">Menos de 4</span>
-      </button>
-      <button class="ebtn" id="h2" onclick="hidSel(this,'4 a 6 copos')" style="flex-direction:column;padding:16px 8px;">
-        <span class="em" style="font-size:22px;">💧</span><span class="el" style="font-size:11px;margin-top:4px;">4 a 6</span>
-      </button>
-      <button class="ebtn" id="h3" onclick="hidSel(this,'6 a 8 copos')" style="flex-direction:column;padding:16px 8px;">
-        <span class="em" style="font-size:22px;">💧💧</span><span class="el" style="font-size:11px;margin-top:4px;">6 a 8</span>
-      </button>
-      <button class="ebtn" id="h4" onclick="hidSel(this,'Mais de 8 copos')" style="flex-direction:column;padding:16px 8px;">
-        <span class="em" style="font-size:22px;">🌊</span><span class="el" style="font-size:11px;margin-top:4px;">Mais de 8</span>
-      </button>
-    </div>
+    <p class="qs" style="margin-bottom:16px;">Considere copos de 200ml.</p>
+    <textarea class="ta" id="hidratacao_txt" placeholder="Ex: tomo em média 6 copos por dia, tenho dificuldade de lembrar de beber água..." style="height:100px;"></textarea>
   </div>
   <div class="foot"><button class="bb" onclick="go(7,-1)">←</button><button class="bp" onclick="go(9,1)">Continuar</button></div>
 </div>
@@ -266,11 +253,11 @@ html,body{height:100%;width:100%;overflow:hidden;font-family:'Raleway',sans-seri
   <div class="pbar"><div class="pbg"><div class="pfill" style="width:100%"></div></div><p class="ptxt">9 de 9 &nbsp;·&nbsp; Avaliação</p></div>
   <div class="body">
     <div class="tag"><div class="tline"></div><span class="ttxt">Feedback</span></div>
-    <p class="qt">O que mudou para<br><em>você?</em></p>
+    <p class="qt">Seu feedback sobre<br><em>o acompanhamento</em></p>
     <div class="stars">
       <span class="star" onclick="starsel(1)">★</span><span class="star" onclick="starsel(2)">★</span><span class="star" onclick="starsel(3)">★</span><span class="star" onclick="starsel(4)">★</span><span class="star" onclick="starsel(5)">★</span>
     </div>
-    <p class="qs" style="margin-bottom:10px;">Seu relato pode inspirar outras mulheres. Conta o que mudou, o que sentiu ou o que mais gostou do acompanhamento.</p>
+    <p class="qs" style="margin-bottom:10px;">Como está sendo o acompanhamento? Seu relato pode inspirar outros pacientes. Conte o que mudou, o que sentiu ou o que mais gostou.</p>
     <textarea class="ta" id="depoimento" placeholder="Ex: Minha disposição melhorou, estou dormindo melhor, entendi meus exames pela primeira vez..." style="height:95px;"></textarea>
     <p class="nota">Ao preencher, você autoriza o compartilhamento do relato com identidade preservada, conforme acordado com a Dra. Stephanie.</p>
   </div>
@@ -300,7 +287,6 @@ function start(){const n=document.getElementById('nomeInput').value.trim();if(!n
 function esel(b,v,l){document.querySelectorAll('#s1 .ebtn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');D.sv=v;D.sentimento=l;document.getElementById('b1').disabled=false;}
 function osel(b,key,bid){b.closest('.opts').querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');D[key]=b.textContent.trim();document.getElementById(bid).disabled=false;}
 function scsel(b,key,bid,v){document.querySelectorAll('#sc'+key.charAt(0).toUpperCase()+key.slice(1)+' .sb, #scE .sb, #scS .sb').forEach(x=>{if(x.closest('.srow')===b.closest('.srow'))x.classList.remove('sel');});b.classList.add('sel');D[key]=v;document.getElementById(bid).disabled=false;}
-function hidSel(el,v){D.hidratacao=v;document.querySelectorAll("#h1,#h2,#h3,#h4").forEach(b=>b.classList.remove("on"));el.classList.add("on");}
 function starsel(n){D.estrelas=n;document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('on',i<n));document.getElementById('b9').disabled=false;}
 function prevFoto(inp){if(inp.files&&inp.files[0]){const r=new FileReader();r.onload=e=>{const p=document.getElementById('fotoPrev');p.src=e.target.result;p.style.display='block';D.foto=e.target.result;};r.readAsDataURL(inp.files[0]);}}
 function enviar(){
@@ -313,6 +299,7 @@ function enviar(){
   D.atividade=document.getElementById('atividade').value;
   D.duvidas=document.getElementById('duvidas').value;
   D.depoimento=document.getElementById('depoimento').value;
+  D.hidratacao=document.getElementById('hidratacao_txt')?.value||'Não informado';
   const s=encodeURIComponent('Check-in Diamond — '+D.nome+' — '+D.data);
   const b=encodeURIComponent('CHECK-IN SEMANAL PROGRAMA DIAMOND\nData: '+D.data+'\nPaciente: '+D.nome+'\n\n━━━━━━━━━━━━━━━━━\nBEM-ESTAR GERAL\nComo se sentiu: '+D.sentimento+' ('+D.sv+'/5)\n\n━━━━━━━━━━━━━━━━━\nALIMENTAÇÃO\nAdesão ao plano: '+D.plano+'\n\n━━━━━━━━━━━━━━━━━\nENERGIA E SONO\nEnergia: '+D.energia+'/10\nSono: '+D.sono+'/10\n\n━━━━━━━━━━━━━━━━━\nSINTOMAS E QUEIXAS\n'+(D.sintomas||'Nenhum relato')+'\n\nSINTOMAS TGI: '+(D.sintomas_tgi||'Não informado')+'\nHIDRATAÇÃO: '+(D.hidratacao||'Não informado')+'\n\nATIVIDADE FÍSICA\n'+(D.atividade||'Não informado')+'\n\n━━━━━━━━━━━━━━━━━\nDÚVIDAS E RECADOS\n'+(D.duvidas||'Nenhuma dúvida')+'\n\n━━━━━━━━━━━━━━━━━\nAVALIAÇÃO\nEstrelas: '+'★'.repeat(D.estrelas)+'☆'.repeat(5-D.estrelas)+' ('+D.estrelas+'/5)\n\nEXPERIÊNCIA\n'+(D.depoimento||'Não preenchido'));
   const fd=new FormData();
