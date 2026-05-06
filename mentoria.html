@@ -287,7 +287,9 @@ footer{background:var(--e);padding:48px 80px;display:flex;justify-content:space-
       </div>
     </div>
     <div class="form-card reveal" style="transition-delay:0.15s">
-      <form id="mentoriaForm" onsubmit="enviarMentoria(event)">
+      <form id="mentoriaForm" action="https://formspree.io/f/mzdoggja" method="POST">
+<input type="hidden" name="_subject" value="Mentoria RT — Nova solicitação de vaga">
+<input type="hidden" name="_next" value="https://nutristephaniearaujo.com.br/mentoria.html">
         <div class="field-row">
           <div class="field"><label>Nome completo<span>*</span></label><input type="text" name="nome" required placeholder="Seu nome completo"></div>
           <div class="field"><label>CRN<span>*</span></label><input type="text" name="crn" required placeholder="Ex: CRN8 12345"></div>
@@ -363,10 +365,7 @@ footer{background:var(--e);padding:48px 80px;display:flex;justify-content:space-
 <script>
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-function enviarMentoria(e){
-  e.preventDefault();
-  const fd=new FormData(e.target);const d=Object.fromEntries(fd);
-  const s=encodeURIComponent(`Mentoria RT — ${d.nome} — ${d.turma}`);
+ — ${d.turma}`);
   const b=encodeURIComponent(`SOLICITAÇÃO MENTORIA RT\nData: ${new Date().toLocaleDateString('pt-BR')}\n\nNome: ${d.nome}\nCRN: ${d.crn}\nWhatsApp: ${d.whatsapp}\nE-mail: ${d.email}\nHospital: ${d.hospital}\nServiço RT: ${d.servico}\nTempo como RT: ${d.tempo}\nTurma desejada: ${d.turma}\n\nDesafio atual:\n${d.desafio||'Não informado'}`);
   window.location.href=`mailto:nutri.stephaniearaujo@gmail.com?subject=${s}&body=${b}`;
   setTimeout(()=>{document.getElementById('mentoriaForm').style.display='none';document.getElementById('formSuccess').style.display='block';},800);

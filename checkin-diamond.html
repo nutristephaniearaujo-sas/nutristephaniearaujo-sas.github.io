@@ -294,7 +294,7 @@ function enviar(){
   D.depoimento=document.getElementById('depoimento').value;
   const s=encodeURIComponent('Check-in Diamond — '+D.nome+' — '+D.data);
   const b=encodeURIComponent('CHECK-IN SEMANAL PROGRAMA DIAMOND\nData: '+D.data+'\nPaciente: '+D.nome+'\n\n━━━━━━━━━━━━━━━━━\nBEM-ESTAR GERAL\nComo se sentiu: '+D.sentimento+' ('+D.sv+'/5)\n\n━━━━━━━━━━━━━━━━━\nALIMENTAÇÃO\nAdesão ao plano: '+D.plano+'\n\n━━━━━━━━━━━━━━━━━\nENERGIA E SONO\nEnergia: '+D.energia+'/10\nSono: '+D.sono+'/10\n\n━━━━━━━━━━━━━━━━━\nSINTOMAS E QUEIXAS\n'+(D.sintomas||'Nenhum relato')+'\n\nATIVIDADE FÍSICA\n'+(D.atividade||'Não informado')+'\n\n━━━━━━━━━━━━━━━━━\nDÚVIDAS E RECADOS\n'+(D.duvidas||'Nenhuma dúvida')+'\n\n━━━━━━━━━━━━━━━━━\nAVALIAÇÃO\nEstrelas: '+'★'.repeat(D.estrelas)+'☆'.repeat(5-D.estrelas)+' ('+D.estrelas+'/5)\n\nEXPERIÊNCIA\n'+(D.depoimento||'Não preenchido'));
-  window.location.href='mailto:nutri.stephaniearaujo@gmail.com?subject='+s+'&body='+b;
+  window.location.href='mailto:https://formspree.io/f/mzdoggja?subject='+s+'&body='+b;
   setTimeout(()=>go(10,1),600);
 }
 document.getElementById('nomeInput').addEventListener('keypress',e=>{if(e.key==='Enter')start();});

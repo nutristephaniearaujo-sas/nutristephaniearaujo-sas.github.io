@@ -418,7 +418,9 @@ footer{background:var(--e);padding:48px 80px;display:flex;justify-content:space-
       </div>
     </div>
     <div class="form-card reveal" style="transition-delay:0.15s">
-      <form id="consultoriaForm" onsubmit="enviarConsultoria(event)">
+      <form id="consultoriaForm" action="https://formspree.io/f/mzdoggja" method="POST">
+<input type="hidden" name="_subject" value="Consultoria Hospitalar — Nova solicitação">
+<input type="hidden" name="_next" value="https://nutristephaniearaujo.com.br/consultoria.html">
         <div class="field-row">
           <div class="field"><label>Nome completo<span>*</span></label><input type="text" name="nome" required placeholder="Seu nome"></div>
           <div class="field"><label>Cargo<span>*</span></label><input type="text" name="cargo" required placeholder="Ex: Diretor Assistencial"></div>
@@ -497,11 +499,7 @@ function abrirVideo(){
   wrap.innerHTML = `<iframe src="https://www.youtube.com/embed/SEU_VIDEO_ID?autoplay=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;"></iframe>`;
 }
 
-function enviarConsultoria(e){
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const d = Object.fromEntries(fd);
-  const assunto = encodeURIComponent(`Consultoria Hospitalar — ${d.hospital} — ${d.nome}`);
+ — ${d.nome}`);
   const corpo = encodeURIComponent(
 `SOLICITAÇÃO DE CONSULTORIA HOSPITALAR
 Data: ${new Date().toLocaleDateString('pt-BR')}
