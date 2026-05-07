@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área da Paciente | Programa Diamond</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--v:#7B1535;--ve:#2a0f1a;--d:#B8965A;--dl:#d4af7a;--c:#EDE4D8;--cl:#F8F3EE;--e:#0d0508;--txt:#2a0f1a;--ease:cubic-bezier(0.16,1,0.3,1);}
+html{scroll-behavior:smooth;}
+body{font-family:'Raleway',sans-serif;background:var(--e);color:var(--c);overflow-x:hidden;min-height:100vh;}
+
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;background:var(--e);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;padding:32px;}
+.l-logo{height:52px;margin-bottom:28px;}
+.l-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,38px);font-weight:400;color:var(--c);text-align:center;margin-bottom:6px;}
+.l-title em{font-style:italic;color:var(--d);}
+.l-sub{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(237,228,216,0.3);margin-bottom:40px;}
+.l-box{background:rgba(184,150,90,0.05);border:1px solid rgba(184,150,90,0.15);padding:40px;width:100%;max-width:380px;}
+.lf{margin-bottom:16px;}
+.lf label{display:block;font-family:'Raleway',sans-serif;font-weight:300;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(237,228,216,0.4);margin-bottom:7px;}
+.lf input{width:100%;background:rgba(237,228,216,0.03);border:1px solid rgba(184,150,90,0.15);color:var(--c);font-family:'Raleway',sans-serif;font-weight:300;font-size:14px;padding:13px 16px;outline:none;transition:border-color 0.3s;}
+.lf input:focus{border-color:rgba(184,150,90,0.5);}
+.lf input::placeholder{color:rgba(237,228,216,0.15);}
+.l-btn{width:100%;background:linear-gradient(135deg,var(--d),var(--dl));color:var(--e);border:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:17px;cursor:pointer;transition:all 0.3s var(--ease);margin-top:6px;}
+.l-btn:hover{box-shadow:0 10px 30px rgba(184,150,90,0.3);}
+.l-err{font-family:'Raleway',sans-serif;font-weight:300;font-size:11px;color:#e05555;text-align:center;margin-top:10px;display:none;}
+.l-help{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;color:rgba(237,228,216,0.25);text-align:center;margin-top:18px;line-height:1.7;}
+.l-help a{color:var(--d);text-decoration:none;}
+
+/* NAV */
+#appNav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,5,8,0.98);border-bottom:1px solid rgba(184,150,90,0.08);}
+.n-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.n-logo{height:36px;}
+.n-name{font-family:'Playfair Display',serif;font-size:13px;color:var(--c);}
+.n-name span{display:block;font-family:'Raleway',sans-serif;font-size:8px;font-weight:200;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-top:1px;}
+.n-right{display:flex;align-items:center;gap:20px;}
+.n-user{font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;color:rgba(237,228,216,0.5);}
+.n-user strong{color:var(--d);font-weight:400;}
+.n-out{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.25);cursor:pointer;border:none;background:transparent;transition:color 0.3s;}
+.n-out:hover{color:var(--d);}
+
+/* MAIN */
+#appMain{display:none;padding-top:65px;}
+
+/* HERO */
+.hero{background:linear-gradient(145deg,var(--ve) 0%,#3d1020 50%,var(--v) 100%);padding:80px 64px 60px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:50%;right:80px;transform:translateY(-50%);width:300px;height:300px;border:1px solid rgba(184,150,90,0.08);border-radius:50%;pointer-events:none;}
+.hero-eyebrow{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(184,150,90,0.7);margin-bottom:10px;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(24px,3.5vw,42px);font-weight:400;color:var(--c);line-height:1.1;margin-bottom:10px;}
+.hero-title em{font-style:italic;color:var(--d);}
+.hero-desc{font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.55);margin-bottom:28px;max-width:480px;line-height:1.8;}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.pill{padding:5px 14px;border:1px solid rgba(184,150,90,0.2);font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.45);}
+
+/* TABS */
+.tabs{display:flex;padding:0 64px;border-bottom:1px solid rgba(184,150,90,0.08);}
+.tab{font-family:'Raleway',sans-serif;font-weight:300;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(237,228,216,0.3);padding:14px 18px;cursor:pointer;border:none;border-bottom:1px solid transparent;background:transparent;transition:all 0.3s;}
+.tab.on{color:var(--d);border-bottom-color:var(--d);}
+.tc{display:none;}
+.tc.on{display:block;}
+
+/* CONTEÚDO */
+.content{padding:40px 64px 80px;}
+
+/* CARDS DE RECURSOS */
+.sec-label{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-bottom:20px;}
+.recursos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:rgba(184,150,90,0.08);}
+.rec-card{background:var(--e);padding:32px 28px;cursor:pointer;transition:background 0.3s;text-decoration:none;display:block;position:relative;overflow:hidden;}
+.rec-card:hover{background:rgba(184,150,90,0.05);}
+.rec-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--d),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.5s var(--ease);}
+.rec-card:hover::before{transform:scaleX(1);}
+.rec-ico{font-size:28px;margin-bottom:14px;}
+.rec-label{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--d);margin-bottom:6px;}
+.rec-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--c);margin-bottom:6px;}
+.rec-desc{font-family:'Raleway',sans-serif;font-weight:300;font-size:11px;color:rgba(237,228,216,0.45);line-height:1.7;}
+.rec-arrow{position:absolute;bottom:20px;right:20px;width:28px;height:28px;border:1px solid rgba(184,150,90,0.2);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--d);transition:all 0.3s;}
+.rec-card:hover .rec-arrow{background:rgba(184,150,90,0.1);border-color:var(--d);}
+
+/* MATERIAIS GRID */
+.mats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:rgba(184,150,90,0.07);}
+.mat-card{background:var(--e);padding:24px 20px;cursor:pointer;transition:background 0.3s;}
+.mat-card:hover{background:rgba(184,150,90,0.04);}
+.mat-ico{font-size:24px;margin-bottom:10px;}
+.mat-cat{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--d);margin-bottom:5px;}
+.mat-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--c);margin-bottom:4px;}
+.mat-tipo{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;color:rgba(237,228,216,0.3);}
+
+/* SUPORTE TAB */
+.sup-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;margin-bottom:28px;}
+.sup-card{background:rgba(184,150,90,0.04);border:1px solid rgba(184,150,90,0.12);padding:24px 20px;text-decoration:none;display:block;transition:all 0.3s;cursor:pointer;}
+.sup-card:hover{border-color:rgba(184,150,90,0.35);background:rgba(184,150,90,0.07);}
+.sup-ico{font-size:24px;margin-bottom:10px;}
+.sup-t{font-family:'Playfair Display',serif;font-size:16px;color:var(--c);margin-bottom:4px;}
+.sup-d{font-family:'Raleway',sans-serif;font-weight:200;font-size:11px;color:rgba(237,228,216,0.35);line-height:1.6;}
+.sup-note{padding:18px 22px;background:rgba(184,150,90,0.03);border-left:1px solid var(--d);max-width:560px;}
+.sup-note p{font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;color:rgba(237,228,216,0.45);line-height:1.8;}
+
+/* CHECKIN SECTION */
+.checkin-box{background:var(--ve);border:1px solid rgba(184,150,90,0.15);padding:40px;max-width:600px;margin-bottom:32px;}
+.checkin-box h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--c);margin-bottom:8px;}
+.checkin-box h3 em{font-style:italic;color:var(--d);}
+.checkin-box p{font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.55);line-height:1.8;margin-bottom:24px;}
+.btn-checkin{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--d),var(--dl));color:var(--e);text-decoration:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;padding:15px 28px;transition:all 0.3s var(--ease);}
+.btn-checkin:hover{box-shadow:0 10px 28px rgba(184,150,90,0.3);}
+.upgrade-box{background:rgba(123,21,53,0.15);border:1px solid rgba(123,21,53,0.3);padding:28px 32px;max-width:600px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.upgrade-box-txt h4{font-family:'Playfair Display',serif;font-size:18px;color:var(--c);margin-bottom:5px;}
+.upgrade-box-txt h4 em{font-style:italic;color:var(--d);}
+.upgrade-box-txt p{font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;color:rgba(237,228,216,0.5);line-height:1.7;}
+.btn-upgrade{display:inline-flex;background:linear-gradient(135deg,var(--v),#9b1a40);color:white;text-decoration:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:13px 22px;white-space:nowrap;transition:all 0.3s;}
+.btn-upgrade:hover{box-shadow:0 8px 24px rgba(123,21,53,0.3);}
+
+/* FOOTER */
+.mftr{padding:20px 64px;border-top:1px solid rgba(184,150,90,0.06);display:flex;justify-content:space-between;align-items:center;}
+.mftr-t{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;color:rgba(237,228,216,0.18);}
+.mftr-links{display:flex;gap:18px;}
+.mftr-a{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(237,228,216,0.18);text-decoration:none;transition:color 0.3s;}
+.mftr-a:hover{color:var(--d);}
+
+
+  .hero,.content,.tabs{padding-left:20px;padding-right:20px;}
+  .sup-grid{grid-template-columns:1fr;}
+  .mftr{flex-direction:column;gap:10px;text-align:center;padding:20px;}
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr !important;}
+  .hero-right, .hr{display:none !important;}
+  .hero-left, .hl{padding:100px 24px 60px !important;}
+  section, .sobre, .paraquem, .como, .incluso, .form-sec,
+  .cta-final, .autoridade, .metodo, .investimento, .prob-grid,
+  .inv-layout, .form-layout, .inc-grid, .b2b-layout, .pq-grid,
+  .aut-grid, .etapas, .sem-grid, .semanas-grid{
+    grid-template-columns:1fr !important;
+    gap:32px !important;
+  }
+  .audiencias, .cursos-grid, .auto-grid{grid-template-columns:1fr !important;}
+  nav .nav-links, nav .nlinks{display:none !important;}
+  section, .paraquem, .sobre, .autoridade, .metodo, .investimento,
+  .problema, .incluso, .form-sec, .cta-final, .como, .b2b,
+  .mods, .pq, .semanas, .form-sec, .mods-wrap, .mats-wrap, .sup-wrap{
+    padding-left:24px !important;
+    padding-right:24px !important;
+  }
+  .field-row{grid-template-columns:1fr !important;}
+  footer, .mfooter, .mftr{
+    flex-direction:column !important;
+    gap:16px !important;
+    text-align:center !important;
+    padding:32px 24px !important;
+  }
+  .foot-info, .fi2{text-align:center !important;}
+  .foot-links, .flinks, .mftr-links{justify-content:center !important;}
+  .hero-nums, .hr-nums{grid-template-columns:1fr 1fr !important;}
+  .cert-banner, .cert{flex-direction:column !important;margin:16px 20px !important;}
+  .upgrade-box{flex-direction:column !important;}
+  .tabs, .curso-tabs{padding:0 20px !important;overflow-x:auto !important;}
+  .aula-card{width:240px !important;}
+  .sup-grid{grid-template-columns:1fr !important;}
+  .content, .aulas-wrap{padding:24px 20px 60px !important;}
+  .prog-wrap, .prog-bar-wrap{padding:16px 20px !important;}
+  .hero-stat, .hr-badge{display:none !important;}
+  .htitle, .hero-title{font-size:clamp(28px,8vw,42px) !important;}
+  .btn-p, .btn-gold, .btn-primary{padding:16px 24px !important;font-size:9px !important;}
+  .btn-g, .btn-ghost, .btn-secondary{padding:16px 24px !important;font-size:9px !important;margin-left:0 !important;margin-top:10px !important;}
+  .hero{padding:60px 24px 40px !important;}
+}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WZBDVKJE2Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WZBDVKJE2Z');
+</script>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <img id="loginLogo" class="l-logo" alt="Logo" src="data:image/png;base64,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">
+  <h1 class="l-title">Área da <em>Paciente</em></h1>
+  <p class="l-sub">Programa Diamond · Dra. Stephanie Araújo</p>
+  <div class="l-box">
+    <div class="lf"><label>E-mail</label><input type="email" id="lEmail" placeholder="seu@email.com" autocomplete="email"></div>
+    <div class="lf"><label>Senha</label><input type="password" id="lSenha" placeholder="Sua senha de acesso"></div>
+    <button class="l-btn" onclick="doLogin()">Acessar minha área</button>
+    <div class="l-err" id="lErr">E-mail ou senha incorretos.</div>
+    <p class="l-help">Ainda não é paciente? <a href="essencial.html">Ver Programa Essencial</a><br>Suporte: <a href="https://wa.me/5541997366799" target="_blank">WhatsApp</a></p>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="appNav" style="display:none">
+  <a href="#" class="n-brand">
+    <img id="navLogo" class="n-logo" alt="Logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAF3ElEQVR42u2Ya2wUVRTHz72zs7PdR2d3225LCy0SrVhLqLwMEmOr+EBARbLLIyFoEZqgiAKloMB01FBqfYPGFgQVSuqs4COSAJraGgXxgUVdoGrRQt8tfbC73d3ZnTl+KCWN8YOB0i1mft9mMpmb/znn/s+9B0BDQ0NDQ0NDQ0NjmECGekEEIIDYtzgheE1HTxAEOvBZkpzMYAd1yDP05rPzRqUlp5lNSXZvztx1DYP9fzqEWSFvb1o4D1SYjCSSajbyC4999sY26eWnYxCRRCO4l40kCfqKV56a/mnZ+sdrj7yb0v++au9ztRXFS7YBAHwpCLphnSFEIIhI9pQsTwvUNefF8jFr4mzW091dvmWeL3eWIiIJ9fbujygKf02UXGGhQAghqIQCT1zovLCPY3Xhjo724K0znxBiecuy34+5c3ccqtuQdf39SwAAckQxMiwEIQD5p3sBABFFUX1VeNBKUBm7oqSiSUVsHJHkKAUAEgjK24GqqiRJ6s1OZ2TYuhwiENLXZUihIBB75zFzXKLjx5bO8NSsm0Yz9qSEPy281dPWHV407YG80/17J0cUlb7YRFcQAQDcmj8/OcSw5jiOnn1UfC/YL6r/o/LNjxw1mc3dDz25bcbHb224cWxG2uHklOTULq9/z2+1Z5+/e8Ga3wYGI2qCEIAQAHypYP4t3qCCFpMhkcXguZVF7pPF+bkWA6Okw4jYX809vrGjRthqDCbzUb+ie3TGok21dccqVnMcs0X2e3UN9Y0l7qPfbNy69WBoMERdcYbyc3Mt9gQlLug1dSSNhNlMyH8q0Nl6KmKMn6VCJOg7o3w+ZrJt4nUpiVJiUuJIGXXlp841r3Ft++x8TdGSF2i4d21TY9P3x0+cmRGKH98FACCKohoNU0AEICU7d3rNBlbPW3vS+dHplSprHNVJuZhehdbYrbaQY6xh6uK1ZUc/+vh0ett53zMMJXPvnjqxub6sYGPWPcsLGpq7J+gIpKcmmT8QRVEtjLYp9JfeawWLUgmqyT4Elmf0cvOFnpbxE7IMIV/3SG9Ly/HlW/Z2AQBI2wX75PEZBYkO69ozf/z1Veb0vDveKcobH0sCNU2tbdkrXz1YLTmdjMvtVqJi2+SiOz1VvPvsyhfLv3UYDR6qk8cZeabX46lX2rtCPcDzgAiktHQZ61oqdl43ZV5BXX3rNE5Pb6/a+9zOJetLT/T4g1/rGOZhAICEjLbLDvQVHzckyck0noiZ1qaytfqekOV8UJbXFZfvKN7wyA1yJNiqBPzTRtsTfunb7GVhRCQej5vNzHQdqawocpo49sNDh0pW/FX5zQ+EQAoAQFW0GisiEJfLrVKV6eBl/6QxNyUl2GL5Ca/nL7gDQmEKVEfNel3Nz00thksZJQQzM11hSZKYO+ev3+fz+dtIS+8kRUEElXYDAGRHS9BFi8WVRbtOspy+xt/WLodlfwdh2QBSGoiz4CwEQmMNHCcIAkW8tGfR6fEgIhIVsSEsB1NYlkknjO4wAED7SQdGRdBAVm9+v3H58+/92A6+77w+uX5d8e6zhJErEXAc0pg0URRVt9tJURAookCrsoESAKCUCQR7fbfr9AaVdid8IggCvVxDGFRBiH1nusJCd9gQQx3CslnGFWJFk2okB4wcc1/5609OdLncChFFlRBRzckRIx+9W8hThrGHZBlBz67NKysLD8cbKynOzzXrGTnjSF3oB7fbrZSXroo3qfp7qYHzx9kSOnmHLRgMyRR6vc94e7w/5yx8dsPAZn0lizNXQ9AXR34Kzb7rFmUkT6bMvOvm0GNrtrdWHPj6lzlZ2WcsiQZispjjIRJZCirKt81ZtQJRoADZpLq6Godjhi41213CYmtQVSabzBZTnN3q523WiMEYa2X1XCrVMefGZS/e33f9JjAYB9OrPSS5VD47inMtdqvdEW9L5PQcFzjRwjXk5eWFEZFca6Osf7v8XWzIEnO1ojg0A8a+yc7/Y8CooaGhoaGhoaGh8V/4G3oLkETNWXNmAAAAAElFTkSuQmCC">
+    <div class="n-name">Programa Diamond<span>Área da Paciente</span></div>
+  </a>
+  <div class="n-right">
+    <span class="n-user">Olá, <strong id="nomeP"></strong></span>
+    <button class="n-out" onclick="doLogout()">Sair</button>
+  </div>
+</nav>
+
+<!-- APP -->
+<div id="appMain">
+
+  <div class="hero">
+    <p class="hero-eyebrow" id="heroPrograma"></p>
+    <h1 class="hero-title" id="heroTitle"></h1>
+    <p class="hero-desc" id="heroDesc"></p>
+    <div class="hero-pills" id="heroPills"></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="showTab('inicio',this)">Início</button>
+    <button class="tab" onclick="showTab('materiais',this)">Materiais</button>
+    <button class="tab" onclick="showTab('suporte',this)">Suporte</button>
+  </div>
+
+  <!-- INÍCIO -->
+  <div class="tc on" id="tc-inicio">
+    <div class="content">
+
+      <!-- CHECK-IN -->
+      <div id="checkinSection"></div>
+
+      <!-- RECURSOS PRINCIPAIS -->
+      <p class="sec-label" style="margin-top:40px;">Seus recursos</p>
+      <div class="recursos-grid" id="recursosGrid"></div>
+
+      <!-- UPGRADE -->
+      <div id="upgradeSection" style="margin-top:32px;"></div>
+
+    </div>
+  </div>
+
+  <!-- MATERIAIS -->
+  <div class="tc" id="tc-materiais">
+    <div class="content">
+      <p class="sec-label">Materiais exclusivos</p>
+      <p style="font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.4);margin-bottom:24px;">E-books, lâminas explicativas e guias para apoiar sua jornada.</p>
+      <div class="mats-grid" id="matsGrid"></div>
+    </div>
+  </div>
+
+  <!-- SUPORTE -->
+  <div class="tc" id="tc-suporte">
+    <div class="content">
+      <h2 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--c);margin-bottom:5px;">Suporte e <em style="font-style:italic;color:var(--d)">comunidade</em></h2>
+      <p style="font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.4);margin-bottom:24px;">Canais de contato e comunidade de pacientes.</p>
+      <div class="sup-grid">
+        <a href="https://wa.me/5541997366799?text=Olá%2C%20Dra.%20Stephanie!%20Sou%20paciente%20do%20Programa%20Diamond%20e%20preciso%20de%20suporte." target="_blank" class="sup-card">
+          <div class="sup-ico">💬</div>
+          <div class="sup-t">WhatsApp</div>
+          <div class="sup-d">Suporte direto com a Dra. Stephanie</div>
+        </a>
+        <div class="sup-card" id="grupoBtn">
+          <div class="sup-ico">👥</div>
+          <div class="sup-t">Grupo de pacientes</div>
+          <div class="sup-d">Comunidade exclusiva de pacientes Diamond no WhatsApp</div>
+        </div>
+      </div>
+      <div class="sup-note">
+        <p>Check-in: toda sexta-feira às 18h via formulário. Revisão: segunda-feira às 9h com retorno personalizado. Dúvidas respondidas em até 48 horas úteis.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mftr">
+    <span class="mftr-t">© 2026 Stephanie Araújo de Souza · CRN8 13998</span>
+    <div class="mftr-links">
+      <a href="index.html" class="mftr-a">Clínica</a>
+      <a href="essencial.html" class="mftr-a">Programa Essencial</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// PACIENTES (demo — substituir por Supabase)
+// ═══════════════════════════════════════════════
+const PACIENTES = {
+  'demo@demo.com':{senha:'demo123',nome:'Maria Demo',programa:'essencial',expira:'2026-12-31',
+    grupo:'https://chat.whatsapp.com/DaVou3mIhGu4WfXmjuCK0O'},
+  'demo2@demo.com':{senha:'demo123',nome:'Ana Diamond',programa:'diamond',expira:'2027-05-04',
+    grupo:'https://chat.whatsapp.com/Fz55OC2FzoX8oo5xSNl7mH'},
+};
+
+const PROGRAMAS = {
+  essencial:{
+    label:'Programa Essencial Diamond',
+    titleHtml:'Bem-vinda ao seu<br><em>programa</em>',
+    desc:'Aqui você encontra seu plano alimentar, materiais de apoio e o formulário de check-in quinzenal.',
+    checkin: true,
+    upgrade: true,
+    recursos:[
+      {ico:'📋',label:'Plano alimentar',title:'Seu plano personalizado',desc:'Acesse seu plano alimentar elaborado com base no Protocolo Diamond.',link:'https://wa.me/5541997366799?text=Quero%20acessar%20meu%20plano%20alimentar'},
+      {ico:'🏃',label:'MoveHealth',title:'Treinos e bem-estar',desc:'Acesse o Webdiet Paciente — seu plano alimentar, treinos MoveHealth, reflexões e áudios de bem-estar em um só lugar.',link:'webdiet'},
+      {ico:'📚',label:'Materiais',title:'E-books e lâminas',desc:'Receitas, guias e lâminas explicativas sobre saúde cardiovascular.',link:'#',aba:'materiais'},
+      {ico:'👥',label:'Comunidade',title:'Grupo de pacientes',desc:'Grupo exclusivo de pacientes do Programa Essencial no WhatsApp.',link:'grupo'},
+    ]
+  },
+  diamond:{
+    label:'Programa Diamond Cardiometabólico',
+    titleHtml:'Bem-vinda ao<br><em>Programa Diamond</em>',
+    desc:'Seu espaço exclusivo de acompanhamento cardiovascular de alto nível. Acesse seus recursos e materiais.',
+    checkin: true,
+    upgrade: false,
+    recursos:[
+      {ico:'📋',label:'Plano alimentar',title:'Seu plano personalizado',desc:'Acesse seu plano alimentar completo elaborado com base no Protocolo Diamond.',link:'https://wa.me/5541997366799?text=Quero%20acessar%20meu%20plano%20alimentar'},
+      {ico:'🏃',label:'MoveHealth',title:'Treinos e bem-estar',desc:'Acesse o Webdiet Paciente — plano alimentar, treinos MoveHealth e corpo e mente integrados ao seu protocolo.',link:'webdiet'},
+      {ico:'📚',label:'Materiais',title:'E-books e lâminas',desc:'Biblioteca completa de receitas e materiais de saúde cardiovascular.',link:'#',aba:'materiais'},
+      {ico:'🔬',label:'Exames',title:'Análise de exames',desc:'Envie seus exames para análise e orientações específicas.',link:'https://wa.me/5541997366799?text=Quero%20enviar%20meus%20exames%20para%20análise'},
+      {ico:'💬',label:'Suporte',title:'WhatsApp direto',desc:'Suporte direto com a Dra. Stephanie para dúvidas sobre seu protocolo.',link:'https://wa.me/5541997366799?text=Olá%2C%20Dra.%20Stephanie!%20Sou%20paciente%20Diamond'},
+      {ico:'👥',label:'Comunidade',title:'Grupo Diamond',desc:'Grupo exclusivo de pacientes Diamond no WhatsApp.',link:'grupo'},
+    ]
+  }
+};
+
+const MATERIAIS = [
+  {
+    "ico": "📗",
+    "cat": "E-book de receitas",
+    "name": "Receitas Cardioprotetoras",
+    "tipo": "PDF · 48 páginas",
+    "url": "https://nutristephaniearaujo.com.br/Ebook_Receitas_Cardioprotetoras.pdf"
+  },
+  {
+    "ico": "📗",
+    "cat": "E-book de receitas",
+    "name": "Receitas Anti-inflamatórias",
+    "tipo": "PDF · 36 páginas",
+    "url": "https://nutristephaniearaujo.com.br/Ebook_Receitas_Anti_inflamatorias.pdf"
+  },
+  {
+    "ico": "📗",
+    "cat": "E-book de receitas",
+    "name": "Café da Manhã Cardiovascular",
+    "tipo": "PDF · 24 páginas",
+    "url": "https://nutristephaniearaujo.com.br/Ebook_Cafe_Manha_Cardiovascular.pdf"
+  },
+  {
+    "ico": "📊",
+    "cat": "Lâmina explicativa",
+    "name": "Colesterol — entenda seus exames",
+    "tipo": "PDF · Lâmina",
+    "url": "https://nutristephaniearaujo.com.br/Lamina_Colesterol.pdf"
+  },
+  {
+    "ico": "📊",
+    "cat": "Lâmina explicativa",
+    "name": "Triglicerídeos e resistência insulínica",
+    "tipo": "PDF · Lâmina",
+    "url": "https://nutristephaniearaujo.com.br/Lamina_Triglicerideos.pdf"
+  },
+  {
+    "ico": "📊",
+    "cat": "Lâmina explicativa",
+    "name": "PCR-us — inflamação e risco cardiovascular",
+    "tipo": "PDF · Lâmina",
+    "url": "https://nutristephaniearaujo.com.br/Lamina_PCRus.pdf"
+  },
+  {
+    "ico": "📊",
+    "cat": "Lâmina explicativa",
+    "name": "HOMA-IR — como interpretar",
+    "tipo": "PDF · Lâmina",
+    "url": "https://nutristephaniearaujo.com.br/Lamina_HOMA_IR.pdf"
+  },
+  {
+    "ico": "📊",
+    "cat": "Lâmina explicativa",
+    "name": "Vitamina D — deficiência e impacto cardiovascular",
+    "tipo": "PDF · Lâmina",
+    "url": "https://nutristephaniearaujo.com.br/Lamina_Vitamina_D.pdf"
+  },
+  {
+    "ico": "📋",
+    "cat": "Guia",
+    "name": "Guia de suplementação cardiovascular",
+    "tipo": "PDF · Guia",
+    "url": "https://nutristephaniearaujo.com.br/Guia_Suplementacao_Cardiovascular.pdf"
+  },
+  {
+    "ico": "📋",
+    "cat": "Guia",
+    "name": "Guia do sono e saúde metabólica",
+    "tipo": "PDF · Guia",
+    "url": "https://nutristephaniearaujo.com.br/Guia_Sono_Saude_Metabolica.pdf"
+  },
+  {
+    "ico": "📋",
+    "cat": "Guia",
+    "name": "Dieta mediterrânea — como aplicar",
+    "tipo": "PDF · Guia",
+    "url": "https://nutristephaniearaujo.com.br/Guia_Dieta_Mediterranea.pdf"
+  }
+];
+
+// ═══════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════
+let U = null, P = null;
+
+function doLogin(){
+  const e = document.getElementById('lEmail').value.trim().toLowerCase();
+  const s = document.getElementById('lSenha').value;
+  const p = PACIENTES[e];
+  if(!p || p.senha !== s){ document.getElementById('lErr').style.display='block'; return; }
+  U = {...p, email:e};
+  localStorage.setItem('diamond_p', JSON.stringify(U));
+  boot();
+}
+function doLogout(){ localStorage.removeItem('diamond_p'); location.reload(); }
+
+// ═══════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════
+function boot(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appNav').style.display='flex';
+  document.getElementById('appMain').style.display='block';
+  document.getElementById('nomeP').textContent = U.nome.split(' ')[0];
+  P = PROGRAMAS[U.programa];
+
+  // Hero
+  document.getElementById('heroPrograma').textContent = P.label;
+  document.getElementById('heroTitle').innerHTML = P.titleHtml;
+  document.getElementById('heroDesc').textContent = P.desc;
+  document.getElementById('heroPills').innerHTML =
+    `<span class="pill">${P.label}</span>
+     <span class="pill">Expira ${new Date(U.expira).toLocaleDateString('pt-BR')}</span>`;
+
+  // Checkin
+  if(P.checkin){
+    const isEssencial = U.programa === 'essencial';
+  document.getElementById('checkinSection').innerHTML = `
+      <div class="checkin-box">
+        <h3>Check-in <em>${isEssencial ? 'quinzenal' : 'semanal'}</em></h3>
+        <p>${isEssencial ? 'Preencha seu formulário de check-in quinzenal toda sexta-feira. Retorno nas segundas-feiras.' : 'Preencha seu formulário de check-in toda sexta-feira às 18h. Revisão e retorno toda segunda-feira às 9h.'}</p>
+        <a href="checkin-diamond.html" class="btn-checkin">Fazer meu check-in</a>
+      </div>`;
+  }
+
+  // Recursos
+  const grid = document.getElementById('recursosGrid');
+  P.recursos.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'rec-card';
+    card.innerHTML = `
+      <div class="rec-ico">${r.ico}</div>
+      <p class="rec-label">${r.label}</p>
+      <h3 class="rec-title">${r.title}</h3>
+      <p class="rec-desc">${r.desc}</p>
+      <div class="rec-arrow">→</div>`;
+    card.addEventListener('click', () => {
+      if(r.link === 'grupo') window.open(U.grupo, '_blank');
+      else if(r.aba) showTabByName(r.aba);
+      else window.open(r.link, '_blank');
+    });
+    grid.appendChild(card);
+  });
+
+  // Upgrade
+  if(P.upgrade){
+    document.getElementById('upgradeSection').innerHTML = `
+      <div class="upgrade-box">
+        <div class="upgrade-box-txt">
+          <h4>Pronta para o próximo nível? <em>Programa Diamond completo.</em></h4>
+          <p>Acompanhamento completo com consultas, análise de exames, protocolo avançado e suporte personalizado. Condição especial para egressas do Programa Essencial.</p>
+        </div>
+        <a href="aplicacao.html" class="btn-upgrade">Quero evoluir</a>
+      </div>`;
+  }
+
+  // Materiais
+  const mg = document.getElementById('matsGrid');
+  MATERIAIS.forEach(m => {
+    const div = document.createElement('a');
+    div.className = 'mat-card';
+    div.href = m.url;
+    div.target = '_blank';
+    div.style.textDecoration = 'none';
+    div.innerHTML = `<div class="mat-ico">${m.ico}</div><p class="mat-cat">${m.cat}</p><p class="mat-name">${m.name}</p><p class="mat-tipo" style="color:var(--d);">⬇ ${m.tipo}</p>`;
+    mg.appendChild(div);
+  });
+
+  // Grupo suporte
+  document.getElementById('grupoBtn').addEventListener('click', () => window.open(U.grupo, '_blank'));
+}
+
+// ═══════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════
+function showTab(t, el){
+  document.querySelectorAll('.tc').forEach(x => x.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  document.getElementById('tc-'+t).classList.add('on');
+  el.classList.add('on');
+}
+function showTabByName(t){
+  document.querySelectorAll('.tc').forEach(x => x.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  document.getElementById('tc-'+t).classList.add('on');
+  document.querySelectorAll('.tab').forEach(x => { if(x.textContent.toLowerCase().includes(t)) x.classList.add('on'); });
+}
+
+// ═══════════════════════════════════════════════
+// AUTO LOGIN
+// ═══════════════════════════════════════════════
+window.addEventListener('load', () => {
+  const s = localStorage.getItem('diamond_p');
+  if(s){ U = JSON.parse(s); boot(); }
+});
+document.addEventListener('keypress', e => {
+  if(e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') doLogin();
+});
+</script>
+
+<!-- MODAL WEBDIET -->
+<div id="webdietModal" style="display:none;position:fixed;inset:0;background:rgba(13,5,8,0.92);z-index:500;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(8px);">
+  <div style="background:#2a0f1a;border:1px solid rgba(184,150,90,0.2);max-width:420px;width:100%;padding:40px 36px;position:relative;">
+    <button onclick="document.getElementById('webdietModal').style.display='none'" style="position:absolute;top:16px;right:16px;background:transparent;border:1px solid rgba(184,150,90,0.2);color:rgba(237,228,216,0.5);width:32px;height:32px;cursor:pointer;font-size:16px;">×</button>
+    <p style="font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#B8965A;margin-bottom:14px;">Como acessar</p>
+    <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:#EDE4D8;margin-bottom:20px;font-weight:400;">Webdiet <em style="font-style:italic;color:#B8965A;">Paciente</em></h3>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:24px;height:24px;background:#7B1535;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:11px;color:white;flex-shrink:0;">1</div>
+        <p style="font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.7);line-height:1.7;">Baixe o aplicativo <strong style="color:#EDE4D8;">Webdiet Paciente</strong> na App Store ou Google Play</p>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:24px;height:24px;background:#7B1535;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:11px;color:white;flex-shrink:0;">2</div>
+        <p style="font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.7);line-height:1.7;">No acesso, use o <strong style="color:#EDE4D8;">número do celular</strong> cadastrado no seu acompanhamento</p>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:24px;height:24px;background:#7B1535;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:11px;color:white;flex-shrink:0;">3</div>
+        <p style="font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.7);line-height:1.7;">A senha é sua <strong style="color:#EDE4D8;">data de nascimento</strong> no formato DDMMAAAA</p>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:24px;height:24px;background:#7B1535;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:11px;color:white;flex-shrink:0;">4</div>
+        <p style="font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.7);line-height:1.7;">Dentro do app você encontra seu <strong style="color:#EDE4D8;">plano alimentar</strong>, treinos MoveHealth e conteúdos de bem-estar</p>
+      </div>
+    </div>
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(184,150,90,0.1);">
+      <p style="font-family:'Raleway',sans-serif;font-weight:200;font-size:11px;color:rgba(237,228,216,0.35);line-height:1.7;">Problemas no acesso? Fale pelo WhatsApp que resolvo para você.</p>
+      <a href="https://wa.me/5541997366799?text=Olá%2C%20Dra.%20Stephanie!%20Estou%20com%20dificuldade%20para%20acessar%20o%20Webdiet%20Paciente." target="_blank" style="display:inline-flex;margin-top:12px;background:linear-gradient(135deg,#B8965A,#d4af7a);color:#0d0508;text-decoration:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:12px 20px;">Pedir ajuda no WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function abrirWebdiet(){
+  document.getElementById('webdietModal').style.display='flex';
+}
+</script>
+</body>
+</html>
