@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área de Membros | Lactário & Enteral na Prática</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--v:#7B1535;--ve:#2a0f1a;--d:#B8965A;--dl:#d4af7a;--c:#EDE4D8;--cl:#F8F3EE;--e:#0d0508;--ease:cubic-bezier(0.16,1,0.3,1);}
+html{scroll-behavior:smooth;}
+body{font-family:'Raleway',sans-serif;background:var(--e);color:var(--c);overflow-x:hidden;min-height:100vh;}
+
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;background:var(--e);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;padding:32px;}
+.l-logo{height:52px;margin-bottom:28px;display:block;}
+.l-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,38px);font-weight:400;color:var(--c);text-align:center;margin-bottom:6px;}
+.l-title em{font-style:italic;color:var(--d);}
+.l-sub{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(237,228,216,0.3);margin-bottom:40px;}
+.l-box{background:rgba(184,150,90,0.05);border:1px solid rgba(184,150,90,0.15);padding:40px;width:100%;max-width:380px;}
+.lf{margin-bottom:16px;}
+.lf label{display:block;font-family:'Raleway',sans-serif;font-weight:300;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(237,228,216,0.4);margin-bottom:7px;}
+.lf input{width:100%;background:rgba(237,228,216,0.03);border:1px solid rgba(184,150,90,0.15);color:var(--c);font-family:'Raleway',sans-serif;font-weight:300;font-size:14px;padding:13px 16px;outline:none;transition:border-color 0.3s;}
+.lf input:focus{border-color:rgba(184,150,90,0.5);}
+.lf input::placeholder{color:rgba(237,228,216,0.15);}
+.l-btn{width:100%;background:linear-gradient(135deg,var(--d),var(--dl));color:var(--e);border:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:17px;cursor:pointer;transition:all 0.3s var(--ease);margin-top:6px;}
+.l-btn:hover{box-shadow:0 10px 30px rgba(184,150,90,0.3);transform:translateY(-2px);}
+.l-err{font-family:'Raleway',sans-serif;font-weight:300;font-size:11px;color:#e05555;text-align:center;margin-top:10px;display:none;}
+.l-help{font-family:'Raleway',sans-serif;font-weight:200;font-size:10px;color:rgba(237,228,216,0.25);text-align:center;margin-top:18px;line-height:1.7;}
+.l-help a{color:var(--d);text-decoration:none;}
+
+/* NAV */
+#appNav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,5,8,0.98);border-bottom:1px solid rgba(184,150,90,0.08);}
+.n-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.n-logo{height:36px;}
+.n-name{font-family:'Playfair Display',serif;font-size:13px;color:var(--c);}
+.n-name span{display:block;font-family:'Raleway',sans-serif;font-size:8px;font-weight:200;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-top:1px;}
+.n-right{display:flex;align-items:center;gap:20px;}
+.n-user{font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;color:rgba(237,228,216,0.5);}
+.n-user strong{color:var(--d);font-weight:400;}
+.n-out{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.25);cursor:pointer;border:none;background:transparent;transition:color 0.3s;}
+.n-out:hover{color:var(--d);}
+
+/* MAIN */
+#appMain{display:none;padding-top:65px;}
+
+/* HERO */
+.hero{height:52vh;min-height:320px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 64px 48px;}
+.hero-bg{position:absolute;inset:0;}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,5,8,0.97) 0%,rgba(13,5,8,0.6) 55%,transparent 80%),linear-gradient(0deg,rgba(13,5,8,0.95) 0%,transparent 35%);}
+.hero-c{position:relative;z-index:1;max-width:560px;}
+.hero-ey{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--d);margin-bottom:10px;}
+.hero-t{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,48px);font-weight:400;color:var(--c);line-height:1.1;margin-bottom:12px;}
+.hero-t em{font-style:italic;color:var(--d);}
+.hero-d{font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;line-height:1.8;color:rgba(237,228,216,0.55);margin-bottom:18px;max-width:420px;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{padding:5px 12px;border:1px solid rgba(184,150,90,0.2);font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.45);}
+
+/* PROGRESSO */
+.prog-wrap{padding:16px 64px;background:rgba(184,150,90,0.03);border-bottom:1px solid rgba(184,150,90,0.06);}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.prog-lbl{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.3);}
+.prog-pct{font-family:'Playfair Display',serif;font-size:18px;color:var(--d);}
+.prog-bg{height:1px;background:rgba(184,150,90,0.1);}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--d),var(--dl));transition:width 0.8s var(--ease);}
+
+/* TABS */
+.tabs{display:flex;padding:0 64px;border-bottom:1px solid rgba(184,150,90,0.08);}
+.tab{font-family:'Raleway',sans-serif;font-weight:300;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(237,228,216,0.3);padding:14px 18px;cursor:pointer;border:none;border-bottom:1px solid transparent;background:transparent;transition:all 0.3s;}
+.tab.on{color:var(--d);border-bottom-color:var(--d);}
+.tc{display:none;}
+.tc.on{display:block;}
+
+/* CERT */
+.cert{margin:20px 64px;background:linear-gradient(135deg,rgba(184,150,90,0.1),rgba(123,21,53,0.12));border:1px solid rgba(184,150,90,0.2);padding:24px 32px;display:none;align-items:center;justify-content:space-between;gap:16px;}
+.cert.show{display:flex;}
+.cert h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--c);}
+.cert h3 em{font-style:italic;color:var(--d);}
+.cert p{font-family:'Raleway',sans-serif;font-weight:200;font-size:11px;color:rgba(237,228,216,0.45);margin-top:3px;}
+.btn-cert{background:linear-gradient(135deg,var(--d),var(--dl));color:var(--e);border:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;padding:13px 24px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+
+/* MÓDULOS */
+.mods-wrap{padding:32px 64px 80px;}
+.modulo{margin-bottom:48px;}
+.mod-hdr{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(184,150,90,0.07);}
+.mod-num{width:30px;height:30px;background:var(--v);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:12px;color:white;flex-shrink:0;}
+.mod-info{flex:1;}
+.mod-lbl{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-bottom:1px;}
+.mod-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--c);}
+.mod-stats{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;color:rgba(237,228,216,0.25);white-space:nowrap;}
+.test-btn{font-family:'Raleway',sans-serif;font-weight:300;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.3);border:1px solid rgba(184,150,90,0.12);background:transparent;padding:7px 14px;cursor:pointer;transition:all 0.3s;white-space:nowrap;}
+.test-btn.ready{color:var(--d);border-color:rgba(184,150,90,0.35);}
+.test-btn.done{color:rgba(76,175,80,0.8);border-color:rgba(76,175,80,0.3);}
+
+/* CARROSSEL */
+.row-wrap{position:relative;}
+.cards-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x mandatory;scrollbar-width:none;scroll-behavior:smooth;}
+.cards-row::-webkit-scrollbar{display:none;}
+
+/* SETAS */
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;background:rgba(13,5,8,0.85);border:1px solid rgba(184,150,90,0.25);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:all 0.3s;backdrop-filter:blur(8px);}
+.arrow:hover{background:rgba(184,150,90,0.15);border-color:var(--d);}
+.arrow svg{width:14px;height:14px;stroke:var(--d);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.arrow-l{left:-16px;}
+.arrow-r{right:-16px;}
+
+/* CARD */
+.aula-card{flex-shrink:0;width:268px;scroll-snap-align:start;cursor:pointer;border:1px solid rgba(184,150,90,0.08);overflow:hidden;transition:transform 0.3s var(--ease),border-color 0.3s;position:relative;background:var(--ve);}
+.aula-card:hover{transform:scale(1.03);z-index:2;border-color:rgba(184,150,90,0.35);}
+.aula-card.done{border-color:rgba(184,150,90,0.3);}
+.aula-card.done .card-check{display:flex;}
+
+/* BANNER DO CARD */
+.card-banner{height:156px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;}
+
+/* SVG ILUSTRAÇÕES TEMÁTICAS */
+.card-svg{position:absolute;bottom:8px;right:8px;width:88px;height:88px;opacity:0.18;}
+
+.card-num{position:absolute;top:10px;right:12px;font-family:'Playfair Display',serif;font-size:52px;color:rgba(237,228,216,0.05);line-height:1;pointer-events:none;}
+.card-check{position:absolute;top:10px;left:10px;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--d),var(--dl));align-items:center;justify-content:center;display:none;font-size:10px;color:var(--e);font-weight:bold;}
+.card-tag{position:relative;z-index:1;font-family:'Raleway',sans-serif;font-weight:200;font-size:7px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(237,228,216,0.45);margin-bottom:5px;}
+.card-title{position:relative;z-index:1;font-family:'Playfair Display',serif;font-size:14px;color:var(--c);line-height:1.2;}
+
+/* GRADIENTES POR TEMA */
+.bg-leg{background:linear-gradient(145deg,#1a0810 0%,#3d1020 55%,#5a1830 100%);}
+.bg-hig{background:linear-gradient(145deg,#061510 0%,#0e3020 55%,#164030 100%);}
+.bg-man{background:linear-gradient(145deg,#180f00 0%,#3a2000 55%,#503000 100%);}
+.bg-ras{background:linear-gradient(145deg,#060a18 0%,#101830 55%,#182040 100%);}
+.bg-blh{background:linear-gradient(145deg,#160818 0%,#2e1235 55%,#421848 100%);}
+.bg-sim{background:linear-gradient(145deg,#180a00 0%,#3a1200 55%,#501800 100%);}
+.bg-rt{background:linear-gradient(145deg,#0d0508 0%,#2a0f1a 55%,#3d1525 100%);}
+.bg-pop{background:linear-gradient(145deg,#051510 0%,#0c2a18 55%,#143820 100%);}
+.bg-eq{background:linear-gradient(145deg,#100e05 0%,#252008 55%,#352c0e 100%);}
+.bg-aud{background:linear-gradient(145deg,#080a18 0%,#121530 55%,#1a2040 100%);}
+.bg-ent{background:linear-gradient(145deg,#051210 0%,#0a2818 55%,#123620 100%);}
+
+/* INFO DO CARD */
+.card-info{background:var(--ve);padding:12px 14px;border-top:1px solid rgba(184,150,90,0.06);}
+.card-dur{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.3);margin-bottom:3px;}
+.card-desc{font-family:'Raleway',sans-serif;font-weight:300;font-size:11px;line-height:1.55;color:rgba(237,228,216,0.45);}
+
+/* MODAL AULA */
+#aulaModal{position:fixed;inset:0;background:rgba(13,5,8,0.95);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;backdrop-filter:blur(10px);}
+#aulaModal.open{display:flex;}
+.m-box{background:var(--ve);width:100%;max-width:800px;border:1px solid rgba(184,150,90,0.12);margin:auto;}
+.m-hdr{padding:22px 26px 16px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid rgba(184,150,90,0.07);}
+.m-tag{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-bottom:4px;}
+.m-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--c);}
+.m-close{background:transparent;border:1px solid rgba(184,150,90,0.15);color:rgba(237,228,216,0.4);width:32px;height:32px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+.m-close:hover{border-color:var(--d);color:var(--d);}
+.m-video{width:100%;aspect-ratio:16/9;background:rgba(13,5,8,0.9);display:flex;align-items:center;justify-content:center;}
+.m-video iframe{width:100%;height:100%;border:none;}
+.vp{text-align:center;}
+.vp-ico{font-size:40px;opacity:0.2;margin-bottom:8px;}
+.vp-txt{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.2);}
+.m-body{padding:22px 26px;}
+.m-desc{font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;line-height:1.9;color:rgba(237,228,216,0.6);margin-bottom:20px;}
+.m-mats-lbl{font-family:'Raleway',sans-serif;font-weight:400;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-bottom:8px;}
+.mat-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(184,150,90,0.1);margin-bottom:6px;cursor:pointer;transition:all 0.2s;}
+.mat-row:hover{border-color:rgba(184,150,90,0.3);background:rgba(184,150,90,0.03);}
+.mat-ico{font-size:14px;}
+.mat-name{font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;color:rgba(237,228,216,0.6);flex:1;}
+.mat-dl{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(184,150,90,0.4);}
+.m-actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:16px;border-top:1px solid rgba(184,150,90,0.07);margin-top:16px;}
+.btn-conc{flex:1;min-width:140px;background:linear-gradient(135deg,var(--d),var(--dl));color:var(--e);border:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;padding:14px;cursor:pointer;transition:all 0.3s;}
+.btn-conc:hover{box-shadow:0 8px 24px rgba(184,150,90,0.25);}
+.btn-conc.done{background:rgba(184,150,90,0.1);color:var(--d);cursor:default;box-shadow:none;}
+.btn-prx{background:transparent;border:1px solid rgba(184,150,90,0.15);color:rgba(237,228,216,0.5);font-family:'Raleway',sans-serif;font-weight:300;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:14px 18px;cursor:pointer;transition:all 0.3s;}
+.btn-prx:hover{border-color:var(--d);color:var(--d);}
+
+/* MODAL TESTE */
+#testeModal{position:fixed;inset:0;background:rgba(13,5,8,0.97);z-index:300;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;backdrop-filter:blur(12px);}
+#testeModal.open{display:flex;}
+.t-box{background:var(--e);border:1px solid rgba(184,150,90,0.12);width:100%;max-width:660px;margin:auto;}
+.t-hdr{padding:24px 28px 18px;border-bottom:1px solid rgba(184,150,90,0.08);display:flex;justify-content:space-between;align-items:center;}
+.t-sup{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--d);margin-bottom:4px;}
+.t-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--c);}
+.t-body{padding:24px 28px;}
+.t-prog{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(237,228,216,0.3);margin-bottom:20px;}
+.q-blk{margin-bottom:28px;}
+.q-txt{font-family:'Playfair Display',serif;font-size:16px;color:var(--c);line-height:1.4;margin-bottom:12px;}
+.op{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid rgba(184,150,90,0.1);margin-bottom:6px;cursor:pointer;transition:all 0.2s;}
+.op:hover{border-color:rgba(184,150,90,0.3);}
+.op.sel{border-color:var(--d);background:rgba(184,150,90,0.07);}
+.op.ok{border-color:#4caf50;background:rgba(76,175,80,0.08);}
+.op.nok{border-color:#e05555;background:rgba(224,85,85,0.06);}
+.op-r{width:14px;height:14px;border:1px solid rgba(184,150,90,0.25);border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.op.sel .op-r{border-color:var(--d);}
+.op.sel .op-r::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--d);}
+.op.ok .op-r{border-color:#4caf50;background:#4caf50;}
+.op.ok .op-r::after{content:'✓';font-size:8px;color:white;font-weight:bold;}
+.op.nok .op-r{border-color:#e05555;}
+.op-txt{font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;color:rgba(237,228,216,0.65);line-height:1.5;}
+.t-foot{padding:16px 28px 24px;border-top:1px solid rgba(184,150,90,0.07);display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+.t-score{font-family:'Playfair Display',serif;font-size:16px;color:var(--d);}
+.btn-t{background:linear-gradient(135deg,var(--d),var(--dl));color:var(--e);border:none;font-family:'Raleway',sans-serif;font-weight:600;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;padding:13px 24px;cursor:pointer;}
+.btn-tg{background:transparent;border:1px solid rgba(184,150,90,0.18);color:var(--d);font-family:'Raleway',sans-serif;font-weight:300;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:13px 20px;cursor:pointer;}
+
+/* MATERIAIS TAB */
+.mats-wrap{padding:28px 64px 80px;}
+.mats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:rgba(184,150,90,0.07);}
+.mat-card{background:var(--e);padding:24px 20px;cursor:pointer;transition:background 0.3s;}
+.mat-card:hover{background:rgba(184,150,90,0.04);}
+.mat-card-ico{font-size:28px;margin-bottom:10px;}
+.mat-card-mod{font-family:'Raleway',sans-serif;font-weight:200;font-size:7px;letter-spacing:2.5px;text-transform:uppercase;color:var(--d);margin-bottom:5px;}
+.mat-card-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--c);margin-bottom:4px;}
+.mat-card-tipo{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;color:rgba(237,228,216,0.3);}
+
+/* SUPORTE TAB */
+.sup-wrap{padding:28px 64px 80px;}
+.sup-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;margin-bottom:28px;}
+.sup-card{background:rgba(184,150,90,0.04);border:1px solid rgba(184,150,90,0.12);padding:24px 20px;text-decoration:none;display:block;transition:all 0.3s;cursor:pointer;}
+.sup-card:hover{border-color:rgba(184,150,90,0.35);background:rgba(184,150,90,0.07);}
+.sup-ico{font-size:24px;margin-bottom:10px;}
+.sup-t{font-family:'Playfair Display',serif;font-size:16px;color:var(--c);margin-bottom:4px;}
+.sup-d{font-family:'Raleway',sans-serif;font-weight:200;font-size:11px;color:rgba(237,228,216,0.35);line-height:1.6;}
+.sup-note{padding:18px 22px;background:rgba(184,150,90,0.03);border-left:1px solid var(--d);max-width:560px;}
+.sup-note p{font-family:'Raleway',sans-serif;font-weight:300;font-size:12px;color:rgba(237,228,216,0.45);line-height:1.8;}
+
+/* FOOTER */
+.mftr{padding:20px 64px;border-top:1px solid rgba(184,150,90,0.06);display:flex;justify-content:space-between;align-items:center;}
+.mftr-t{font-family:'Raleway',sans-serif;font-weight:200;font-size:9px;color:rgba(237,228,216,0.18);}
+.mftr-l{display:flex;gap:18px;}
+.mftr-a{font-family:'Raleway',sans-serif;font-weight:200;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(237,228,216,0.18);text-decoration:none;transition:color 0.3s;}
+.mftr-a:hover{color:var(--d);}
+
+
+  .hero,.prog-wrap,.tabs,.mods-wrap,.mats-wrap,.sup-wrap,.mftr{padding-left:20px;padding-right:20px;}
+  .cert{margin:16px 20px;flex-direction:column;}
+  .aula-card{width:230px;}
+  .arrow-l{left:-8px;}
+  .arrow-r{right:-8px;}
+  .sup-grid{grid-template-columns:1fr;}
+  .mftr{flex-direction:column;gap:10px;text-align:center;}
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr !important;}
+  .hero-right, .hr{display:none !important;}
+  .hero-left, .hl{padding:100px 24px 60px !important;}
+  section, .sobre, .paraquem, .como, .incluso, .form-sec,
+  .cta-final, .autoridade, .metodo, .investimento, .prob-grid,
+  .inv-layout, .form-layout, .inc-grid, .b2b-layout, .pq-grid,
+  .aut-grid, .etapas, .sem-grid, .semanas-grid{
+    grid-template-columns:1fr !important;
+    gap:32px !important;
+  }
+  .audiencias, .cursos-grid, .auto-grid{grid-template-columns:1fr !important;}
+  nav .nav-links, nav .nlinks{display:none !important;}
+  section, .paraquem, .sobre, .autoridade, .metodo, .investimento,
+  .problema, .incluso, .form-sec, .cta-final, .como, .b2b,
+  .mods, .pq, .semanas, .form-sec, .mods-wrap, .mats-wrap, .sup-wrap{
+    padding-left:24px !important;
+    padding-right:24px !important;
+  }
+  .field-row{grid-template-columns:1fr !important;}
+  footer, .mfooter, .mftr{
+    flex-direction:column !important;
+    gap:16px !important;
+    text-align:center !important;
+    padding:32px 24px !important;
+  }
+  .foot-info, .fi2{text-align:center !important;}
+  .foot-links, .flinks, .mftr-links{justify-content:center !important;}
+  .hero-nums, .hr-nums{grid-template-columns:1fr 1fr !important;}
+  .cert-banner, .cert{flex-direction:column !important;margin:16px 20px !important;}
+  .upgrade-box{flex-direction:column !important;}
+  .tabs, .curso-tabs{padding:0 20px !important;overflow-x:auto !important;}
+  .aula-card{width:240px !important;}
+  .sup-grid{grid-template-columns:1fr !important;}
+  .content, .aulas-wrap{padding:24px 20px 60px !important;}
+  .prog-wrap, .prog-bar-wrap{padding:16px 20px !important;}
+  .hero-stat, .hr-badge{display:none !important;}
+  .htitle, .hero-title{font-size:clamp(28px,8vw,42px) !important;}
+  .btn-p, .btn-gold, .btn-primary{padding:16px 24px !important;font-size:9px !important;}
+  .btn-g, .btn-ghost, .btn-secondary{padding:16px 24px !important;font-size:9px !important;margin-left:0 !important;margin-top:10px !important;}
+  .curso-hero{padding:0 24px 40px !important;height:auto !important;min-height:50vh !important;}
+}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WZBDVKJE2Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WZBDVKJE2Z');
+</script>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <img id="loginLogo" class="l-logo" alt="Logo" src="data:image/png;base64,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">
+  <h1 class="l-title">Área de <em>Membros</em></h1>
+  <p class="l-sub">Lactário & Enteral na Prática</p>
+  <div class="l-box">
+    <div class="lf"><label>E-mail</label><input type="email" id="lEmail" placeholder="seu@email.com" autocomplete="email"></div>
+    <div class="lf"><label>Senha</label><input type="password" id="lSenha" placeholder="Sua senha de acesso"></div>
+    <button class="l-btn" onclick="doLogin()">Acessar o curso</button>
+    <div class="l-err" id="lErr">E-mail ou senha incorretos.</div>
+    <p class="l-help">Não tem acesso? <a href="lactario.html">Ver cursos</a> · Suporte: <a href="https://wa.me/5541997366799" target="_blank">WhatsApp</a></p>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="appNav" style="display:none">
+  <a href="#" class="n-brand">
+    <img id="navLogo" class="n-logo" alt="Logo" src="data:image/png;base64,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">
+    <div class="n-name">Lactário & Enteral<span>Área de Membros</span></div>
+  </a>
+  <div class="n-right">
+    <span class="n-user">Olá, <strong id="nomeA"></strong></span>
+    <button class="n-out" onclick="doLogout()">Sair</button>
+  </div>
+</nav>
+
+<!-- APP -->
+<div id="appMain">
+  <div class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-ov"></div>
+    <div class="hero-c">
+      <p class="hero-ey" id="heroEy"></p>
+      <h1 class="hero-t" id="heroT"></h1>
+      <p class="hero-d" id="heroD"></p>
+      <div class="hero-pills" id="heroPills"></div>
+    </div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-top"><span class="prog-lbl">Progresso do curso</span><span class="prog-pct" id="progPct">0%</span></div>
+    <div class="prog-bg"><div class="prog-fill" id="progFill" style="width:0"></div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="showTab('aulas',this)">Aulas</button>
+    <button class="tab" onclick="showTab('mats',this)">Materiais</button>
+    <button class="tab" onclick="showTab('sup',this)">Suporte</button>
+  </div>
+
+  <div class="cert" id="certBanner">
+    <div><h3>Parabéns! Curso <em>concluído.</em></h3><p>Seu certificado está disponível para download.</p></div>
+    <button class="btn-cert" onclick="gerarCert()">⬇ Baixar certificado</button>
+  </div>
+
+  <div class="tc on" id="tc-aulas">
+    <div class="mods-wrap" id="modsArea"></div>
+  </div>
+
+  <div class="tc" id="tc-mats">
+    <div class="mats-wrap">
+      <h2 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--c);margin-bottom:5px;">Materiais de <em style="font-style:italic;color:var(--d)">apoio</em></h2>
+      <p style="font-family:'Raleway',sans-serif;font-weight:200;font-size:12px;color:rgba(237,228,216,0.4);margin-bottom:24px;">Documentos editáveis do seu curso.</p>
+      <div class="mats-grid" id="matsGrid"></div>
+    </div>
+  </div>
+
+  <div class="tc" id="tc-sup">
+    <div class="sup-wrap">
+      <h2 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--c);margin-bottom:5px;">Suporte e <em style="font-style:italic;color:var(--d)">comunidade</em></h2>
+      <p style="font-family:'Raleway',sans-serif;font-weight:200;font-size:12px;color:rgba(237,228,216,0.4);margin-bottom:24px;">Canais de acesso à Dra. Stephanie e à comunidade.</p>
+      <div class="sup-grid">
+        <a href="https://wa.me/5541997366799?text=Olá%2C%20sou%20aluna%20e%20preciso%20de%20suporte." target="_blank" class="sup-card">
+          <div class="sup-ico">💬</div>
+          <div class="sup-t">WhatsApp suporte</div>
+          <div class="sup-d">Dúvidas técnicas direto com a Dra. Stephanie</div>
+        </a>
+        <div class="sup-card" onclick="abrirGrupo()">
+          <div class="sup-ico">👥</div>
+          <div class="sup-t">Grupo exclusivo</div>
+          <div class="sup-d">Comunidade de alunas no WhatsApp</div>
+        </div>
+      </div>
+      <div class="sup-note">
+        <p>Aula ao vivo mensal toda última quarta-feira do mês às 20h via Zoom. O link é enviado por e-mail 3 dias antes.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mftr">
+    <span class="mftr-t">© 2026 Stephanie Araújo de Souza · CRN8 13998</span>
+    <div class="mftr-l">
+      <a href="lactario.html" class="mftr-a">Cursos</a>
+      <a href="index.html" class="mftr-a">Clínica</a>
+    </div>
+  </footer>
+</div>
+
+<!-- MODAL AULA -->
+<div id="aulaModal">
+  <div class="m-box">
+    <div class="m-hdr">
+      <div><p class="m-tag" id="mTag"></p><h2 class="m-title" id="mTitle"></h2></div>
+      <button class="m-close" onclick="closeAula()">×</button>
+    </div>
+    <div class="m-video" id="mVideo">
+      <div class="vp"><div class="vp-ico">▶</div><p class="vp-txt">Cole o link do vídeo Hotmart aqui</p></div>
+    </div>
+    <div class="m-body">
+      <p class="m-desc" id="mDesc"></p>
+      <div id="mMats"></div>
+      <div class="m-actions">
+        <button class="btn-conc" id="btnConc" onclick="marcarFeita()">Marcar como concluída</button>
+        <button class="btn-prx" onclick="closeAula()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TESTE -->
+<div id="testeModal">
+  <div class="t-box">
+    <div class="t-hdr">
+      <div><p class="t-sup" id="tSup"></p><h2 class="t-title" id="tTitle"></h2></div>
+      <button class="m-close" onclick="closeTeste()">×</button>
+    </div>
+    <div class="t-body" id="tBody"></div>
+    <div class="t-foot" id="tFoot"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// SVGs TEMÁTICOS ELEGANTES
+// ══════════════════════════════════════════════
+const SVGS = {
+  leg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="15" y="10" width="50" height="60" rx="2" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="25" y1="25" x2="55" y2="25" stroke="#B8965A" stroke-width="1"/>
+    <line x1="25" y1="33" x2="55" y2="33" stroke="#B8965A" stroke-width="1"/>
+    <line x1="25" y1="41" x2="45" y2="41" stroke="#B8965A" stroke-width="1"/>
+    <circle cx="55" cy="58" r="10" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="55" y1="53" x2="55" y2="63" stroke="#B8965A" stroke-width="1"/>
+    <line x1="50" y1="58" x2="60" y2="58" stroke="#B8965A" stroke-width="1"/>
+  </svg>`,
+  hig:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M40 15 C30 15 22 23 22 33 C22 43 30 58 40 65 C50 58 58 43 58 33 C58 23 50 15 40 15Z" stroke="#B8965A" stroke-width="1.5"/>
+    <path d="M33 33 C33 29 36 26 40 26 C44 26 47 29 47 33" stroke="#B8965A" stroke-width="1"/>
+    <line x1="40" y1="26" x2="40" y2="18" stroke="#B8965A" stroke-width="1"/>
+    <line x1="36" y1="20" x2="44" y2="20" stroke="#B8965A" stroke-width="1"/>
+    <circle cx="40" cy="40" r="5" stroke="#B8965A" stroke-width="1"/>
+  </svg>`,
+  man:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="40" cy="30" r="14" stroke="#B8965A" stroke-width="1.5"/>
+    <path d="M26 44 L20 62 Q40 68 60 62 L54 44" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="40" y1="16" x2="40" y2="12" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="36" y1="12" x2="44" y2="12" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="35" y1="30" x2="45" y2="30" stroke="#B8965A" stroke-width="1"/>
+    <line x1="40" y1="25" x2="40" y2="35" stroke="#B8965A" stroke-width="1"/>
+  </svg>`,
+  ras:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="12" y="20" width="20" height="20" rx="1" stroke="#B8965A" stroke-width="1.5"/>
+    <rect x="48" y="20" width="20" height="20" rx="1" stroke="#B8965A" stroke-width="1.5"/>
+    <rect x="30" y="50" width="20" height="20" rx="1" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="32" y1="30" x2="48" y2="30" stroke="#B8965A" stroke-width="1"/>
+    <line x1="40" y1="40" x2="40" y2="50" stroke="#B8965A" stroke-width="1"/>
+    <circle cx="22" cy="30" r="3" fill="#B8965A" opacity="0.4"/>
+    <circle cx="58" cy="30" r="3" fill="#B8965A" opacity="0.4"/>
+    <circle cx="40" cy="60" r="3" fill="#B8965A" opacity="0.4"/>
+  </svg>`,
+  blh:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M40 20 C28 20 20 28 20 38 C20 52 32 62 40 66 C48 62 60 52 60 38 C60 28 52 20 40 20Z" stroke="#B8965A" stroke-width="1.5"/>
+    <path d="M30 38 C30 32 35 28 40 28 C45 28 50 32 50 38" stroke="#B8965A" stroke-width="1"/>
+    <circle cx="40" cy="45" r="6" stroke="#B8965A" stroke-width="1"/>
+    <line x1="40" y1="39" x2="40" y2="35" stroke="#B8965A" stroke-width="1"/>
+  </svg>`,
+  sim:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="35" cy="35" r="18" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="48" y1="48" x2="65" y2="65" stroke="#B8965A" stroke-width="2" stroke-linecap="round"/>
+    <line x1="28" y1="35" x2="42" y2="35" stroke="#B8965A" stroke-width="1"/>
+    <line x1="35" y1="28" x2="35" y2="42" stroke="#B8965A" stroke-width="1"/>
+  </svg>`,
+  rt:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="15" y="25" width="50" height="35" rx="2" stroke="#B8965A" stroke-width="1.5"/>
+    <path d="M28 25 L28 20 Q40 15 52 20 L52 25" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="25" y1="38" x2="40" y2="38" stroke="#B8965A" stroke-width="1"/>
+    <line x1="25" y1="46" x2="55" y2="46" stroke="#B8965A" stroke-width="1"/>
+    <circle cx="52" cy="38" r="5" stroke="#B8965A" stroke-width="1"/>
+    <line x1="52" y1="34" x2="52" y2="42" stroke="#B8965A" stroke-width="0.8"/>
+    <line x1="48" y1="38" x2="56" y2="38" stroke="#B8965A" stroke-width="0.8"/>
+  </svg>`,
+  pop:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="18" y="12" width="36" height="46" rx="2" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="26" y1="24" x2="46" y2="24" stroke="#B8965A" stroke-width="1"/>
+    <line x1="26" y1="32" x2="46" y2="32" stroke="#B8965A" stroke-width="1"/>
+    <line x1="26" y1="40" x2="38" y2="40" stroke="#B8965A" stroke-width="1"/>
+    <path d="M46 48 L54 40 L62 48 L54 56 Z" stroke="#B8965A" stroke-width="1"/>
+  </svg>`,
+  eq:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="25" cy="30" r="10" stroke="#B8965A" stroke-width="1.5"/>
+    <circle cx="55" cy="30" r="10" stroke="#B8965A" stroke-width="1.5"/>
+    <circle cx="40" cy="52" r="10" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="35" y1="30" x2="45" y2="30" stroke="#B8965A" stroke-width="1"/>
+    <line x1="30" y1="38" x2="36" y2="44" stroke="#B8965A" stroke-width="1"/>
+    <line x1="50" y1="38" x2="44" y2="44" stroke="#B8965A" stroke-width="1"/>
+  </svg>`,
+  aud:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="15" y="15" width="50" height="50" rx="2" stroke="#B8965A" stroke-width="1.5"/>
+    <polyline points="25,42 33,35 40,45 50,28 60,35" stroke="#B8965A" stroke-width="1.5" fill="none"/>
+    <circle cx="25" cy="42" r="2" fill="#B8965A" opacity="0.6"/>
+    <circle cx="33" cy="35" r="2" fill="#B8965A" opacity="0.6"/>
+    <circle cx="40" cy="45" r="2" fill="#B8965A" opacity="0.6"/>
+    <circle cx="50" cy="28" r="2" fill="#B8965A" opacity="0.6"/>
+    <circle cx="60" cy="35" r="2" fill="#B8965A" opacity="0.6"/>
+  </svg>`,
+  ent:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="30" y="10" width="20" height="30" rx="10" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="40" y1="40" x2="40" y2="55" stroke="#B8965A" stroke-width="1.5"/>
+    <path d="M28 55 C28 55 20 58 20 65 L60 65 C60 58 52 55 52 55" stroke="#B8965A" stroke-width="1.5"/>
+    <line x1="30" y1="25" x2="50" y2="25" stroke="#B8965A" stroke-width="1"/>
+    <line x1="38" y1="15" x2="38" y2="35" stroke="#B8965A" stroke-width="0.8" opacity="0.5"/>
+    <line x1="42" y1="15" x2="42" y2="35" stroke="#B8965A" stroke-width="0.8" opacity="0.5"/>
+  </svg>`,
+};
+
+const TEMA_MAP = {
+  legislacao:'leg', higiene:'hig', manipulacao:'man',
+  rastreabilidade:'ras', blh:'blh', simulacao:'sim',
+  rt:'rt', pops:'pop', equipe:'eq', auditoria:'aud', enteral:'ent'
+};
+const BG_MAP = {
+  legislacao:'bg-leg', higiene:'bg-hig', manipulacao:'bg-man',
+  rastreabilidade:'bg-ras', blh:'bg-blh', simulacao:'bg-sim',
+  rt:'bg-rt', pops:'bg-pop', equipe:'bg-eq', auditoria:'bg-aud', enteral:'bg-ent'
+};
+
+// ══════════════════════════════════════════════
+// DADOS
+// ══════════════════════════════════════════════
+const CURSOS = {
+mentoria:{
+  nivel:'Mentoria RT',
+  titleHtml:'Mentoria RT<br><em>8 Semanas</em>',
+  desc:'Acompanhamento individual intensivo para nutricionistas RT. Análise do seu serviço real, POPs personalizados, simulação de auditoria e plano de conformidade.',
+  heroBg:'linear-gradient(145deg,#0d0508 0%,#2a0f1a 50%,#3d1020 100%)',
+  totalAulas:8,
+  grupo:'https://chat.whatsapp.com/JdI9IDV5uvPGuMiFOifaLo',
+  modulos:[
+    {num:'01',title:'Diagnóstico do seu serviço',tema:'diagnostico',
+     teste:[
+       {p:'Qual o primeiro passo ao assumir RT de um serviço com problemas?',ops:['Comunicar a VISA imediatamente','Documentar as condições encontradas antes de qualquer notificação','Demitir a equipe atual','Fechar o serviço temporariamente'],c:1},
+       {p:'O diagnóstico situacional deve ser feito:',ops:['Após 6 meses de trabalho','Nas primeiras 72 horas como RT','Apenas quando solicitado pela VISA','Somente em serviços novos'],c:1},
+     ],
+     aulas:[
+       {id:'mt_1_1',title:'Sessão 01 — Diagnóstico do seu serviço',dur:'60 min',desc:'Análise conjunta do seu serviço real. Você envia fotos e documentos antes da sessão. Saímos com diagnóstico completo e plano de prioridades.',mats:['https://www.nutristephaniearaujo.com.br/N2-MOD01-02_Diagnostico_Situacional.pdf','https://www.nutristephaniearaujo.com.br/N2-MOD01-02_Diagnostico_Situacional.pdf']},
+     ]},
+    {num:'02',title:'Legislação aplicada ao seu caso',tema:'legislacao',
+     teste:[
+       {p:'Qual RDC é a norma principal vigente para o BLH?',ops:['RDC 171/2006','RDC 216/2004','RDC 918/2024','RDC 503/2021'],c:2},
+       {p:'A RDC 503/2021 regula:',ops:['Bancos de Leite Humano','Terapia de Nutrição Enteral Hospitalar','Boas Práticas em UAN','Lactários pediátricos'],c:1},
+     ],
+     aulas:[
+       {id:'mt_2_1',title:'Sessão 02 — Legislação aplicada ao seu serviço',dur:'60 min',desc:'Revisão da legislação vigente aplicada especificamente à realidade do seu serviço: lactário, BLH, enteral ou combinação.',mats:['https://www.nutristephaniearaujo.com.br/N1-MOD01-01_Mapa_Legislativo.pdf']},
+     ]},
+    {num:'03',title:'POPs prioritários do seu serviço',tema:'pops',
+     teste:[
+       {p:'Um POP válido para auditoria deve obrigatoriamente conter:',ops:['Apenas o procedimento em texto','Título, objetivo, responsável, passo a passo, data e assinatura RT','Somente data e assinatura','Apenas procedimento e responsável'],c:1},
+       {p:'POPs devem ser revisados no mínimo:',ops:['A cada 5 anos','A cada 2 anos','Anualmente ou quando houver mudança no processo/legislação','Nunca — só quando a VISA solicitar'],c:2},
+     ],
+     aulas:[
+       {id:'mt_3_1',title:'Sessão 03 — POPs do seu serviço',dur:'60 min',desc:'Elaboramos juntas os POPs mais críticos do seu serviço específico. Você sai da sessão com documentos prontos para implementar.',mats:['https://www.nutristephaniearaujo.com.br/N1-MOD02-01_POP_Higienizacao_Maos.docx','https://www.nutristephaniearaujo.com.br/N1-MOD02-02_POP_Paramentacao.docx','https://www.nutristephaniearaujo.com.br/N1-MOD02-03_POP_Limpeza_Sanitizacao.docx','https://www.nutristephaniearaujo.com.br/N2-MOD07-01_Protocolo_TNE.docx']},
+     ]},
+    {num:'04',title:'Estrutura física e equipamentos',tema:'estrutura',
+     teste:[
+       {p:'A estrutura física do lactário é regulada principalmente por:',ops:['RDC 216/2004','RDC 50/2002','RDC 63/2000','CFN 600/2018'],c:1},
+       {p:'Equipamentos de frio devem ser calibrados:',ops:['Nunca','Apenas quando quebram','Periodicamente com certificado vigente','Apenas em hospitais públicos'],c:2},
+     ],
+     aulas:[
+       {id:'mt_4_1',title:'Sessão 04 — Análise da estrutura física',dur:'60 min',desc:'Análise da estrutura física e equipamentos do seu serviço contra os parâmetros obrigatórios. Plano de adequação com prioridades e prazos realistas.',mats:['https://www.nutristephaniearaujo.com.br/N1-MOD01-02_Checklist_VISA.pdf','https://www.nutristephaniearaujo.com.br/N2-MOD05-01_Checklist_ONA.pdf']},
+     ]},
+    {num:'05',title:'Gestão de equipe e treinamentos',tema:'equipe',
+     teste:[
+       {p:'Treinamento sem registro para a VISA equivale a:',ops:['Treinamento realizado com evidência parcial','Treinamento não realizado — não existe para fins legais','Treinamento válido por 2 anos','Treinamento válido apenas internamente'],c:1},
+       {p:'O cronograma anual de treinamentos deve ser:',ops:['Informal e verbal','Documentado, aprovado pela RT e revisado anualmente','Apenas para novos funcionários','Opcional em hospitais privados'],c:1},
+     ],
+     aulas:[
+       {id:'mt_5_1',title:'Sessão 05 — Gestão de equipe',dur:'60 min',desc:'Estratégias práticas de treinamento, registro e gestão de equipe adaptadas à sua realidade. Cronograma anual personalizado para o seu serviço.',mats:['https://www.nutristephaniearaujo.com.br/N2-MOD03-01_Ficha_Treinamento.docx','https://www.nutristephaniearaujo.com.br/N2-MOD03-02_Cronograma_Treinamentos.xlsx']},
+     ]},
+    {num:'06',title:'Indicadores de qualidade e rastreabilidade',tema:'indicadores',
+     teste:[
+       {p:'Rastreabilidade completa significa:',ops:['Guardar só o nome do manipulador','Do insumo ao paciente — lote, data, manipulador, receptor','Apenas guardar os registros de temperatura','Somente registrar data e hora do preparo'],c:1},
+       {p:'Indicadores de qualidade devem ser analisados:',ops:['Apenas anualmente','Somente em auditorias','Mensalmente e apresentados à gestão trimestralmente','Apenas quando solicitado pela direção'],c:2},
+     ],
+     aulas:[
+       {id:'mt_6_1',title:'Sessão 06 — Indicadores e rastreabilidade',dur:'60 min',desc:'Implementação dos indicadores de qualidade, sistema de rastreabilidade e gestão de não conformidades no seu serviço real.',mats:['https://www.nutristephaniearaujo.com.br/N2-MOD04-01_Planilha_Indicadores.xlsx','https://www.nutristephaniearaujo.com.br/N2-MOD07-02_Indicadores_TNE.xlsx','https://www.nutristephaniearaujo.com.br/N1-MOD04-02_Rastreabilidade.xlsx']},
+     ]},
+    {num:'07',title:'Simulação de auditoria',tema:'simulacao',
+     teste:[
+       {p:'A meta mínima de conformidade para ONA Nível 1 é:',ops:['50%','60%','70%','80%'],c:2},
+       {p:'Em caso de auto de infração, o prazo padrão de defesa é:',ops:['5 dias corridos','15 dias corridos','30 dias corridos','60 dias corridos'],c:1},
+     ],
+     aulas:[
+       {id:'mt_7_1',title:'Sessão 07 — Simulação do seu serviço',dur:'60 min',desc:'Simulação completa de auditoria ou visita de vigilância baseada especificamente no seu serviço. Identificação de pontos críticos e ajustes finais.',mats:['https://www.nutristephaniearaujo.com.br/N2-MOD05-01_Checklist_ONA.pdf','https://www.nutristephaniearaujo.com.br/N1-MOD04-03_Checklist_Documental.pdf','https://www.nutristephaniearaujo.com.br/N1-MOD06-01_Roteiro_Resposta_Notificacao.pdf']},
+     ]},
+    {num:'08',title:'Plano completo e encerramento',tema:'plano',
+     teste:[
+       {p:'Um plano de ação corretiva eficaz deve conter:',ops:['Apenas a ação a ser tomada','Problema, causa raiz, ação, responsável, prazo e verificação de eficácia','Somente prazo e responsável','Apenas a descrição do problema'],c:1},
+       {p:'A verificação de eficácia de uma ação corretiva deve ocorrer:',ops:['Nunca','Após o prazo definido no plano de ação','Apenas na próxima auditoria','Somente se a VISA solicitar'],c:1},
+     ],
+     aulas:[
+       {id:'mt_8_1',title:'Sessão 08 — Plano completo e encerramento',dur:'60 min',desc:'Entrega do plano completo de gestão do seu serviço. Documentação finalizada, plano de manutenção da conformidade e suporte pós-mentoria.',mats:['https://www.nutristephaniearaujo.com.br/N2-MOD01-01_Termo_RT.docx','https://www.nutristephaniearaujo.com.br/N2-MOD04-01_Planilha_Indicadores.xlsx']},
+     ]},
+  ]
+},
+n1:{nivel:'Nível 01 — Operacional',titleHtml:'Boas Práticas em<br><em>Lactário e Enteral</em>',desc:'Formação técnica para equipe operacional. Higienização, paramentação e rastreabilidade nos padrões ANVISA.',heroBg:'linear-gradient(145deg,#1a0810 0%,#3d1020 45%,#6a1535 100%)',totalAulas:24,grupo:'https://chat.whatsapp.com/IYAOvEw1fyr1kbLzy7ph3A',
+modulos:[
+  {num:'01',title:'Legislação aplicada ao lactário',tema:'legislacao',
+   teste:[
+     {p:'Qual RDC regula as Boas Práticas para Serviços de Alimentação?',ops:['RDC 171/2006','RDC 216/2004','RDC 275/2002','RDC 12/2001'],c:1},
+     {p:'Qual RDC regulamenta os Bancos de Leite Humano?',ops:['RDC 216/2004','RDC 171/2006','RDC 63/2000','RDC 305/2002'],c:1},
+     {p:'O que a vigilância verifica nos primeiros 60 segundos?',ops:['Documentação e registros','Condições estruturais, higiene e paramentação da equipe','Temperatura dos equipamentos','Validade dos produtos'],c:1},
+     {p:'A RDC 216/2004 se aplica a:',ops:['Apenas restaurantes comerciais','Serviços de alimentação em geral, incluindo lactários hospitalares','Apenas estabelecimentos com mais de 50 funcionários','Apenas serviços terceirizados'],c:1},
+   ],
+   aulas:[
+     {id:'n1_1_1',title:'RDC 216/2004 na prática do lactário',dur:'18 min',desc:'Entenda como a RDC 216/2004 se aplica ao dia a dia do lactário, quais os requisitos obrigatórios e como demonstrar conformidade em inspeção.',mats:[]},
+     {id:'n1_1_2',title:'RDC 171/2006 — o que muda para o BLH',dur:'22 min',desc:'Especificidades do banco de leite humano dentro da legislação vigente. Diferenças práticas entre RDC 216 e RDC 171.',mats:[]},
+     {id:'n1_1_3',title:'O que a vigilância verifica nos primeiros 60 segundos',dur:'15 min',desc:'Os pontos críticos observados imediatamente em uma visita de inspeção e como garantir conformidade na avaliação visual inicial.',mats:['Checklist de inspeção VISA (PDF)']},
+   ]},
+  {num:'02',title:'Higienização e paramentação',tema:'higiene',
+   teste:[
+     {p:'Qual a sequência correta de paramentação?',ops:['Avental, máscara, touca, luvas','Touca, máscara, higienização das mãos, avental, luvas','Luvas, touca, máscara, avental','Máscara, avental, luvas, touca'],c:1},
+     {p:'A frequência mínima de higienização das mãos é:',ops:['A cada 2 horas','Apenas ao entrar no setor','Antes e após cada manipulação e sempre que necessário','Apenas antes de manipular fórmulas'],c:2},
+     {p:'O sanitizante mais indicado para superfícies do lactário é:',ops:['Álcool 70%','Solução clorada a 200ppm ou sanitizante aprovado pela ANVISA','Água oxigenada 10 volumes','Sabão neutro concentrado'],c:1},
+     {p:'Qual erro mais frequente resulta em notificação pela VISA?',ops:['Falta de avental de cor clara','Ausência ou inadequação da paramentação','Uso de jaleco em vez de avental','Ausência de crachá'],c:1},
+   ],
+   aulas:[
+     {id:'n1_2_1',title:'Sequência correta de paramentação',dur:'20 min',desc:'Passo a passo completo da sequência obrigatória de paramentação. Erros mais comuns e como corrigi-los.',mats:['POP de paramentação editável (Word)']},
+     {id:'n1_2_2',title:'Higienização de mãos — técnica e frequência',dur:'16 min',desc:'Técnica correta segundo a OMS e os momentos obrigatórios dentro do lactário.',mats:['POP de higienização de mãos (Word)']},
+     {id:'n1_2_3',title:'Limpeza e sanitização de equipamentos',dur:'19 min',desc:'Protocolos de limpeza e sanitização de superfícies, utensílios e equipamentos. Produtos aprovados e concentrações corretas.',mats:[]},
+     {id:'n1_2_4',title:'Erros que geram notificação na VISA',dur:'14 min',desc:'Pontos de falha mais frequentes em inspeções reais e como eliminá-los definitivamente.',mats:[]},
+   ]},
+  {num:'03',title:'Manipulação segura de fórmulas e dietas',tema:'manipulacao',
+   teste:[
+     {p:'Temperatura correta para reconstituição de fórmulas lácteas infantis?',ops:['Temperatura ambiente','Água fervida resfriada a 70°C ou acima (OMS)','Qualquer temperatura filtrada','Água gelada'],c:1},
+     {p:'Tempo máximo entre preparo e administração de dieta enteral?',ops:['6 horas','4 horas','2 horas conforme protocolos de segurança','12 horas se coberta'],c:2},
+     {p:'O que deve constar obrigatoriamente no rótulo de uma fórmula preparada?',ops:['Apenas nome e data','Nome, leito, data/hora do preparo, validade e identificação do manipulador','Nome e validade apenas','Número do prontuário e data'],c:1},
+     {p:'Temperatura de armazenamento de fórmulas preparadas?',ops:['Temperatura ambiente até 4h','Geladeira 2-8°C por no máximo 24 horas','Freezer até 72 horas','Qualquer temperatura até 6 horas'],c:1},
+   ],
+   aulas:[
+     {id:'n1_3_1',title:'Preparo de fórmulas lácteas infantis',dur:'24 min',desc:'Passo a passo do preparo seguro de fórmulas no lactário: temperatura da água, reconstituição e armazenamento.',mats:[]},
+     {id:'n1_3_2',title:'Preparo de dietas enterais — cuidados críticos',dur:'21 min',desc:'Pontos de controle crítico no preparo de dietas enterais. Temperatura, tempo, higiene e rastreabilidade.',mats:[]},
+     {id:'n1_3_3',title:'Controle de temperatura e tempo de manipulação',dur:'17 min',desc:'Parâmetros obrigatórios em cada etapa do preparo e como registrá-los corretamente.',mats:['Ficha de registro de temperatura (Excel)']},
+     {id:'n1_3_4',title:'Rotulagem e identificação correta',dur:'13 min',desc:'O que deve constar em cada rótulo, como evitar erros de identificação e o que a vigilância exige.',mats:['Guia de rotulagem (PDF)']},
+   ]},
+  {num:'04',title:'Rastreabilidade e controle de qualidade',tema:'rastreabilidade',
+   teste:[
+     {p:'O que é rastreabilidade no lactário?',ops:['Apenas registrar quem preparou','Identificar origem, processamento e destino de cada produto em todas as etapas','Controle de validade apenas','Registro de temperatura'],c:1},
+     {p:'Uma não conformidade deve ser documentada com:',ops:['E-mail para a chefia','Registro formal com data, descrição, causa e ação corretiva','Anotação verbal','Apenas bloqueio do produto'],c:1},
+     {p:'Frequência mínima dos registros de temperatura de refrigeração?',ops:['Uma vez por semana','Apenas sob suspeita','Pelo menos duas vezes ao dia','Uma vez ao dia pela manhã'],c:2},
+     {p:'Como organizar o arquivo para visita surpresa?',ops:['Digitalizado apenas','Pasta física por categoria e mês, de fácil acesso imediato','Sem exigência específica','Somente documentos dos últimos 30 dias'],c:1},
+   ],
+   aulas:[
+     {id:'n1_4_1',title:'O que é rastreabilidade e por que ela salva o serviço',dur:'18 min',desc:'Conceito completo de rastreabilidade e sua importância para a segurança do paciente e conformidade do serviço.',mats:[]},
+     {id:'n1_4_2',title:'Registros obrigatórios — quais, como e onde',dur:'22 min',desc:'Todos os registros exigidos pela legislação, como preenchê-los e onde arquivá-los.',mats:[]},
+     {id:'n1_4_3',title:'Gestão de não conformidades',dur:'16 min',desc:'Como identificar, registrar e corrigir não conformidades de forma documentada para qualquer auditoria.',mats:[]},
+     {id:'n1_4_4',title:'Como organizar o arquivo para visita surpresa',dur:'14 min',desc:'A organização documental que resiste a qualquer inspeção inesperada.',mats:[]},
+   ]},
+  {num:'05',title:'BLH — fundamentos e rotinas',tema:'blh',
+   teste:[
+     {p:'Processo de tratamento térmico obrigatório no BLH?',ops:['Pasteurização HTST 72°C/15s','Pasteurização Holder 62,5°C/30 minutos','Esterilização 121°C/15min','Fervura 100°C/10min'],c:1},
+     {p:'Critério microbiológico para aprovação do leite pasteurizado?',ops:['Ausência de coliformes totais apenas','Ausência de aeróbios mesófilos e de Staphylococcus aureus','Máximo 100 UFC/mL','Ausência de Salmonella apenas'],c:1},
+     {p:'Triagem sorológica obrigatória das doadoras inclui:',ops:['Apenas HIV e hepatite B','HIV 1 e 2, HTLV I e II, hepatite B, hepatite C, sífilis e Chagas','HIV e hepatite C apenas','Nenhuma sorologia'],c:1},
+     {p:'Volume mínimo para pasteurização no BLH?',ops:['100mL','250mL','Não há volume mínimo','500mL'],c:2},
+   ],
+   aulas:[
+     {id:'n1_5_1',title:'Estrutura obrigatória de um BLH',dur:'20 min',desc:'Requisitos físicos, equipamentos mínimos e estrutura necessária segundo a RDC 171/2006.',mats:[]},
+     {id:'n1_5_2',title:'Coleta, transporte e armazenamento do leite',dur:'18 min',desc:'Protocolos seguros desde a coleta até o armazenamento final.',mats:[]},
+     {id:'n1_5_3',title:'Pasteurização e controle microbiológico',dur:'24 min',desc:'Pasteurização Holder completa, controles obrigatórios e interpretação dos resultados microbiológicos.',mats:[]},
+     {id:'n1_5_4',title:'Doação, triagem e distribuição',dur:'19 min',desc:'Fluxo completo desde a triagem de doadoras até a distribuição rastreável.',mats:[]},
+   ]},
+  {num:'06',title:'Simulação de visita de vigilância',tema:'simulacao',
+   teste:[
+     {p:'A VISA solicita o POP de higienização de mãos. Resposta correta?',ops:['Informar verbalmente','Apresentar POP impresso, atualizado, assinado e de fácil acesso','Encaminhar por e-mail','Informar que está em revisão'],c:1},
+     {p:'Ao receber notificação formal da VISA, primeiro passo?',ops:['Contratar advogado','Plano de ação corretiva com prazo para cada item notificado','Ignorar aguardando contato','Pedir reconsideração verbal'],c:1},
+     {p:'Prazo padrão para resposta a uma notificação?',ops:['7 dias corridos','15 dias corridos salvo prazo específico no auto de infração','30 dias úteis','60 dias a partir do recebimento'],c:1},
+   ],
+   aulas:[
+     {id:'n1_6_1',title:'Como se preparar — checklist completo',dur:'16 min',desc:'Tudo que precisa estar em ordem antes de uma inspeção.',mats:['Checklist completo de inspeção VISA (PDF)']},
+     {id:'n1_6_2',title:'Simulação ao vivo de uma inspeção de rotina',dur:'35 min',desc:'Simulação real de como transcorre uma visita de vigilância sanitária no lactário.',mats:[]},
+     {id:'n1_6_3',title:'O que fazer quando receber uma notificação',dur:'18 min',desc:'Passos imediatos e plano de ação após notificação formal.',mats:[]},
+   ]},
+]},
+n2:{nivel:'Nível 02 — Gestão RT',titleHtml:'Gestão de Lactário,<br><em>Enteral e BLH</em>',desc:'Formação completa para nutricionistas RT. POPs, fluxogramas, gestão de equipe, auditoria ONA e ANVISA na prática.',heroBg:'linear-gradient(145deg,#0d0508 0%,#2a0f1a 40%,#5a1535 100%)',totalAulas:32,grupo:'https://chat.whatsapp.com/LdIAvjhITGM1XVdmvUOzUD',
+modulos:[
+  {num:'01',title:'Responsabilidade técnica na prática',tema:'rt',
+   teste:[
+     {p:'Ao assumir RT com problemas existentes, primeiro passo?',ops:['Comunicar a VISA','Diagnóstico situacional documentado antes de notificação externa','Demitir a equipe','Fechar o serviço'],c:1},
+     {p:'Responsabilidade técnica do nutricionista inclui:',ops:['Apenas cardápios','Supervisão técnica, POPs e resposta às autoridades sanitárias','Apenas atendimento a pacientes','Somente compra de insumos'],c:1},
+     {p:'Como negociar recursos com a gestão hospitalar?',ops:['E-mail informal','Relatório técnico formal com embasamento legal e custo-benefício','Aguardar visita da VISA','Solicitar verbalmente'],c:1},
+   ],
+   aulas:[
+     {id:'n2_1_1',title:'O que muda quando você vira RT de serviço complexo',dur:'22 min',desc:'Mudanças reais de postura, responsabilidade e visão ao assumir RT de lactário, enteral e BLH simultaneamente.',mats:[]},
+     {id:'n2_1_2',title:'Legislação da RT — direitos, deveres e riscos',dur:'20 min',desc:'O que a lei diz sobre suas responsabilidades como RT, como se proteger e quando recusar a responsabilidade técnica.',mats:[]},
+     {id:'n2_1_3',title:'Como assumir um serviço com problemas',dur:'18 min',desc:'Protocolo de diagnóstico e transição para quem assume serviço com não conformidades instaladas.',mats:[]},
+     {id:'n2_1_4',title:'RT x gestão hospitalar — como negociar recursos',dur:'16 min',desc:'Estratégias reais para conseguir o que o serviço precisa com argumentação técnica e legal.',mats:[]},
+   ]},
+  {num:'02',title:'POPs e fluxogramas do zero',tema:'pops',
+   teste:[
+     {p:'Um POP válido para auditoria deve conter:',ops:['Apenas o procedimento em texto corrido','Título, objetivo, responsável, materiais, passo a passo, data e assinatura da RT','Apenas data e assinatura','Somente procedimento e responsável'],c:1},
+     {p:'Com que frequência os POPs devem ser revisados?',ops:['Nunca','Sempre que houver mudança no processo ou legislação, e no mínimo anualmente','A cada 5 anos','Apenas quando solicitado pela VISA'],c:1},
+     {p:'Um fluxograma de processo crítico deve incluir:',ops:['Apenas etapas principais','Todas as etapas, pontos de controle, responsáveis e documentos gerados','Apenas os pontos críticos','Somente início e fim'],c:1},
+   ],
+   aulas:[
+     {id:'n2_2_1',title:'O que é um POP e o que não pode faltar',dur:'18 min',desc:'Estrutura obrigatória, elementos essenciais e erros que invalidam um POP em auditoria.',mats:['Modelo de POP editável (Word)']},
+     {id:'n2_2_2',title:'Como escrever um POP que a equipe segue',dur:'20 min',desc:'A diferença entre um POP que existe no papel e um POP que transforma o comportamento da equipe.',mats:[]},
+     {id:'n2_2_3',title:'Fluxograma de processos críticos do lactário',dur:'22 min',desc:'Construindo o fluxograma completo e auditável dos processos do lactário.',mats:['Fluxograma lactário editável (PowerPoint)']},
+     {id:'n2_2_4',title:'Fluxograma de processos críticos da enteral',dur:'20 min',desc:'Fluxograma específico para nutrição enteral hospitalar com pontos de controle.',mats:['Fluxograma enteral editável (PowerPoint)']},
+     {id:'n2_2_5',title:'Fluxograma de processos críticos do BLH',dur:'18 min',desc:'Fluxograma do banco de leite conforme RDC 171/2006.',mats:['Fluxograma BLH editável (PowerPoint)']},
+   ]},
+  {num:'03',title:'Gestão de equipe hospitalar',tema:'equipe',
+   teste:[
+     {p:'O registro de treinamento deve conter:',ops:['Apenas lista de presença','Nome do treinamento, data, conteúdo, carga horária, presença com assinatura e responsável','Apenas presença e data','Certificado externo apenas'],c:1},
+     {p:'Estratégia mais efetiva para capacitar equipe sem tempo?',ops:['Treinamentos longos nos fins de semana','Treinamentos de 15-20 min no setor durante o turno com registro imediato','Apenas treinamentos anuais','Material escrito sem treinamento presencial'],c:1},
+     {p:'Como dimensionar equipe do lactário?',ops:['Pela percepção da carga','Com base em normas, análise de produção e parâmetros da legislação','Leitos divididos por 10','Pelo orçamento'],c:1},
+   ],
+   aulas:[
+     {id:'n2_3_1',title:'Como treinar equipe sem tempo e sem verba',dur:'20 min',desc:'Estratégias práticas de treinamento para a realidade hospitalar com recursos limitados.',mats:[]},
+     {id:'n2_3_2',title:'Registro de treinamentos — o que a ANVISA exige',dur:'16 min',desc:'Documentação obrigatória e como organizá-la para auditoria.',mats:['Modelo de ficha de treinamento (Word)']},
+     {id:'n2_3_3',title:'Como lidar com resistência às mudanças',dur:'18 min',desc:'Gestão de pessoas na realidade hospitalar. Como implementar mudanças sem conflito.',mats:[]},
+     {id:'n2_3_4',title:'Escala e dimensionamento mínimo da equipe',dur:'14 min',desc:'Parâmetros de dimensionamento e como documentar para a gestão hospitalar.',mats:[]},
+   ]},
+  {num:'04',title:'Rastreabilidade avançada e gestão de NC',tema:'rastreabilidade',
+   teste:[
+     {p:'Plano de ação corretiva efetivo deve conter:',ops:['Apenas a ação','Problema, causa raiz, ação, responsável, prazo e verificação de eficácia','Apenas ação e prazo','Somente ação e responsável'],c:1},
+     {p:'Indicador mais adequado para monitorar segurança do preparo?',ops:['Fórmulas por dia','Taxa de NC nos registros de controle de processo','Satisfação da equipe','Custo por fórmula'],c:1},
+     {p:'Produto com NC crítica identificada deve:',ops:['Ser distribuído se visual adequado','Ser segregado, identificado como impróprio e descartado com registro','Ser analisado antes de decisão','Aguardar avaliação da chefia'],c:1},
+   ],
+   aulas:[
+     {id:'n2_4_1',title:'Sistema de rastreabilidade completo do lactário',dur:'24 min',desc:'Construindo sistema robusto e auditável de rastreabilidade do zero.',mats:['Planilha de rastreabilidade (Excel)']},
+     {id:'n2_4_2',title:'Gestão de não conformidades com registro formal',dur:'20 min',desc:'Identificação, registro formal e tratamento de NC que satisfaz qualquer auditoria.',mats:['Modelo de registro de NC (Excel)']},
+     {id:'n2_4_3',title:'Plano de ação corretiva — como estruturar',dur:'18 min',desc:'Planos de ação com causa raiz, responsável e verificação de eficácia.',mats:['Modelo de plano de ação (Word)']},
+     {id:'n2_4_4',title:'Indicadores de qualidade do serviço',dur:'16 min',desc:'Indicadores para monitorar e melhorar a qualidade do serviço.',mats:['Planilha de indicadores (Excel)']},
+   ]},
+  {num:'05',title:'Preparação para auditoria ONA e ANVISA',tema:'auditoria',
+   teste:[
+     {p:'No BLH durante auditoria ONA, documento indispensável?',ops:['Apenas resultado microbiológico','Protocolo de funcionamento, registros de pasteurização, controle microbiológico e rastreabilidade','Apenas alvará sanitário','Somente os POPs'],c:1},
+     {p:'Auto de infração da VISA: ação correta?',ops:['Assinar apenas se concordar','Assinar (não implica concordância) e acionar RT e direção imediatamente','Recusar e pedir advogado','Aguardar nova visita'],c:1},
+   ],
+   aulas:[
+     {id:'n2_5_1',title:'Como funciona uma auditoria ONA',dur:'22 min',desc:'O processo de auditoria ONA e o que os auditores avaliam no lactário.',mats:[]},
+     {id:'n2_5_2',title:'Documentação exigida pela ONA',dur:'20 min',desc:'Lista completa de documentos exigidos em auditoria ONA.',mats:['Checklist ONA (Excel)']},
+     {id:'n2_5_3',title:'Como funciona uma visita da VISA',dur:'18 min',desc:'O protocolo real de uma visita de inspeção da ANVISA.',mats:[]},
+     {id:'n2_5_4',title:'Simulação completa de auditoria',dur:'40 min',desc:'Simulação real de auditoria ONA do lactário com principais achados.',mats:['Checklist ANVISA completo (Excel)']},
+     {id:'n2_5_5',title:'O que fazer depois de uma notificação',dur:'16 min',desc:'Plano imediato e prazo legal para resposta após notificação da VISA.',mats:[]},
+   ]},
+  {num:'06',title:'Gestão do BLH — RDC 918/2024 na prática',tema:'blh',
+   teste:[
+     {p:'Frequência mínima do controle microbiológico do leite pasteurizado?',ops:['Uma vez por semana','25% da produção mensal com amostragem aleatória','100% das pasteurizações','Apenas sob suspeita'],c:1},
+     {p:'Tempo máximo de armazenamento do leite humano cru no BLH?',ops:['72h em geladeira','12h em refrigeração (2-8°C) ou 15 dias em freezer (-18°C ou menos)','48h em qualquer refrigeração','6h em temperatura ambiente'],c:1},
+   ],
+   aulas:[
+     {id:'n2_6_1',title:'Estrutura física e equipamentos obrigatórios',dur:'20 min',desc:'Requisitos de infraestrutura e equipamentos mínimos segundo a RDC 171.',mats:[]},
+     {id:'n2_6_2',title:'Triagem de doadoras — critérios e documentação',dur:'18 min',desc:'Critérios obrigatórios de triagem clínica e sorológica de doadoras.',mats:['Ficha de triagem de doadora (Word)']},
+     {id:'n2_6_3',title:'Pasteurização Holder — controle e registro',dur:'22 min',desc:'Processo completo de pasteurização, controles obrigatórios e registros.',mats:[]},
+     {id:'n2_6_4',title:'Controle microbiológico — frequência e resultados',dur:'16 min',desc:'Parâmetros aceitáveis e frequência obrigatória de análises.',mats:[]},
+     {id:'n2_6_5',title:'Distribuição do leite — rastreabilidade completa',dur:'18 min',desc:'Do doador ao receptor — rastreabilidade total documentada.',mats:[]},
+   ]},
+  {num:'07',title:'Nutrição enteral hospitalar',tema:'enteral',
+   teste:[
+     {p:'Protocolo institucional de TNE deve ser elaborado por:',ops:['Apenas nutricionista RT','EMTN multiprofissional: médico, nutricionista, enfermeiro e farmacêutico','Médico e nutricionista','Qualquer profissional de saúde'],c:1},
+     {p:'Principal fator de risco microbiológico na nutrição enteral?',ops:['Temperatura inadequada apenas','Contaminação na manipulação, tempo prolongado e conexões inadequadas','Tipo de fórmula','Via de administração'],c:1},
+   ],
+   aulas:[
+     {id:'n2_7_1',title:'Protocolo institucional de terapia nutricional enteral',dur:'24 min',desc:'Como elaborar e implementar protocolo institucional de TNE.',mats:['Modelo de protocolo TNE (Word)']},
+     {id:'n2_7_2',title:'Preparo e distribuição segura de dietas enterais',dur:'20 min',desc:'Controles críticos do preparo à administração segura.',mats:[]},
+     {id:'n2_7_3',title:'Controle de infecção na nutrição enteral',dur:'18 min',desc:'Estratégias de prevenção de infecções relacionadas à TNE.',mats:[]},
+     {id:'n2_7_4',title:'Indicadores de qualidade da terapia enteral',dur:'14 min',desc:'Indicadores para monitorar qualidade e segurança da TNE.',mats:['Planilha de indicadores TNE (Excel)']},
+   ]},
+  {num:'08',title:'Simulação completa de visita de vigilância',tema:'simulacao',
+   teste:[
+     {p:'Área prioritária na simulação do lactário?',ops:['Área administrativa','Área de manipulação — higiene, paramentação, organização e documentação','Armazenamento de insumos','Área de distribuição'],c:1},
+     {p:'Fiscal solicita protocolo de pasteurização. Documento correto?',ops:['Qualquer documento com "pasteurização"','POP atualizado, assinado, com parâmetros e registros das últimas pasteurizações','Resultado microbiológico apenas','E-mail de orientação da chefia'],c:1},
+   ],
+   aulas:[
+     {id:'n2_8_1',title:'Checklist completo de preparação para inspeção',dur:'16 min',desc:'Tudo que precisa estar pronto antes de uma inspeção formal.',mats:['Checklist master de preparação (PDF)']},
+     {id:'n2_8_2',title:'Simulação ao vivo — lactário',dur:'35 min',desc:'Simulação real de inspeção completa do lactário.',mats:[]},
+     {id:'n2_8_3',title:'Simulação ao vivo — enteral',dur:'30 min',desc:'Simulação de inspeção do serviço de nutrição enteral.',mats:[]},
+     {id:'n2_8_4',title:'Simulação ao vivo — BLH',dur:'32 min',desc:'Simulação de inspeção do banco de leite humano.',mats:[]},
+   ]},
+]}};
+
+const ALUNOS = {
+  'demo@demo.com':{senha:'demo123',nome:'Aluna Demo',curso:'n1',expira:'2027-12-31'},
+  'demo2@demo.com':{senha:'demo123',nome:'Aluna N2',curso:'n2',expira:'2027-12-31'},
+  'demo@mentoria.com':{senha:'demo123',nome:'RT Demo',curso:'mentoria',expira:'2027-12-31'},
+};
+
+let U=null,C=null,aulaA=null,testeA=null,resS={},testeCorr=false;
+
+// ══════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════
+function doLogin(){
+  const e=document.getElementById('lEmail').value.trim().toLowerCase();
+  const s=document.getElementById('lSenha').value;
+  const a=ALUNOS[e];
+  if(!a||a.senha!==s){document.getElementById('lErr').style.display='block';return;}
+  U={...a,email:e};localStorage.setItem('dlac_u',JSON.stringify(U));boot();
+}
+function doLogout(){localStorage.removeItem('dlac_u');location.reload();}
+
+// ══════════════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════════════
+function boot(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appNav').style.display='flex';
+  document.getElementById('appMain').style.display='block';
+  document.getElementById('nomeA').textContent=U.nome.split(' ')[0];
+  C=CURSOS[U.curso];
+  document.getElementById('heroBg').style.background=C.heroBg;
+  document.getElementById('heroEy').textContent=C.nivel;
+  document.getElementById('heroT').innerHTML=C.titleHtml;
+  document.getElementById('heroD').textContent=C.desc;
+  document.getElementById('heroPills').innerHTML=
+    `<span class="pill">${C.totalAulas} aulas</span><span class="pill">Certificado incluso</span><span class="pill">Acesso 12 meses</span><span class="pill">Expira ${new Date(U.expira).toLocaleDateString('pt-BR')}</span>`;
+  renderMods();renderMats();updProg();
+}
+
+// ══════════════════════════════════════════════
+// RENDER MÓDULOS
+// ══════════════════════════════════════════════
+function renderMods(){
+  const area=document.getElementById('modsArea');area.innerHTML='';
+  C.modulos.forEach((mod,mi)=>{
+    const conc=mod.aulas.filter(a=>feita(a.id)).length;
+    const tot=mod.aulas.length;
+    const pct=Math.round(conc/tot*100);
+    const tOk=testeOk(U.curso+'_m'+mi);
+    const svgKey=TEMA_MAP[mod.tema]||'leg';
+    const bgKey=BG_MAP[mod.tema]||'bg-leg';
+
+    const div=document.createElement('div');
+    div.className='modulo';
+    div.innerHTML=`
+      <div class="mod-hdr">
+        <div class="mod-num">${mod.num}</div>
+        <div class="mod-info"><p class="mod-lbl">Módulo ${mod.num}</p><h3 class="mod-title">${mod.title}</h3></div>
+        <span class="mod-stats">${conc}/${tot} · ${pct}%</span>
+        <button class="test-btn ${tOk?'done':pct===100?'ready':''}" onclick="abrirTeste(${mi})">${tOk?'✓ Teste feito':'Fazer teste'}</button>
+      </div>
+      <div class="row-wrap">
+        <button class="arrow arrow-l" onclick="scrollRow('row${mi}',-1)">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="cards-row" id="row${mi}"></div>
+        <button class="arrow arrow-r" onclick="scrollRow('row${mi}',1)">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>`;
+    area.appendChild(div);
+
+    const row=document.getElementById('row'+mi);
+    mod.aulas.forEach((aula,ai)=>{
+      const ok=feita(aula.id);
+      const card=document.createElement('div');
+      card.className='aula-card'+(ok?' done':'');
+      card.innerHTML=`
+        <div class="card-banner ${bgKey}">
+          <div class="card-num">${String(ai+1).padStart(2,'0')}</div>
+          <div class="card-check">✓</div>
+          <div class="card-svg">${SVGS[svgKey]||''}</div>
+          <p class="card-tag">Módulo ${mod.num} · Aula ${ai+1}</p>
+          <h4 class="card-title">${aula.title}</h4>
+        </div>
+        <div class="card-info">
+          <p class="card-dur">${aula.dur}</p>
+          <p class="card-desc">${aula.desc.substring(0,62)}...</p>
+        </div>`;
+      card.addEventListener('click',()=>abrirAula(aula,mod,mi,ai));
+      row.appendChild(card);
+    });
+  });
+}
+
+function scrollRow(id,dir){
+  const el=document.getElementById(id);
+  if(el) el.scrollBy({left:dir*292,behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════════
+// RENDER MATERIAIS
+// ══════════════════════════════════════════════
+function renderMats(){
+  const ICON={"PDF":"📄","Word":"📝","Excel":"📊"};
+  const COR={"PDF":"#7B1535","Word":"#2b579a","Excel":"#217346"};
+  const grid=document.getElementById('matsGrid'); grid.innerHTML='';
+  
+  // Para mentoria: agrupar por sessão com links diretos
+  if(U.curso==='mentoria'){
+    C.modulos.forEach(mod=>{
+      if(!mod.aulas.some(a=>(a.mats||[]).length>0)) return;
+      const hdr=document.createElement('div');
+      hdr.style.cssText='grid-column:1/-1;padding:12px 0 4px;font-family:"Raleway",sans-serif;font-weight:600;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--d);border-bottom:1px solid rgba(184,150,90,0.12);margin-top:10px;';
+      hdr.textContent='Sessão '+String(mod.num).padStart(2,'0')+' — '+mod.title;
+      grid.appendChild(hdr);
+      mod.aulas.forEach(aula=>{
+        (aula.mats||[]).forEach(url=>{
+          const nome = url.split('/').pop().replace(/_/g,' ').replace(/\.(pdf|docx|xlsx)$/i,'');
+          const ext = (url.match(/\.(pdf|docx|xlsx)$/i)||['','.pdf'])[1].toUpperCase().replace('.','');
+          const tipo = ext==='DOCX'?'Word':ext==='XLSX'?'Excel':'PDF';
+          const a=document.createElement('a');
+          a.className='mat-card'; a.href=url; a.target='_blank'; a.style.textDecoration='none';
+          a.innerHTML=`<div class="mat-card-ico">${ICON[tipo]||'📄'}</div><p class="mat-card-mod" style="color:${COR[tipo]||'var(--d)'};">${tipo}</p><p class="mat-card-name">${nome}</p><p class="mat-card-tipo" style="color:var(--d);">⬇ Baixar</p>`;
+          grid.appendChild(a);
+        });
+      });
+    });
+    return;
+  }
+  
+  // N1 e N2: links por módulo do dicionário
+  const LINKS_N1={"1": [{"nome": "Mapa Legislativo", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD01-01_Mapa_Legislativo.pdf", "tipo": "PDF"}, {"nome": "Checklist VISA", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD01-02_Checklist_VISA.pdf", "tipo": "PDF"}], "2": [{"nome": "POP Higienização de Mãos", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD02-01_POP_Higienizacao_Maos.pdf", "tipo": "PDF"}, {"nome": "POP Higienização de Mãos", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD02-01_POP_Higienizacao_Maos.docx", "tipo": "Word"}, {"nome": "POP Paramentação", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD02-02_POP_Paramentacao.pdf", "tipo": "PDF"}, {"nome": "POP Paramentação", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD02-02_POP_Paramentacao.docx", "tipo": "Word"}, {"nome": "POP Limpeza e Sanitização", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD02-03_POP_Limpeza_Sanitizacao.pdf", "tipo": "PDF"}, {"nome": "POP Limpeza e Sanitização", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD02-03_POP_Limpeza_Sanitizacao.docx", "tipo": "Word"}], "3": [{"nome": "Ficha de Temperatura", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD03-01_Ficha_Temperatura.pdf", "tipo": "PDF"}, {"nome": "Ficha de Temperatura", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD03-01_Ficha_Temperatura.xlsx", "tipo": "Excel"}, {"nome": "Guia de Rotulagem", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD03-02_Guia_Rotulagem.pdf", "tipo": "PDF"}, {"nome": "Tabela Tempo × Temperatura", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD03-03_Tabela_Tempo_Temperatura.pdf", "tipo": "PDF"}], "4": [{"nome": "Registro de Não Conformidade", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD04-01_Registro_NC.pdf", "tipo": "PDF"}, {"nome": "Registro de Não Conformidade", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD04-01_Registro_NC.docx", "tipo": "Word"}, {"nome": "Planilha de Rastreabilidade", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD04-02_Rastreabilidade.pdf", "tipo": "PDF"}, {"nome": "Planilha de Rastreabilidade", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD04-02_Rastreabilidade.xlsx", "tipo": "Excel"}, {"nome": "Checklist Documental", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD04-03_Checklist_Documental.pdf", "tipo": "PDF"}], "5": [{"nome": "Ficha de Triagem de Doadora", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD05-01_Ficha_Triagem_Doadora.pdf", "tipo": "PDF"}, {"nome": "Ficha de Triagem de Doadora", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD05-01_Ficha_Triagem_Doadora.docx", "tipo": "Word"}, {"nome": "Registro de Pasteurização Holder", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD05-02_Registro_Pasteurizacao.pdf", "tipo": "PDF"}, {"nome": "Parâmetros Microbiológicos LHOP", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD05-03_Parametros_Microbiologicos.pdf", "tipo": "PDF"}], "6": [{"nome": "Roteiro de Resposta a Notificação", "url": "https://www.nutristephaniearaujo.com.br/N1-MOD06-01_Roteiro_Resposta_Notificacao.pdf", "tipo": "PDF"}]};
+  const LINKS_N2={"1": [{"nome": "Termo de Responsabilidade Técnica", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD01-01_Termo_RT.pdf", "tipo": "PDF"}, {"nome": "Termo de Responsabilidade Técnica", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD01-01_Termo_RT.docx", "tipo": "Word"}, {"nome": "Checklist Diagnóstico Situacional", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD01-02_Diagnostico_Situacional.pdf", "tipo": "PDF"}], "3": [{"nome": "Ficha de Registro de Treinamento", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD03-01_Ficha_Treinamento.pdf", "tipo": "PDF"}, {"nome": "Ficha de Registro de Treinamento", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD03-01_Ficha_Treinamento.docx", "tipo": "Word"}, {"nome": "Cronograma Anual de Treinamentos", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD03-02_Cronograma_Treinamentos.xlsx", "tipo": "Excel"}], "4": [{"nome": "Planilha de Indicadores de Qualidade", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD04-01_Planilha_Indicadores.pdf", "tipo": "PDF"}, {"nome": "Planilha de Indicadores de Qualidade", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD04-01_Planilha_Indicadores.xlsx", "tipo": "Excel"}], "5": [{"nome": "Checklist de Auditoria ONA", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD05-01_Checklist_ONA.pdf", "tipo": "PDF"}], "6": [{"nome": "Protocolo Microbiológico BLH", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD06-01_Protocolo_Microbiologico_BLH.pdf", "tipo": "PDF"}], "7": [{"nome": "Protocolo Institucional de TNE", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD07-01_Protocolo_TNE.pdf", "tipo": "PDF"}, {"nome": "Protocolo Institucional de TNE", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD07-01_Protocolo_TNE.docx", "tipo": "Word"}, {"nome": "Planilha de Indicadores TNE", "url": "https://www.nutristephaniearaujo.com.br/N2-MOD07-02_Indicadores_TNE.xlsx", "tipo": "Excel"}]};
+  
+  const linksMap = U.curso==='n1' ? LINKS_N1 : LINKS_N2;
+  Object.entries(linksMap).forEach(([modNum, mats])=>{
+    const hdr=document.createElement('div');
+    hdr.style.cssText='grid-column:1/-1;padding:12px 0 4px;font-family:"Raleway",sans-serif;font-weight:600;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--d);border-bottom:1px solid rgba(184,150,90,0.12);margin-top:10px;';
+    hdr.textContent='Módulo '+String(modNum).padStart(2,'0');
+    grid.appendChild(hdr);
+    mats.forEach(mat=>{
+      const a=document.createElement('a');
+      a.className='mat-card'; a.href=mat.url; a.target='_blank'; a.style.textDecoration='none';
+      a.innerHTML=`<div class="mat-card-ico">${ICON[mat.tipo]||'📄'}</div><p class="mat-card-mod" style="color:${COR[mat.tipo]||'var(--d)'};">${mat.tipo}</p><p class="mat-card-name">${mat.nome}</p><p class="mat-card-tipo" style="color:var(--d);">⬇ Baixar</p>`;
+      grid.appendChild(a);
+    });
+  });
+}
+
+// ══════════════════════════════════════════════
+// AULA MODAL
+// ══════════════════════════════════════════════
+function abrirAula(aula,mod,mi,ai){
+  aulaA={aula,mod,mi,ai};
+  document.getElementById('mTag').textContent=`Módulo ${mod.num} · Aula ${ai+1}`;
+  document.getElementById('mTitle').textContent=aula.title;
+  document.getElementById('mDesc').textContent=aula.desc;
+  document.getElementById('mVideo').innerHTML=`<div class="vp"><div class="vp-ico">▶</div><p class="vp-txt">Cole o link do vídeo Hotmart aqui</p></div>`;
+  const mats=aula.mats||[];
+  document.getElementById('mMats').innerHTML=mats.length?`<p class="m-mats-lbl">Materiais desta aula</p>${mats.map(m=>`<div class="mat-row"><span class="mat-ico">${m.includes('PDF')?'📄':m.includes('Word')?'📝':m.includes('Excel')?'📊':'📎'}</span><span class="mat-name">${m}</span><span class="mat-dl">Download</span></div>`).join('')}`:'';
+  const btn=document.getElementById('btnConc');
+  if(feita(aula.id)){btn.textContent='✓ Aula concluída';btn.classList.add('done');}
+  else{btn.textContent='Marcar como concluída';btn.classList.remove('done');}
+  document.getElementById('aulaModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeAula(){document.getElementById('aulaModal').classList.remove('open');document.body.style.overflow='';renderMods();updProg();}
+function marcarFeita(){
+  if(!aulaA)return;
+  localStorage.setItem('dlac_'+U.email+'_'+aulaA.aula.id,'1');
+  const btn=document.getElementById('btnConc');btn.textContent='✓ Aula concluída';btn.classList.add('done');
+  renderMods();updProg();
+}
+function feita(id){return!!localStorage.getItem('dlac_'+U?.email+'_'+id);}
+
+// ══════════════════════════════════════════════
+// TESTE MODAL
+// ══════════════════════════════════════════════
+function abrirTeste(mi){
+  const mod=C.modulos[mi];testeA={mi,mod,qs:mod.teste||[]};resS={};testeCorr=false;
+  document.getElementById('tSup').textContent=`Módulo ${mod.num} · Teste de conclusão`;
+  document.getElementById('tTitle').textContent=mod.title;
+  renderTeste();
+  document.getElementById('testeModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function renderTeste(){
+  const {qs}=testeA;
+  const body=document.getElementById('tBody'),foot=document.getElementById('tFoot');
+  if(!qs||!qs.length){
+    body.innerHTML=`<p style="font-family:'Raleway',sans-serif;font-weight:300;font-size:13px;color:rgba(237,228,216,0.4);text-align:center;padding:28px;">Teste em elaboração.</p>`;
+    foot.innerHTML=`<div></div><button class="btn-t" onclick="closeTeste()">Fechar</button>`;return;
+  }
+  body.innerHTML=`<p class="t-prog">${qs.length} questões · Mínimo 70% para passar</p>`+
+    qs.map((q,qi)=>`<div class="q-blk"><p class="q-txt">${qi+1}. ${q.p}</p>${q.ops.map((op,oi)=>`<div class="op" id="op_${qi}_${oi}" onclick="selOp(${qi},${oi})"><div class="op-r"></div><span class="op-txt">${op}</span></div>`).join('')}</div>`).join('');
+  foot.innerHTML=`<div class="t-score" id="tScore"></div><div style="display:flex;gap:8px;"><button class="btn-tg" onclick="closeTeste()">Fechar</button><button class="btn-t" onclick="corrigir()">Verificar</button></div>`;
+}
+function selOp(qi,oi){
+  if(testeCorr)return;
+  testeA.qs[qi].ops.forEach((_,i)=>document.getElementById(`op_${qi}_${i}`).classList.remove('sel'));
+  document.getElementById(`op_${qi}_${oi}`).classList.add('sel');resS[qi]=oi;
+}
+function corrigir(){
+  const {qs,mi}=testeA;
+  if(Object.keys(resS).length<qs.length){alert('Responda todas as questões.');return;}
+  testeCorr=true;let certas=0;
+  qs.forEach((q,qi)=>{
+    const sel=resS[qi];
+    q.ops.forEach((_,oi)=>{
+      const el=document.getElementById(`op_${qi}_${oi}`);el.classList.remove('sel');
+      if(oi===q.c)el.classList.add('ok');
+      else if(oi===sel&&sel!==q.c)el.classList.add('nok');
+    });
+    if(sel===q.c)certas++;
+  });
+  const pct=Math.round(certas/qs.length*100);const passou=pct>=70;
+  document.getElementById('tScore').textContent=`${certas}/${qs.length} — ${pct}%`;
+  document.getElementById('tFoot').innerHTML=`
+    <span style="font-family:'Raleway',sans-serif;font-weight:300;font-size:11px;color:${passou?'var(--d)':'#e05555'}">${passou?'✓ Módulo concluído!':'✗ Mínimo 70% — tente novamente'}</span>
+    <div style="display:flex;gap:8px;">${!passou?`<button class="btn-tg" onclick="resetT()">Tentar novamente</button>`:''}<button class="btn-t" onclick="closeTeste()">Fechar</button></div>`;
+  if(passou){localStorage.setItem('dlac_'+U.email+'_teste_'+U.curso+'_m'+testeA.mi,'1');renderMods();updProg();}
+}
+function resetT(){resS={};testeCorr=false;renderTeste();}
+function closeTeste(){document.getElementById('testeModal').classList.remove('open');document.body.style.overflow='';}
+function testeOk(k){return!!localStorage.getItem('dlac_'+U?.email+'_teste_'+k);}
+
+// ══════════════════════════════════════════════
+// PROGRESSO
+// ══════════════════════════════════════════════
+function updProg(){
+  const todas=C.modulos.flatMap(m=>m.aulas);
+  const conc=todas.filter(a=>feita(a.id)).length;
+  const pct=Math.round(conc/todas.length*100);
+  document.getElementById('progPct').textContent=pct+'%';
+  document.getElementById('progFill').style.width=pct+'%';
+  if(pct===100)document.getElementById('certBanner').classList.add('show');
+}
+
+// ══════════════════════════════════════════════
+// UTILITÁRIOS
+// ══════════════════════════════════════════════
+function showTab(t,el){
+  document.querySelectorAll('.tc').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.getElementById('tc-'+t).classList.add('on');el.classList.add('on');
+}
+function abrirGrupo(){window.open(C?.grupo||'https://wa.me/5541997366799','_blank');}
+function gerarCert(){alert(`Certificado\n${C.nivel}\nAluna: ${U.nome}\n\nEntre em contato pelo WhatsApp para receber seu certificado digital.`);}
+
+// ══════════════════════════════════════════════
+// EVENTOS
+// ══════════════════════════════════════════════
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAula();closeTeste();}});
+document.getElementById('aulaModal').addEventListener('click',e=>{if(e.target===document.getElementById('aulaModal'))closeAula();});
+document.getElementById('testeModal').addEventListener('click',e=>{if(e.target===document.getElementById('testeModal'))closeTeste();});
+document.addEventListener('keypress',e=>{if(e.key==='Enter'&&document.getElementById('loginScreen').style.display!=='none')doLogin();});
+window.addEventListener('load',()=>{const s=localStorage.getItem('dlac_u');if(s){U=JSON.parse(s);boot();}});
+</script>
+</body>
+</html>
