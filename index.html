@@ -230,14 +230,113 @@ footer{background:var(--bu3);padding:4.5rem 5vw 2rem;}
 
 @media(max-width:960px){
   body{cursor:auto;}.cur,.cur-ring{display:none;}
-  .hero-photo{display:none;}.hero-ct{width:100%;}
+  
+  .hh1{font-size:2.2rem;}
+  .hh2{font-size:2.2rem;margin-bottom:1.4rem;}.hero-ct{width:100%;}
   .hs-layout,.sobre-layout,.proto-hd{grid-template-columns:1fr;gap:3.5rem;}
   .proto-cards{grid-template-columns:1fr;}.pc{border-right:none;border-bottom:.5px solid rgba(184,150,90,.15);}
   .alim-g{grid-template-columns:repeat(2,1fr);}
+  .hcred{position:static!important;margin-top:1.2rem;animation:none;opacity:1;justify-content:flex-start;}
   .pq-g,.dep-g,.aval-g{grid-template-columns:1fr;}
   .fg{grid-template-columns:1fr;gap:2rem;}
   .sf{position:static;}
   .sec{padding:5.5rem 5vw;}
+}
+
+/* NAV MOBILE */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:.4rem;z-index:201;position:relative;}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--in);transition:all .35s var(--ez);}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.mobile-menu{
+  display:none;position:fixed;inset:0;z-index:199;
+  background:rgba(247,243,238,.98);backdrop-filter:blur(16px);
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:2.5rem;opacity:0;pointer-events:none;transition:opacity .35s var(--ez);
+}
+.mobile-menu.open{opacity:1;pointer-events:all;}
+.mobile-menu a{
+  font-family:'Lora',serif;font-size:1.8rem;font-weight:400;
+  text-decoration:none;color:var(--in);letter-spacing:.04em;
+  transition:color .3s;text-align:center;
+}
+.mobile-menu a:hover,.mobile-menu a.active{color:var(--bu);}
+.mobile-menu .mm-cta{
+  background:var(--bu);color:var(--cr)!important;
+  font-family:'Raleway',sans-serif;font-size:.78rem!important;
+  letter-spacing:.18em;padding:.9rem 2.2rem;margin-top:.5rem;
+}
+.mobile-menu .mm-line{
+  width:2rem;height:.5px;background:rgba(184,150,90,.4);
+}
+@media(max-width:960px){
+  body{cursor:auto;}.cur,.cur-ring{display:none;}
+  .nlinks{display:none;}
+  .hamburger{display:flex;}
+  .mobile-menu{display:flex;}
+  nav{background:rgba(247,243,238,.97)!important;backdrop-filter:blur(14px)!important;border-bottom:.5px solid rgba(184,150,90,.15)!important;}
+}
+
+/* SCROLL INDICATOR FIX */
+.scroll-ind{display:none!important;}
+
+@media(max-width:768px){
+  .hero{
+    display:flex;flex-direction:column;
+    height:auto;min-height:100vh;
+    padding-top:70px;overflow:hidden;
+  }
+  .hero-ov{
+    background:linear-gradient(180deg,
+      rgba(247,243,238,.96) 0%,
+      rgba(247,243,238,.92) 60%,
+      rgba(247,243,238,.5) 100%
+    )!important;
+  }
+  .hero-ct{
+    width:100%!important;
+    padding:2.5rem 6vw 2rem!important;
+    position:relative;z-index:2;
+    order:1;
+  }
+  .hh1{font-size:2rem!important;line-height:1.1!important;}
+  .hh2{font-size:2rem!important;margin-bottom:1.4rem!important;}
+  .hdesc{font-size:.92rem!important;margin-bottom:1.8rem!important;}
+  .hbtns{flex-direction:column!important;gap:.8rem!important;}
+  .hbtns .bp,.hbtns .bo{text-align:center!important;padding:.9rem!important;}
+  .hero-photo{
+    display:block!important;
+    position:relative!important;
+    width:100%!important;height:auto!important;
+    aspect-ratio:4/5;
+    order:2;
+    z-index:1;
+  }
+  .hero-photo::before{
+    background:linear-gradient(180deg,var(--cr) 0%,transparent 20%)!important;
+  }
+  .hero-photo::after{
+    background:linear-gradient(0deg,var(--cr) 0%,transparent 30%)!important;
+  }
+  .hero-photo img{
+    width:100%!important;height:100%!important;
+    object-fit:cover!important;
+    object-position:top center!important;
+    transform:none!important;
+  }
+  .hcred{
+    position:static!important;
+    display:flex!important;
+    opacity:1!important;
+    animation:none!important;
+    padding:1rem 6vw!important;
+    order:3;background:var(--cr);
+    border-top:.5px solid rgba(184,150,90,.15);
+  }
+  .scroll-ind{display:none!important;}
+  .hero-canvas{display:none;}
+  .hero-vid{display:none;}
 }
 </style>
 </head>
@@ -257,7 +356,22 @@ footer{background:var(--bu3);padding:4.5rem 5vw 2rem;}
     <a href="#contato">Contato</a>
     <a href="aplicacao.html" class="ncta">Avaliação inicial</a>
   </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mm-line"></div>
+  
+  <a href="#healthspan">Healthspan</a>
+  <a href="#sobre">Sobre</a>
+  <a href="#protocolo">Protocolo</a>
+  <a href="#filosofia">Filosofia</a>
+  <a href="#contato">Contato</a>
+  <a href="aplicacao.html" class="mm-cta">Avaliação inicial</a>
+  <div class="mm-line"></div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -607,6 +721,13 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 });
 const hp=document.querySelector('.hero-photo img');
 window.addEventListener('scroll',()=>{if(hp)hp.style.transform='translateY('+(window.scrollY*0.12)+'px)';});
+
+const hmb=document.getElementById('hamburger');
+const mm=document.getElementById('mobileMenu');
+if(hmb&&mm){
+  hmb.addEventListener('click',()=>{hmb.classList.toggle('open');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});
+  mm.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>{hmb.classList.remove('open');mm.classList.remove('open');document.body.style.overflow='';});});
+}
 </script>
 </body>
 </html>
