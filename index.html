@@ -336,7 +336,40 @@ footer{background:var(--bu3);padding:4.5rem 5vw 2rem;}
   }
   .scroll-ind{display:none!important;}
   .hero-canvas{display:none;}
-  .hero-vid{display:none;}
+}
+
+@media(max-width:768px){
+  .hero-vid{
+    display:block!important;
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    height:100vh!important;
+    object-fit:cover!important;
+    z-index:-1!important;
+    opacity:0;
+    transition:opacity 2.5s;
+  }
+  .hero-vid.on{opacity:.18!important;}
+  .hero-ov{
+    background:linear-gradient(180deg,
+      rgba(247,243,238,.88) 0%,
+      rgba(247,243,238,.82) 50%,
+      rgba(247,243,238,.6) 100%
+    )!important;
+    position:fixed!important;
+    z-index:0!important;
+  }
+  .hero-ct{position:relative;z-index:2!important;}
+  .hero-photo{position:relative;z-index:2!important;}
+  .hcred{position:static!important;z-index:2!important;}
+}
+
+@media(max-width:768px){
+  section > div[style*="grid-template-columns:1fr 1fr"]{
+    grid-template-columns:1fr!important;
+    gap:2.5rem!important;
+  }
 }
 </style>
 </head>
@@ -471,6 +504,12 @@ footer{background:var(--bu3);padding:4.5rem 5vw 2rem;}
           <div class="hsc-ar"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke-width="1" stroke-linecap="round"/></svg></div>
         </a>
       </div>
+      <div class="rv" style="margin-top:2rem;">
+        <a href="healthspan.html" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--go);text-decoration:none;font-family:'Raleway',sans-serif;font-weight:400;border-bottom:.5px solid rgba(184,150,90,.3);padding-bottom:.3rem;transition:all .3s;">
+          Entender o que é Healthspan
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="#B8965A" stroke-width="1" stroke-linecap="round"/></svg>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -533,6 +572,12 @@ footer{background:var(--bu3);padding:4.5rem 5vw 2rem;}
       <div class="pc-lnk">Conhecer a fase <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke-width="1" stroke-linecap="round"/></svg></div>
     </a>
   </div>
+  <div class="rv" style="margin-top:3rem;text-align:center;">
+    <a href="protocolo.html" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--go);text-decoration:none;font-family:'Raleway',sans-serif;font-weight:400;border-bottom:.5px solid rgba(184,150,90,.3);padding-bottom:.3rem;transition:all .3s;">
+      Conheça o protocolo completo
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="#B8965A" stroke-width="1" stroke-linecap="round"/></svg>
+    </a>
+  </div>
 </section>
 
 <!-- ALIMENTOS -->
@@ -549,6 +594,12 @@ footer{background:var(--bu3);padding:4.5rem 5vw 2rem;}
     <a href="alimentos.html" class="alim-c"><span class="alim-cat">Antioxidantes</span><h3 class="alim-n">Frutas <em>vermelhas</em></h3><p class="alim-d">Antocianinas e quercetina reduzem estresse oxidativo mitocondrial e fortalecem a barreira intestinal.</p></a>
     <a href="alimentos.html" class="alim-c"><span class="alim-cat">Fibras</span><h3 class="alim-n">Leguminosas <em>e integrais</em></h3><p class="alim-d">Alimentam bactérias produtoras de butirato, regulando inflamação e metabolismo lipídico via eixo intestino-coração.</p></a>
     <a href="alimentos.html" class="alim-c"><span class="alim-cat">Curcuminoides</span><h3 class="alim-n">Cúrcuma <em>com pimenta</em></h3><p class="alim-d">Curcumina + piperina ativa AMPK e inibe NF-kB, reduzindo inflamação cardiovascular de baixo grau.</p></a>
+  </div>
+  <div class="rv" style="margin-top:3rem;text-align:center;">
+    <a href="alimentos.html" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--go);text-decoration:none;font-family:'Raleway',sans-serif;font-weight:400;border-bottom:.5px solid rgba(184,150,90,.3);padding-bottom:.3rem;transition:all .3s;">
+      Ver todos os alimentos do protocolo
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="#B8965A" stroke-width="1" stroke-linecap="round"/></svg>
+    </a>
   </div>
 </section>
 
@@ -584,6 +635,12 @@ footer{background:var(--bu3);padding:4.5rem 5vw 2rem;}
     <a href="paraquem.html" class="pqc"><div class="pq-n">05</div><h3 class="pq-t">Prevenção <em>Ativa</em></h3><p class="pq-d">Para quem quer construir ativamente os melhores anos da vida com saúde cardiovascular de excelência.</p></a>
     <a href="paraquem.html" class="pqc"><div class="pq-n">06</div><h3 class="pq-t"><em>Lipedema</em></h3><p class="pq-d">Abordagem nutricional anti-inflamatória específica, aliando ciência cardiovascular e cuidado humanizado.</p></a>
   </div>
+  <div class="rv" style="margin-top:3rem;text-align:center;">
+    <a href="paraquem.html" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--go);text-decoration:none;font-family:'Raleway',sans-serif;font-weight:400;border-bottom:.5px solid rgba(184,150,90,.3);padding-bottom:.3rem;transition:all .3s;">
+      Ver todos os perfis em detalhe
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="#B8965A" stroke-width="1" stroke-linecap="round"/></svg>
+    </a>
+  </div>
 </section>
 
 <!-- FILOSOFIA -->
@@ -606,6 +663,40 @@ footer{background:var(--bu3);padding:4.5rem 5vw 2rem;}
     <div class="dep-c"><div class="dep-q">"</div><p class="dep-t">Nunca nenhum profissional havia me explicado o que os meus exames significavam para o meu futuro cardiovascular. Aqui aprendi a entender o meu corpo de um jeito completamente diferente.</p><div class="dep-l"></div><p class="dep-id"><strong>C.M.R.</strong> · Executivo · 52 anos · Protocolo Diamond 6 meses</p></div>
     <div class="dep-c"><div class="dep-q">"</div><p class="dep-t">Passei anos tentando entender por que me sentia tão diferente após a menopausa. O protocolo me deu clareza sobre o meu metabolismo e uma relação com a alimentação que nunca tive.</p><div class="dep-l"></div><p class="dep-id"><strong>A.F.S.</strong> · Farmacêutica · 54 anos · Protocolo Diamond 6 meses</p></div>
     <div class="dep-c"><div class="dep-q">"</div><p class="dep-t">Como médico, buscava acompanhamento nutricional com base científica real. A abordagem pela longevidade cardiovascular mudou a forma como vejo a nutrição — na minha vida e na minha prática.</p><div class="dep-l"></div><p class="dep-id"><strong>R.T.M.</strong> · Médico · 48 anos · Protocolo Diamond 12 meses</p></div>
+  </div>
+</section>
+
+<!-- ESSENCIAL PREVIEW -->
+<section class="sec" style="background:var(--bu3);position:relative;overflow:hidden;">
+  <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 2.5s;z-index:0;" oncanplay="this.style.opacity='0.08'">
+    <source src="https://videos.pexels.com/video-files/5197665/5197665-hd_1080_1920_30fps.mp4" type="video/mp4">
+  </video>
+  <div style="position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;" class="rv">
+    <div>
+      <div class="sey" style="margin-bottom:1.4rem;"><div class="sey-l" style="background:rgba(184,150,90,.5);"></div><span style="color:rgba(184,150,90,.7);">Para quem quer começar agora</span></div>
+      <h2 class="sh2" style="color:var(--cr);">Programa Essencial <em style="color:var(--go2);">Diamond</em></h2>
+      <p style="font-weight:300;font-size:1rem;line-height:2;color:rgba(237,228,216,.65);max-width:480px;margin-bottom:2rem;">O mesmo Protocolo Diamond em 8 semanas de acompanhamento remoto. Plano alimentar personalizado, 3 check-ins quinzenais e relatório clínico de evolução. Para todo o Brasil. Sem consulta presencial.</p>
+      <div style="margin-bottom:2rem;">
+        <p style="font-family:'Lora',serif;font-size:3.5rem;color:var(--go2);line-height:1;"><sup style="font-size:1.2rem;vertical-align:top;margin-top:.8rem;display:inline-block;">R$</sup>650</p>
+        <p style="font-size:.8rem;font-weight:300;color:rgba(237,228,216,.4);margin-top:.4rem;">À vista · ou 2× R$ 325 no cartão</p>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="essencial.html" style="background:var(--cr);color:var(--bu);font-family:'Raleway',sans-serif;font-weight:400;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:.95rem 1.8rem;display:inline-block;transition:all .3s;">Conhecer o Programa Essencial</a>
+        <a href="https://go.hotmart.com/Y105325351M" style="background:transparent;color:rgba(237,228,216,.6);border:.5px solid rgba(237,228,216,.25);font-family:'Raleway',sans-serif;font-weight:300;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:.95rem 1.8rem;display:inline-block;transition:all .3s;">Inscrever agora</a>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <div style="display:inline-block;background:rgba(184,150,90,.08);border:.5px solid rgba(184,150,90,.2);padding:3rem 2.5rem;">
+        <p style="font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(184,150,90,.6);margin-bottom:1.5rem;">8 semanas · Remoto · Brasil todo</p>
+        <div style="display:flex;flex-direction:column;gap:.8rem;text-align:left;">
+          <div style="display:flex;align-items:center;gap:.9rem;"><div style="width:4px;height:4px;border-radius:50%;background:var(--go);flex-shrink:0;"></div><span style="font-size:.88rem;font-weight:300;color:rgba(237,228,216,.6);">Anamnese clínica estruturada</span></div>
+          <div style="display:flex;align-items:center;gap:.9rem;"><div style="width:4px;height:4px;border-radius:50%;background:var(--go);flex-shrink:0;"></div><span style="font-size:.88rem;font-weight:300;color:rgba(237,228,216,.6);">Plano alimentar personalizado</span></div>
+          <div style="display:flex;align-items:center;gap:.9rem;"><div style="width:4px;height:4px;border-radius:50%;background:var(--go);flex-shrink:0;"></div><span style="font-size:.88rem;font-weight:300;color:rgba(237,228,216,.6);">3 check-ins quinzenais</span></div>
+          <div style="display:flex;align-items:center;gap:.9rem;"><div style="width:4px;height:4px;border-radius:50%;background:var(--go);flex-shrink:0;"></div><span style="font-size:.88rem;font-weight:300;color:rgba(237,228,216,.6);">Ajuste do plano na 4ª semana</span></div>
+          <div style="display:flex;align-items:center;gap:.9rem;"><div style="width:4px;height:4px;border-radius:50%;background:var(--go);flex-shrink:0;"></div><span style="font-size:.88rem;font-weight:300;color:rgba(237,228,216,.6);">Relatório clínico de evolução</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
