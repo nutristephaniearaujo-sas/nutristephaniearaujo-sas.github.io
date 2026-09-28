@@ -193,7 +193,7 @@ document.getElementById('enviar').onclick=async()=>{
   if(!valido())return;
   const t=coletar(),m=document.getElementById('msg');
   if(ENDPOINT){try{await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({resposta:t})})}catch(e){}}
-  window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(t),'_blank');
+  window.open('https://wa.me/message/7YATQCVPVW3TD1'?text='+encodeURIComponent(t),'_blank');
   m.textContent='O WhatsApp abriu com as respostas. Basta tocar em enviar. Obrigada!';
 };
 document.getElementById('copiar').onclick=async()=>{
