@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anamnese | Stephanie A. Souza – Nutricionista</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--vinho:#6b0623;--vinho2:#4d041a;--ouro:#c39b62;--fundo:#fbf5f5;--txt:#2a1a1e;--suave:#7a6469;--linha:#e6d6d8}
+*{box-sizing:border-box}
+html{font-size:18px}
+body{margin:0;background:var(--fundo);color:var(--txt);font-family:'Nunito Sans',Arial,sans-serif;line-height:1.55}
+header{background:var(--vinho);color:#fff;text-align:center;padding:2rem 1rem 1.6rem;border-bottom:4px solid var(--ouro)}
+header h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:2rem;margin:0;letter-spacing:.02em}
+header p{margin:.3rem 0 0;color:#e9d3b0;font-size:.85rem}
+main{max-width:720px;margin:0 auto;padding:1rem}
+.intro h2{font-family:'Cormorant Garamond',Georgia,serif;color:var(--vinho);font-size:1.6rem;margin:.6rem 0 .2rem}
+fieldset{background:#fff;border:1px solid var(--linha);border-left:5px solid var(--vinho);border-radius:10px;margin:1.1rem 0;padding:1.1rem 1.1rem .5rem;min-width:0}
+fieldset[hidden]{display:none}
+legend{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;font-size:1.35rem;color:var(--vinho);padding:0 .4rem}
+.nota{font-size:.85rem;color:var(--suave);margin:0 0 1rem}
+.q{margin:0 0 1.2rem}
+.q>label,.q>.lbl{display:block;font-weight:700;margin-bottom:.35rem}
+.dica{display:block;font-weight:400;font-size:.8rem;color:var(--suave)}
+input[type=text],input[type=date],input[type=tel],input[type=email],input[type=number],textarea{width:100%;font:inherit;padding:.7rem .8rem;border:1.5px solid var(--linha);border-radius:8px;background:#fff;color:var(--txt)}
+textarea{min-height:5.5rem;resize:vertical}
+input:focus,textarea:focus{outline:3px solid var(--ouro);border-color:var(--vinho)}
+.op{display:flex;align-items:center;gap:.7rem;padding:.55rem .6rem;border:1.5px solid var(--linha);border-radius:8px;margin-bottom:.4rem;cursor:pointer}
+.op input{width:1.3rem;height:1.3rem;accent-color:var(--vinho);flex:none}
+.op:has(input:checked){background:#f7e9ec;border-color:var(--vinho)}
+.op:focus-within{outline:3px solid var(--ouro)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chips .op{margin:0;padding:.45rem .8rem;flex:0 1 auto}
+.mx{padding:.7rem 0;border-bottom:1px solid var(--linha)}
+.mx:last-child{border-bottom:0}
+.mx>span{display:block;font-weight:600;margin-bottom:.35rem}
+.dois{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:520px){.dois{grid-template-columns:1fr}html{font-size:17px}}
+.aviso{background:#f7e9ec;border-radius:8px;padding:.7rem .9rem;font-size:.85rem;color:var(--vinho2)}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:.95rem 1.4rem;cursor:pointer;width:100%;margin:.4rem 0}
+.wa{background:var(--vinho);color:#fff;font-size:1.05rem}
+.wa:hover{background:var(--vinho2)}
+.sec{background:#fff;color:var(--vinho);border:2px solid var(--vinho)}
+button:focus-visible{outline:3px solid var(--ouro);outline-offset:2px}
+#msg{margin:.6rem 0 1.5rem;font-size:.9rem;color:var(--vinho2);min-height:1.2rem}
+footer{text-align:center;color:var(--suave);font-size:.75rem;padding:0 1rem 2rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Stephanie A. Souza</h1>
+  <p>Nutricionista cardiovascular · CRN8 13998</p>
+</header>
+<main>
+  <div class="intro">
+    <h2>Seja bem-vindo(a)!</h2>
+    <p>Antes da nossa consulta, quero conhecer você, sua rotina e seus objetivos. Quanto mais completas as respostas, mais preciso será o seu acompanhamento. Leva cerca de 10 minutos.</p>
+    <p>Este questionário pode ser preenchido por um familiar ou cuidador. O que não souber, deixe em branco e conversamos na consulta.</p>
+  </div>
+  <form id="f" autocomplete="off"></form>
+  <div class="aviso">Suas respostas são usadas apenas para o atendimento nutricional e ficam sob sigilo profissional (LGPD).</div>
+  <fieldset style="margin-top:1.1rem">
+    <legend>Enviar</legend>
+    <label class="op"><input type="checkbox" id="ok"> <span>Autorizo o uso dessas informações para o atendimento nutricional e declaro que são verdadeiras.</span></label>
+    <button class="wa" type="button" id="enviar">Enviar respostas pelo WhatsApp</button>
+    <button class="sec" type="button" id="copiar">Copiar respostas</button>
+    <div id="msg" role="status" aria-live="polite"></div>
+  </fieldset>
+</main>
+<footer>Stephanie A. Souza · Nutricionista · CRN8 13998</footer>
+
+<script>
+/* ===== CONFIGURAÇÃO (edite aqui) ===== */
+const WHATSAPP = "5541997366799";   // seu número com 55 + DDD, sem espaços
+const ENDPOINT = "";                // opcional: URL de serviço de formulário (ex.: Formspree) que recebe POST JSON
+const IDADE_BLOCO_ESPECIAL = 60;    // a partir desta idade, o bloco de atenção especial aparece
+/* ===================================== */
+
+const SN=["Sim","Não"], FREQ=["Nunca","Ocasionalmente","Frequentemente"];
+const S=[
+ {t:"Seus dados", q:[
+  {id:"pac",l:"Nome completo do paciente",tp:"text"},
+  {id:"nasc",l:"Data de nascimento",tp:"date"},
+  {id:"gen",l:"Gênero",tp:"radio",o:["Feminino","Masculino","Prefiro não informar"]},
+  {id:"ocup",l:"Ocupação",tp:"text"},
+  {id:"tel",l:"WhatsApp para contato",tp:"tel"},
+  {id:"mail",l:"E-mail",tp:"email"},
+  {id:"resp",l:"Se outra pessoa está preenchendo: nome e parentesco",tp:"text"}]},
+ {t:"Objetivo", q:[
+  {id:"obj",l:"Qual o objetivo da consulta?",tp:"area"},
+  {id:"cir",l:"Há cirurgia programada ou em avaliação?",tp:"radio",o:SN},
+  {id:"cirq",l:"Se sim, qual cirurgia e para quando?",tp:"text"}]},
+ {t:"Histórico de saúde", q:[
+  {id:"hist",l:"Marque o que se aplica",tp:"check",o:["Diabetes","Hipertensão","Dislipidemia (colesterol alto)","Triglicérides altos","Doença cardiovascular","Problema de circulação","Doença renal crônica","Doenças respiratórias","Hipotireoidismo","Hipertireoidismo","Gastrite","Colite","Depressão","Ansiedade","Transtornos alimentares"]},
+  {id:"hist_o",l:"Outras condições",tp:"text"},
+  {id:"cirs",l:"Já fez alguma cirurgia? Qual e quando?",tp:"area"}]},
+ {t:"Medicamentos e suplementos", q:[
+  {id:"meds",l:"Quais medicamentos e suplementos usa, com dose e frequência?",tp:"area",d:"Se puder, leve as caixas ou fotos delas na consulta."},
+  {id:"anti",l:"Usa anticoagulante (varfarina, rivaroxabana, apixabana…)?",tp:"radio",o:["Sim","Não","Não sei"]},
+  {id:"glp",l:"Usa medicamento para emagrecer ou controle de glicemia por injeção (tirzepatida, semaglutida…)?",tp:"radio",o:SN},
+  {id:"glpq",l:"Se sim: qual, dose, data de início e quem prescreveu",tp:"area"}]},
+ {t:"Sinais e sintomas", nota:"Como você se sente? Marque a frequência de cada um.", q:[
+  {id:"sint",tp:"matrix",o:FREQ,it:["Dores de cabeça","Tontura","Olhos lacrimejando","Visão borrada","Nariz entupido","Zumbido no ouvido","Constipação","Alergias","Aftas","Queda de cabelo","Falta de ar","Inchaço nas pernas","Palpitação ou dor no peito","Insônia"]}]},
+ {t:"Fatores que impactam sua saúde", q:[
+  {id:"fat",tp:"matrix",o:SN,it:["Perda de peso recente","Ganho de peso recente","Fumante","Consome bebida alcoólica","Pratica atividade física"]},
+  {id:"fatq",l:"Se respondeu Sim a algum item, conte mais detalhes",tp:"area"}]},
+ {t:"Sono", q:[
+  {id:"sono",l:"Quantas horas dorme por noite?",tp:"radio",o:["Menos de 4","4 a 7","7 a 9","Mais de 9"]},
+  {id:"sonoq",l:"Como avalia a qualidade do sono?",tp:"radio",o:["Boa","Média","Ruim"]}]},
+ {t:"Alimentação", q:[
+  {id:"dia",l:"Descreva um dia típico de alimentação",tp:"area",d:"Do café da manhã ao jantar, com horários e o que costuma comer."},
+  {id:"aler",l:"Alergia ou intolerância a algum alimento?",tp:"text"},
+  {id:"ap",l:"Como classifica o apetite?",tp:"radio",o:["Normal","Baixo","Aumentado","Sem apetite"]},
+  {id:"deg",l:"Tem dificuldade para engolir?",tp:"radio",o:SN},
+  {id:"mast",l:"Ritmo da mastigação",tp:"radio",o:["Normal","Rápido","Devagar"]},
+  {id:"prep",l:"Quem prepara as refeições em casa?",tp:"radio",o:["Eu preparo","Outra pessoa prepara","Eu compro pronto"]},
+  {id:"fora",l:"Come fora de casa com frequência?",tp:"radio",o:["Não costumo","Algumas vezes por mês","Toda semana","Todos os dias"]}]},
+ {t:"Hábitos intestinais e urinários", q:[
+  {id:"int",l:"Frequência de evacuação",tp:"radio",o:["Mais de 1 vez ao dia","1 vez ao dia","1 vez a cada 2 dias","Menos que isso"]},
+  {id:"uri",l:"Frequência de urina ao longo do dia",tp:"radio",o:["Mais de 3 vezes","1 a 3 vezes","Menos que isso"]}]},
+ {t:"Atenção especial", id:"esp", cond:1, nota:"Estas perguntas ajudam a cuidar de quem tem 60 anos ou mais, ou vai passar por cirurgia.", q:[
+  {id:"peso6",l:"Peso há 6 meses (kg)",tp:"number"},
+  {id:"perdeu",l:"Perdeu peso sem querer? Quanto e em quanto tempo?",tp:"text"},
+  {id:"nau",l:"Náusea, vômito ou saciedade rápida recentes?",tp:"radio",o:["Não","Náusea","Vômito","Fica satisfeito(a) rápido"]},
+  {id:"dent",l:"Usa dentadura ou tem dificuldade para mastigar?",tp:"radio",o:SN},
+  {id:"fra",l:"Fraqueza nas pernas",tp:"radio",o:FREQ},
+  {id:"que",l:"Quedas nos últimos 12 meses",tp:"radio",o:["Nenhuma","1","2 ou mais"]},
+  {id:"aju",l:"Precisa de ajuda para caminhar ou levantar?",tp:"radio",o:["Não","Às vezes","Sempre"]},
+  {id:"fisio",l:"Faz fisioterapia ou exercícios? Quantas vezes por semana?",tp:"text"},
+  {id:"inter",l:"Internações ou antibióticos recentes",tp:"area"},
+  {id:"ajd",l:"Quem ajuda nas refeições e nas compras?",tp:"text"}]},
+ {t:"Histórico familiar", q:[
+  {id:"fam",l:"Há condições de saúde recorrentes na família (doenças cardíacas, diabetes, hipertensão, outras)?",tp:"area"},
+  {id:"extra",l:"Quer contar mais alguma coisa antes da consulta?",tp:"area"}]}
+];
+
+const f=document.getElementById('f');
+const opt=(n,o,t)=>'<label class="op"><input type="'+t+'" name="'+n+'" value="'+o+'"><span>'+o+'</span></label>';
+S.forEach(s=>{
+  const fs=document.createElement('fieldset');
+  if(s.cond){fs.id='sec-'+s.id;fs.hidden=true}
+  fs.innerHTML='<legend>'+s.t+'</legend>'+(s.nota?'<p class="nota">'+s.nota+'</p>':'')+s.q.map(q=>{
+    const d=q.d?'<span class="dica">'+q.d+'</span>':'';
+    if(q.tp==='matrix')return q.it.map((it,i)=>'<div class="mx"><span>'+it+'</span><div class="chips">'+q.o.map(o=>opt(q.id+'|'+it,o,'radio')).join('')+'</div></div>').join('');
+    let c='';
+    if(q.tp==='area')c='<textarea id="'+q.id+'" name="'+q.id+'"></textarea>';
+    else if(q.tp==='radio'||q.tp==='check')c=q.o.map(o=>opt(q.id,o,q.tp==='radio'?'radio':'checkbox')).join('');
+    else c='<input id="'+q.id+'" name="'+q.id+'" type="'+q.tp+'"'+(q.tp==='number'?' inputmode="decimal" step="any"':'')+'>';
+    const lab=(q.tp==='radio'||q.tp==='check')?'<div class="lbl">'+q.l+d+'</div>':'<label for="'+q.id+'">'+q.l+d+'</label>';
+    return '<div class="q">'+lab+c+'</div>';
+  }).join('');
+  f.appendChild(fs);
+});
+
+function idade(){
+  const v=f.elements.nasc.value; if(!v)return null;
+  const n=new Date(v),h=new Date();let a=h.getFullYear()-n.getFullYear();
+  if(h<new Date(h.getFullYear(),n.getMonth(),n.getDate()))a--;return a;
+}
+function atualizar(){
+  const a=idade(),cir=f.querySelector('input[name="cir"]:checked');
+  document.getElementById('sec-esp').hidden=!((a!==null&&a>=IDADE_BLOCO_ESPECIAL)||(cir&&cir.value==='Sim'));
+}
+f.addEventListener('change',atualizar);
+
+function coletar(){
+  const L=['*ANAMNESE – Stephanie A. Souza*',''];
+  S.forEach(s=>{
+    if(s.cond&&document.getElementById('sec-'+s.id).hidden)return;
+    const B=[];
+    s.q.forEach(q=>{
+      if(q.tp==='matrix'){
+        q.it.forEach(it=>{const e=f.querySelector('input[name="'+q.id+'|'+it+'"]:checked');if(e)B.push('• '+it+': '+e.value)});return;
+      }
+      let v='';
+      if(q.tp==='radio'){const e=f.querySelector('input[name="'+q.id+'"]:checked');v=e?e.value:''}
+      else if(q.tp==='check')v=[...f.querySelectorAll('input[name="'+q.id+'"]:checked')].map(e=>e.value).join(', ');
+      else v=(f.elements[q.id].value||'').trim();
+      if(v){if(q.tp==='date'){const p=v.split('-');v=p[2]+'/'+p[1]+'/'+p[0]}B.push('• '+q.l+': '+v)}
+    });
+    if(B.length){L.push('*'+s.t+'*',...B,'')}
+  });
+  return L.join('\n');
+}
+function valido(){
+  const m=document.getElementById('msg');
+  if(!f.elements.pac.value.trim()){m.textContent='Preencha o nome do paciente.';f.elements.pac.focus();return false}
+  if(!document.getElementById('ok').checked){m.textContent='Marque a autorização para enviar.';return false}
+  return true;
+}
+document.getElementById('enviar').onclick=async()=>{
+  if(!valido())return;
+  const t=coletar(),m=document.getElementById('msg');
+  if(ENDPOINT){try{await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({resposta:t})})}catch(e){}}
+  window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(t),'_blank');
+  m.textContent='O WhatsApp abriu com as respostas. Basta tocar em enviar. Obrigada!';
+};
+document.getElementById('copiar').onclick=async()=>{
+  if(!valido())return;
+  const m=document.getElementById('msg');
+  try{await navigator.clipboard.writeText(coletar());m.textContent='Respostas copiadas. Cole na conversa com a nutricionista.'}
+  catch(e){m.textContent='Não foi possível copiar. Use o botão do WhatsApp.'}
+};
+</script>
+</body>
+</html>
