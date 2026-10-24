@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /pacientes.html
+Disallow: /checkin-diamond.html
+
+Sitemap: https://www.nutristephaniearaujo.com.br/sitemap.xml

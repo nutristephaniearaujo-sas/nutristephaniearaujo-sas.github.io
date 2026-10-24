@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Área do Protocolo | Programa Diamond Wellness Cardiovascular</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -195,7 +196,7 @@ body{font-family:'Raleway',sans-serif;background:var(--e);color:var(--c);overflo
     <div class="lf"><label>Senha</label><input type="password" id="lSenha" placeholder="Sua senha de acesso"></div>
     <button class="l-btn" onclick="doLogin()">Acessar minha área</button>
     <div class="l-err" id="lErr">E-mail ou senha incorretos.</div>
-    <p class="l-help" style="color:rgba(237,228,216,0.5);">Ainda não é paciente? <a href="essencial.html" style="color:var(--d);">Ver Programa Essencial</a><br>Suporte: <a href="https://wa.me/5541997366799" target="_blank">WhatsApp</a></p>
+    <p class="l-help" style="color:rgba(237,228,216,0.5);">Ainda não é paciente? <a href="aplicacao.html" style="color:var(--d);">Solicite sua avaliação inicial</a><br>Suporte: <a href="https://wa.me/5541997366799" target="_blank">WhatsApp</a></p>
   </div>
 </div>
 
@@ -280,7 +281,7 @@ body{font-family:'Raleway',sans-serif;background:var(--e);color:var(--c);overflo
     <span class="mftr-t">© 2026 Stephanie Araújo de Souza · CRN8 13998</span>
     <div class="mftr-links">
       <a href="index.html" class="mftr-a">Clínica</a>
-      <a href="essencial.html" class="mftr-a">Programa Essencial</a>
+      <a href="index.html#acompanhamento" class="mftr-a">Acompanhamento</a>
     </div>
   </footer>
 </div>
@@ -305,7 +306,7 @@ const PROGRAMAS = {
     upgrade: true,
     recursos:[
       {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='2' y='2' width='12' height='12' stroke='#B8965A' stroke-width='0.8'/><line x1='5' y1='6' x2='11' y2='6' stroke='#B8965A' stroke-width='0.7'/><line x1='5' y1='9' x2='9' y2='9' stroke='#B8965A' stroke-width='0.7'/></svg>",label:'Plano alimentar',title:'Seu plano personalizado',desc:'Acesse seu plano alimentar elaborado com base no Protocolo Diamond.',link:'https://wa.me/5541997366799?text=Quero%20acessar%20meu%20plano%20alimentar'},
-      {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><path d='M8 2v12M4 6l4-4 4 4' stroke='#B8965A' stroke-width='0.8' stroke-linecap='round'/></svg>",label:'MoveHealth',title:'Treinos e bem-estar',desc:'Acesse o Webdiet Paciente — seu plano alimentar, treinos MoveHealth, reflexões e áudios de bem-estar em um só lugar.',link:'webdiet'},
+      {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><path d='M8 2v12M4 6l4-4 4 4' stroke='#B8965A' stroke-width='0.8' stroke-linecap='round'/></svg>",label:'MoveHealth',title:'Treinos e bem-estar',desc:'Acesse o Webdiet Paciente: seu plano alimentar, treinos MoveHealth, reflexões e áudios de bem-estar em um só lugar.',link:'webdiet'},
       {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='3' y='2' width='10' height='12' stroke='#B8965A' stroke-width='0.8'/><line x1='5' y1='6' x2='11' y2='6' stroke='#B8965A' stroke-width='0.6'/><line x1='5' y1='9' x2='9' y2='9' stroke='#B8965A' stroke-width='0.6'/></svg>",label:'Materiais',title:'E-books e lâminas',desc:'Receitas, guias e lâminas explicativas sobre saúde cardiovascular.',link:'#',aba:'materiais'},
       {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><circle cx='6' cy='6' r='3' stroke='#B8965A' stroke-width='0.8'/><circle cx='11' cy='6' r='2.5' stroke='#B8965A' stroke-width='0.7'/><path d='M1 14c0-2.5 2-4 5-4s5 1.5 5 4' stroke='#B8965A' stroke-width='0.8'/></svg>",label:'Comunidade',title:'Grupo de pacientes',desc:'Grupo exclusivo de pacientes do Programa Essencial no WhatsApp.',link:'grupo'},
     ]
@@ -318,7 +319,7 @@ const PROGRAMAS = {
     upgrade: false,
     recursos:[
       {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='2' y='2' width='12' height='12' stroke='#B8965A' stroke-width='0.8'/><line x1='5' y1='6' x2='11' y2='6' stroke='#B8965A' stroke-width='0.7'/><line x1='5' y1='9' x2='9' y2='9' stroke='#B8965A' stroke-width='0.7'/></svg>",label:'Plano alimentar',title:'Seu plano personalizado',desc:'Acesse seu plano alimentar completo elaborado com base no Protocolo Diamond.',link:'https://wa.me/5541997366799?text=Quero%20acessar%20meu%20plano%20alimentar'},
-      {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><path d='M8 2v12M4 6l4-4 4 4' stroke='#B8965A' stroke-width='0.8' stroke-linecap='round'/></svg>",label:'MoveHealth',title:'Treinos e bem-estar',desc:'Acesse o Webdiet Paciente — plano alimentar, treinos MoveHealth e corpo e mente integrados ao seu protocolo.',link:'webdiet'},
+      {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><path d='M8 2v12M4 6l4-4 4 4' stroke='#B8965A' stroke-width='0.8' stroke-linecap='round'/></svg>",label:'MoveHealth',title:'Treinos e bem-estar',desc:'Acesse o Webdiet Paciente: plano alimentar, treinos MoveHealth e corpo e mente integrados ao seu protocolo.',link:'webdiet'},
       {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='3' y='2' width='10' height='12' stroke='#B8965A' stroke-width='0.8'/><line x1='5' y1='6' x2='11' y2='6' stroke='#B8965A' stroke-width='0.6'/><line x1='5' y1='9' x2='9' y2='9' stroke='#B8965A' stroke-width='0.6'/></svg>",label:'Materiais',title:'E-books e lâminas',desc:'Biblioteca completa de receitas e materiais de saúde cardiovascular.',link:'#',aba:'materiais'},
       {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><circle cx='8' cy='8' r='5' stroke='#B8965A' stroke-width='0.8'/><circle cx='8' cy='8' r='2' fill='#B8965A' opacity='0.4'/></svg>",label:'Exames',title:'Análise de exames',desc:'Envie seus exames para análise e orientações específicas.',link:'https://wa.me/5541997366799?text=Quero%20enviar%20meus%20exames%20para%20análise'},
       {ico:"<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><path d='M2 3h12v8H9l-3 2v-2H2z' stroke='#B8965A' stroke-width='0.8'/></svg>",label:'Suporte',title:'WhatsApp direto',desc:'Suporte direto com a Stephanie Araújo de Souza para dúvidas sobre seu protocolo.',link:'https://wa.me/5541997366799?text=Olá%2C%20Dra.%20Stephanie!%20Sou%20paciente%20Diamond'},
@@ -352,7 +353,7 @@ const MATERIAIS = [
   {
     "ico": "<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='2' y='10' width='3' height='4' stroke='#B8965A' stroke-width='0.8'/><rect x='6.5' y='6' width='3' height='8' stroke='#B8965A' stroke-width='0.8'/><rect x='11' y='2' width='3' height='12' stroke='#B8965A' stroke-width='0.8'/></svg>",
     "cat": "Lâmina explicativa",
-    "name": "Colesterol — entenda seus exames",
+    "name": "Colesterol: entenda seus exames",
     "tipo": "PDF · Lâmina",
     "url": "https://nutristephaniearaujo.com.br/Lamina_Colesterol.pdf"
   },
@@ -366,21 +367,21 @@ const MATERIAIS = [
   {
     "ico": "<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='2' y='10' width='3' height='4' stroke='#B8965A' stroke-width='0.8'/><rect x='6.5' y='6' width='3' height='8' stroke='#B8965A' stroke-width='0.8'/><rect x='11' y='2' width='3' height='12' stroke='#B8965A' stroke-width='0.8'/></svg>",
     "cat": "Lâmina explicativa",
-    "name": "PCR-us — inflamação e risco cardiovascular",
+    "name": "PCR-us: inflamação e risco cardiovascular",
     "tipo": "PDF · Lâmina",
     "url": "https://nutristephaniearaujo.com.br/Lamina_PCRus.pdf"
   },
   {
     "ico": "<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='2' y='10' width='3' height='4' stroke='#B8965A' stroke-width='0.8'/><rect x='6.5' y='6' width='3' height='8' stroke='#B8965A' stroke-width='0.8'/><rect x='11' y='2' width='3' height='12' stroke='#B8965A' stroke-width='0.8'/></svg>",
     "cat": "Lâmina explicativa",
-    "name": "HOMA-IR — como interpretar",
+    "name": "HOMA-IR: como interpretar",
     "tipo": "PDF · Lâmina",
     "url": "https://nutristephaniearaujo.com.br/Lamina_HOMA_IR.pdf"
   },
   {
     "ico": "<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='2' y='10' width='3' height='4' stroke='#B8965A' stroke-width='0.8'/><rect x='6.5' y='6' width='3' height='8' stroke='#B8965A' stroke-width='0.8'/><rect x='11' y='2' width='3' height='12' stroke='#B8965A' stroke-width='0.8'/></svg>",
     "cat": "Lâmina explicativa",
-    "name": "Vitamina D — deficiência e impacto cardiovascular",
+    "name": "Vitamina D: deficiência e impacto cardiovascular",
     "tipo": "PDF · Lâmina",
     "url": "https://nutristephaniearaujo.com.br/Lamina_Vitamina_D.pdf"
   },
@@ -401,7 +402,7 @@ const MATERIAIS = [
   {
     "ico": "<svg width='16' height='16' viewBox='0 0 16 16' fill='none'><rect x='2' y='2' width='12' height='12' stroke='#B8965A' stroke-width='0.8'/><line x1='5' y1='6' x2='11' y2='6' stroke='#B8965A' stroke-width='0.7'/><line x1='5' y1='9' x2='9' y2='9' stroke='#B8965A' stroke-width='0.7'/></svg>",
     "cat": "Guia",
-    "name": "Dieta mediterrânea — como aplicar",
+    "name": "Dieta mediterrânea: como aplicar",
     "tipo": "PDF · Guia",
     "url": "https://nutristephaniearaujo.com.br/Guia_Dieta_Mediterranea.pdf"
   }
