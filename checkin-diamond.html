@@ -300,7 +300,7 @@ function enviar(){
   D.duvidas=document.getElementById('duvidas').value;
   D.depoimento=document.getElementById('depoimento').value;
   D.hidratacao=document.getElementById('hidratacao_txt')?.value||'Não informado';
-  const s=encodeURIComponent('Check-in Diamond — '+D.nome+' — '+D.data);
+  const s=encodeURIComponent('Check-in Diamond | '+D.nome+' | '+D.data);
   const b=encodeURIComponent('CHECK-IN SEMANAL PROGRAMA DIAMOND\nData: '+D.data+'\nPaciente: '+D.nome+'\n\n━━━━━━━━━━━━━━━━━\nBEM-ESTAR GERAL\nComo se sentiu: '+D.sentimento+' ('+D.sv+'/5)\n\n━━━━━━━━━━━━━━━━━\nALIMENTAÇÃO\nAdesão ao plano: '+D.plano+'\n\n━━━━━━━━━━━━━━━━━\nENERGIA E SONO\nEnergia: '+D.energia+'/10\nSono: '+D.sono+'/10\n\n━━━━━━━━━━━━━━━━━\nSINTOMAS E QUEIXAS\n'+(D.sintomas||'Nenhum relato')+'\n\nSINTOMAS TGI: '+(D.sintomas_tgi||'Não informado')+'\nHIDRATAÇÃO: '+(D.hidratacao||'Não informado')+'\n\nATIVIDADE FÍSICA\n'+(D.atividade||'Não informado')+'\n\n━━━━━━━━━━━━━━━━━\nDÚVIDAS E RECADOS\n'+(D.duvidas||'Nenhuma dúvida')+'\n\n━━━━━━━━━━━━━━━━━\nAVALIAÇÃO\nEstrelas: '+'★'.repeat(D.estrelas)+'☆'.repeat(5-D.estrelas)+' ('+D.estrelas+'/5)\n\nEXPERIÊNCIA\n'+(D.depoimento||'Não preenchido'));
   const fd=new FormData();
   fd.append('_subject',decodeURIComponent(s));
